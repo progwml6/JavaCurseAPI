@@ -1,0 +1,102 @@
+plugins {
+    id 'java'
+    id 'maven'
+
+    id 'idea'
+    id 'eclipse'
+
+    id 'com.github.johnrengelman.shadow' version '1.2.3'
+}
+
+
+
+configurations {
+    deployerJars
+}
+
+repositories {
+	mavenCentral()
+    maven {
+        name = 'FTB'
+        url = 'http://ftb.cursecdn.com/FTB2/maven'
+    }
+}
+
+dependencies {
+	compile 'com.google.code.gson:gson:2.2.4'//JSON support
+    compile 'commons-io:commons-io:2.4'//general utility classes
+    compile 'com.google.guava:guava:17.0'//general utility classes
+    compile 'com.google.code.findbugs:jsr305:1.3.9'//nonnull stuff
+    deployerJars 'org.apache.maven.wagon:wagon-ssh:2.2'
+}
+
+project.ext {
+    currentYear = '2016'
+}
+if (System.getenv().BUILD_NUMBER != null) {
+    ext.buildNum = System.getenv().BUILD_NUMBER
+} else {
+    ext.buildNum = "9999999"
+}
+
+group = 'com.feed_the_beast.javacurselib'
+version = "0.0.1-${project.buildNum}"
+description = "Java CurseAPI library"
+sourceCompatibility = 1.7
+targetCompatibility = 1.7
+shadowJar  {
+  exclude 'META-INF/*.DSA'
+  exclude 'META-INF/*.RSA'
+  classifier = 'all'
+}
+build.dependsOn(shadowJar)
+
+
+jar {
+    manifest {
+        attributes 'Launcher-Jenkins': project.buildNum
+    }
+}
+
+task sourceJar(type: Jar) {
+    from sourceSets.main.java
+    from sourceSets.main.resources
+    classifier = "sources"
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    from javadoc.destinationDir
+    classifier = "javadoc"
+}
+
+artifacts {
+    archives shadowJar
+    archives jar
+    archives sourceJar
+    archives javadocJar
+}
+def gitSha() {
+    return 'git rev-parse HEAD'.execute().text.trim()
+}
+
+if (project.hasProperty("local_maven")) {
+	apply plugin: 'maven'
+        uploadArchives {
+            repositories {
+                mavenDeployer {
+                    repository(url: "file://${local_maven}")
+            }
+        }
+    }
+}
+if (project.hasProperty("remote_maven") && project.hasProperty("sftp_pass")) {
+        apply plugin: 'maven'
+        uploadArchives {
+            repositories.mavenDeployer {
+                configuration = configurations.deployerJars
+                repository(url: "sftp://${remote_maven}") {
+                    authentication(userName: "${ftp_username}", password: "${sftp_pass}")
+                }
+            }
+        }
+    }

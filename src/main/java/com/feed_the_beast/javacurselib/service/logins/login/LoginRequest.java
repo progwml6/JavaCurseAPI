@@ -1,7 +1,8 @@
 package com.feed_the_beast.javacurselib.service.logins.login;
 
 /**
- * Created by progwml6 on 4/27/16.
+ * representation of curse logins/login api LoginRequest model
+ * replies with LoginResponse
  */
 public class LoginRequest {
     public String Username;

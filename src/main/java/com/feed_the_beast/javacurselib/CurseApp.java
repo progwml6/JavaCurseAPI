@@ -35,9 +35,7 @@ public class CurseApp {
             if(g.GroupTitle.equals("CurseForge")){
                 for (ChannelContract c : g.Channels) {
                     if(c.GroupTitle.equals("app-api-chat")) {
-                        System.out.println("you have access to the magical API Channel :D");
-                    } else {
-                        System.out.println("you shouldn't have access to this code at all");
+                        System.out.println("you probably have access to this magical API Channel if you are seeing this code");
                     }
                 }
             }

@@ -12,7 +12,7 @@ public class LoginSession {
     public boolean EffectivePremiumStatus;
     public boolean ActualPremiumStatus;
     public int SubscriptionToken;
-    public int Expires;
-    public int RenewAfter;
+    public long Expires;
+    public long RenewAfter;
     public boolean IsTemporaryAccount;
 }

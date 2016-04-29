@@ -24,6 +24,6 @@ public class FriendshipContract {
     public Date DateRead;
     public int UnreadCount;
     public int MutualFriendCount;
-    public int OtherUserConnectionStatusTimestamp;
-    public int RequestedTimestamp;
+    public long OtherUserConnectionStatusTimestamp;//TODO use date instead
+    public long RequestedTimestamp;//TODO use date instead
 }

@@ -47,10 +47,18 @@ public class DateAdapter implements JsonDeserializer<Date>, JsonSerializer<Date>
                     return curseLong.parse(value);
                 } catch (ParseException e2) {
                     try {
-                        String tmp = value.replace("Z", "+00:00");
-                        return curseLong.parse(tmp.substring(0, 22) + tmp.substring(23));
+                        return curseShort.parse(value);
                     } catch (ParseException e3) {
-                        throw new JsonSyntaxException("Invalid date: " + value, e3);
+                        try {
+                            if(value.contains("T") && !value.endsWith("Z")) {
+                                value += "Z";
+                                return curseShort.parse(value);
+                            }
+                            String tmp = value.replace("Z", "+00:00");
+                            return curseLong.parse(value.substring(0, 22) + value.substring(23));
+                        } catch (ParseException e4) {
+                            throw new JsonSyntaxException("Invalid date: " + value, e3);
+                        }
                     }
                 }
             }

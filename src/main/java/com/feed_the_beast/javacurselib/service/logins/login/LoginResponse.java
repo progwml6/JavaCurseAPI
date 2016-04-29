@@ -5,6 +5,6 @@ package com.feed_the_beast.javacurselib.service.logins.login;
  */
 public class LoginResponse {
     public LoginStatus Status;
-    public String SatusMessage;
+    public String StatusMessage;
     public LoginSession Session;
 }

@@ -1,18 +1,17 @@
 package com.feed_the_beast.javacurselib.service.contacts.contacts;
 
-import com.feed_the_beast.javacurselib.utils.GUID;
-
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 /**
  * representation of curse contact api ChannelContract
  */
 public class ChannelContract {
     public String GroupTitle;
-    public GUID GroupID;
-    public GUID ParentGroupID;
-    public GUID RootGroupID;
+    public UUID GroupID;
+    public UUID ParentGroupID;
+    public UUID RootGroupID;
     public String VoiceSessionCode;
     public String MessageOfTheDay;
     public GroupMode GroupMode;

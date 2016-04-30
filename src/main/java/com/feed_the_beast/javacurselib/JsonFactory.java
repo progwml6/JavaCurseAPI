@@ -9,9 +9,6 @@ import com.google.gson.GsonBuilder;
 import java.util.Date;
 import java.util.UUID;
 
-/**
- * Created by progwml6 on 4/27/16.
- */
 public class JsonFactory {
     public static final Gson GSON;
 

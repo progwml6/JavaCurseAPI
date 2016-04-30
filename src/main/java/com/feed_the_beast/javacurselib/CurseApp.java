@@ -9,6 +9,7 @@ import com.feed_the_beast.javacurselib.service.sessions.sessions.CreateSessionRe
 import com.feed_the_beast.javacurselib.service.sessions.sessions.CreateSessionResponse;
 import com.feed_the_beast.javacurselib.service.sessions.sessions.DevicePlatform;
 import com.feed_the_beast.javacurselib.utils.NetworkRequest;
+import com.feed_the_beast.javacurselib.websocket.WebSocketStarter;
 
 import java.util.UUID;
 
@@ -49,5 +50,7 @@ public class CurseApp {
             }
         }
         System.out.println(sessionResponse.SessionID);
+
+        WebSocketStarter.start(lr, sessionResponse, Apis.NOTIFICATIONS);
     }
 }

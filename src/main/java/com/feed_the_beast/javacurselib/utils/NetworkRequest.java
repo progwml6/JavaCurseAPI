@@ -18,8 +18,8 @@ public class NetworkRequest {
         return executeGet(url, token);
     }
 
-    public static String postJson (String url, String json) {
-        return executePost(url, json);
+    public static String postJson (String url, String json, String token) {
+        return executePost(url, json, token);
     }
 
     /**
@@ -29,7 +29,7 @@ public class NetworkRequest {
      * @param token curse token
      * @return api response
      */
-    public static String executeGet (String urlString, String token) {
+    private static String executeGet (String urlString, String token) {
         URL url;
         HttpsURLConnection connection = null;
         try {
@@ -69,7 +69,7 @@ public class NetworkRequest {
      * @param json json api data
      * @return api response
      */
-    private static String executePost (String targetURL, String json) {
+    private static String executePost (String targetURL, String json, String token) {
         URL url;
         HttpsURLConnection connection = null;
         try {
@@ -79,6 +79,9 @@ public class NetworkRequest {
             connection.setRequestMethod("POST");
             connection.setRequestProperty("Content-Type",
                     "application/json");
+            if(token != null) {
+                connection.addRequestProperty("AuthenticationToken", token);
+            }
             connection.setUseCaches(false);
             connection.setDoInput(true);
             connection.setDoOutput(true);

@@ -6,6 +6,9 @@ package com.feed_the_beast.javacurselib.service.logins.login;
 public class LoginSession {
     public int UserID;
     public String Username;
+    /**
+     * this session ID is not usable for the websocket apis
+     */
     public String SessionID;
     public String Token;
     public String EmailAddress;

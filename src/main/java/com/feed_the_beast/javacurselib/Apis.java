@@ -15,7 +15,7 @@ public class Apis {
     public static final String GROUPS = "https://groups-v1.curseapp.net/";
     public static final String IMAGES = "https://images.curseapp.net/";
     public static final String LOGINS = "https://logins-v1.curseapp.net/";
-    public static final String NOTIFICATIONS = "https://notifications-v1.curseapp.net/";//This api is websocket based
+    public static final String NOTIFICATIONS = "wss://notifications-v1.curseapp.net:443";//This api is websocket based
     public static final String POLLS = "https://polls-v1.curseapp.net/";
     public static final String SESSIONS = "https://sessions-v1.curseapp.net/";
     public static final String SYNC = "https://sync-v1.curseapp.net/";

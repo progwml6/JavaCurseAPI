@@ -32,16 +32,16 @@ public class ResponseParserTest {
         HandshakeRequest request = HandshakeRequest.PING;
         assertEquals(HandshakeRequest.class, request.getClass());
         assertTrue(request.signal);
-        assertEquals(-476754606, request.typeID);
-        assertEquals(-476754606, request.getTypeID());
+        assertEquals(-476754606, request.typeID.getValue());
+        assertEquals(-476754606, request.getTypeID().getValue());
     }
 
     @Test
     public void markRead() {
         ConversationMarkReadRequest c = new ConversationMarkReadRequest();
         assertEquals(ConversationMarkReadRequest.class, c.getClass());
-        assertEquals(-342895375, c.typeID);
-        assertEquals(-342895375, c.getTypeID());
+        assertEquals(-342895375, c.typeID.getValue());
+        assertEquals(-342895375, c.getTypeID().getValue());
     }
 
     @Test

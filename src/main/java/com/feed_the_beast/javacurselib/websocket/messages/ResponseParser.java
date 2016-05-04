@@ -92,7 +92,7 @@ public class ResponseParser {
         public JsonElement serialize (Response src, Type typeOfSrc, JsonSerializationContext context) {
             JsonObject result = new JsonObject();
             JsonElement body = context.serialize(src, src.getClass());
-            result.add("TypeID", new JsonPrimitive(mapping.inverse().get(src.getClass())));
+            result.add("TypeID", new JsonPrimitive(mapping.inverse().get(src.getClass())));//TODO move to enum
             result.add("Body", body);
             return result;
         }
@@ -103,7 +103,7 @@ public class ResponseParser {
         public JsonElement serialize (Request src, Type typeOfSrc, JsonSerializationContext context) {
             JsonObject result = new JsonObject();
             JsonElement body = context.serialize(src, src.getClass());
-            result.add("TypeID", new JsonPrimitive(src.getTypeID()));
+            result.add("TypeID", new JsonPrimitive(src.getTypeID().getValue()));
             result.add("Body", body);
             return result;
         }

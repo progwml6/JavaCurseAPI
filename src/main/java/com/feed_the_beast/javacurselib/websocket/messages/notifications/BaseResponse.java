@@ -1,9 +1,10 @@
 package com.feed_the_beast.javacurselib.websocket.messages.notifications;
 
+import com.feed_the_beast.javacurselib.websocket.NotificationsServiceContractType;
 import com.feed_the_beast.javacurselib.websocket.messages.ResponseParser;
 
 public abstract class BaseResponse implements Response {
-    int TypeID;
+    NotificationsServiceContractType typeID;
     transient String origMessage;
 
     @Override

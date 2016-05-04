@@ -1,22 +1,25 @@
 package com.feed_the_beast.javacurselib.service.contacts.users;
 
+import com.google.gson.annotations.SerializedName;
+
 /**
  * representation of curse contact api UserProfileNotification
  */
 public class FriendHintContract {
-    public int ID;
-    public int UserID;
-    public int SearchTerm;
-    public FriendHintType Type;
-    public int GameID;
-    public String Region;
-    public String Server;
-    public String Site;
-    public FriendPlatform Platform;
-    public String DisplayName;
-    public String AvatarUrl;
-    public String Description;
-    public FriendHintVerification Verification;
-    public FriendHintStatus Status;
-    public FriendHintVisibility Visibility;
+    @SerializedName("ID")
+    public int id;
+    public int userID;
+    public int searchTerm;
+    public FriendHintType type;
+    public int gameID;
+    public String region;
+    public String server;
+    public String site;
+    public FriendPlatform platform;
+    public String displayName;
+    public String avatarUrl;
+    public String description;
+    public FriendHintVerification verification;
+    public FriendHintStatus status;
+    public FriendHintVisibility visibility;
 }

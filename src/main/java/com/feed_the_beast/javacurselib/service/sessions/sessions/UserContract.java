@@ -8,19 +8,19 @@ import java.util.Date;
  * representation of curse sessions api UserContract
  */
 public class UserContract {
-    public int UserID;
-    public String Username;
-    public UserConnectionStatus ConnectionStatus;
-    public String CustomStatusMessage;
-    public Date CustomStatusTimestamp;
-    public int FriendCount;
-    public String AvatarUrl;
-    public int CurrentGameID;
-    public int CurrentGameState;
-    public String CurrentGameStatusMEssage;
-    public Date CurrentGameTimestamp;
-    public PushNotificationPreference GroupMessagePushPreference;
-    public PushNotificationPreference FriendMessagePushPreference;
-    public boolean FriendRequestPushEnabled;
-    public boolean MentionsPushEnabled;
+    public int userID;
+    public String username;
+    public UserConnectionStatus connectionStatus;
+    public String customStatusMessage;
+    public Date customStatusTimestamp;
+    public int friendCount;
+    public String avatarUrl;
+    public int currentGameID;
+    public int currentGameState;
+    public String currentGameStatusMEssage;
+    public Date currentGameTimestamp;
+    public PushNotificationPreference groupMessagePushPreference;
+    public PushNotificationPreference friendMessagePushPreference;
+    public boolean friendRequestPushEnabled;
+    public boolean mentionsPushEnabled;
 }

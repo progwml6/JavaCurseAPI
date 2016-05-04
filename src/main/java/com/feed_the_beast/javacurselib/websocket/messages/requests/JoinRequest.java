@@ -9,24 +9,24 @@ import javax.annotation.Nonnull;
  * Server sends back JoinResponse
  */
 public class JoinRequest extends BaseRequest implements Request {
-    public int TypeID = -2101997347;
-    public int UserID;
-    public String MachineKey;
-    public String SessionID;
-    public int Status = 1;              // TODO: add enum for this
-    public String ClientVersion = "7.0.19";
-    public Object PublicKey = null;
-    public int CipherAlgorithm = 0;     // TODO: check: random object or int?
-    public int CipherStrength = 0;
+    public int typeID = -2101997347;
+    public int userID;
+    public String machineKey;
+    public String sessionID;
+    public int status = 1;              // TODO: add enum for this
+    public String clientVersion = "7.0.19";
+    public Object publicKey = null;
+    public int cipherAlgorithm = 0;     // TODO: check: random object or int?
+    public int cipherStrength = 0;
 
     public JoinRequest(@Nonnull LoginResponse loginResponse, @Nonnull CreateSessionResponse sessionResponse) {
-        MachineKey = sessionResponse.MachineKey;
-        UserID = sessionResponse.User.UserID;
-        SessionID = sessionResponse.SessionID;
+        machineKey = sessionResponse.machineKey;
+        userID = sessionResponse.user.userID;
+        sessionID = sessionResponse.sessionID;
     }
 
     @Override
     public int getTypeID() {
-        return TypeID;
+        return typeID;
     }
 }

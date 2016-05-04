@@ -5,6 +5,6 @@ package com.feed_the_beast.javacurselib.service.logins.login;
  * replies with LoginResponse
  */
 public class LoginWithNetworkSessionRequest {
-    public int SiteID;
-    public String SessionID;
+    public int siteID;
+    public String sessionID;
 }

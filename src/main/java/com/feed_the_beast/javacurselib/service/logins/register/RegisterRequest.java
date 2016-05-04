@@ -5,8 +5,8 @@ package com.feed_the_beast.javacurselib.service.logins.register;
  * replies with RegisterResponse
  */
 public class RegisterRequest {
-    public String Username;
-    public String Password;
-    public String Email;
+    public String username;
+    public String password;
+    public String email;
     public boolean newsletter;
 }

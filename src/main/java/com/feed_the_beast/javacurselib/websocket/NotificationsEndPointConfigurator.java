@@ -10,7 +10,7 @@ import java.util.Map;
 public class NotificationsEndPointConfigurator extends ClientEndpointConfig.Configurator {
     private String authToken;
     public NotificationsEndPointConfigurator(LoginResponse loginResponse) {
-        authToken = loginResponse.Session.Token;
+        authToken = loginResponse.session.token;
     }
     @Override
     public void beforeRequest(Map<String, List<String>> headers) {

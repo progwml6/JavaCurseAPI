@@ -7,16 +7,16 @@ import java.util.List;
  * representation of curse contact api GroupMembershipNotification
  */
 public class GroupMembershipNotification {
-    public int BestRole;
-    public int[] Roles;
-    public Date DateJoined;
-    public Date DateMessaged;
-    public Date DateRead;
-    public int UnreadCount;
+    public int bestRole;
+    public int[] roles;
+    public Date dateJoined;
+    public Date dateMessaged;
+    public Date dateRead;
+    public int unreadCount;
     public boolean isFavorite;
-    public NotificationPreference NotificationPreference;
-    public List<String> NotificationFilters;
-    public Date NotificationMuteDate;
-    public boolean IsVoiceMuted;
-    public boolean IsVoiceDeafened;
+    public NotificationPreference notificationPreference;
+    public List<String> notificationFilters;
+    public Date notificationMuteDate;
+    public boolean isVoiceMuted;
+    public boolean isVoiceDeafened;
 }

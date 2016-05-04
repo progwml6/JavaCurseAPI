@@ -8,17 +8,17 @@ import java.util.UUID;
  */
 public class CreateSessionRequest {
     public CreateSessionRequest(UUID machineKey, DevicePlatform platform, String deviceId, String pushKitToken) {
-        this.MachineKey = machineKey;
-        this.Platform = platform;
-        this.DeviceID = deviceId;
-        this.PushKitToken = pushKitToken;
+        this.machineKey = machineKey;
+        this.platform = platform;
+        this.deviceID = deviceId;
+        this.pushKitToken = pushKitToken;
     }
 
     public CreateSessionRequest(UUID machineKey, DevicePlatform platform) {
         this(machineKey, platform, null, null);
     }
-    public UUID MachineKey;
-    public DevicePlatform Platform;
-    public String DeviceID;
-    public String PushKitToken;
+    public UUID machineKey;
+    public DevicePlatform platform;
+    public String deviceID;
+    public String pushKitToken;
 }

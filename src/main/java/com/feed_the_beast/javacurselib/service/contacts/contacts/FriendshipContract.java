@@ -6,24 +6,24 @@ import java.util.Date;
  * representation of curse contacts api FriendshipContract
  */
 public class FriendshipContract {
-    public FriendshipStatus Status;
-    public int OtherUserID;
-    public String OtherUsername;
+    public FriendshipStatus status;
+    public int otherUserID;
+    public String otherUsername;
     public String otherUserNickname;
     public int otherUserRegionID;//TODO find out what these actually are and put into an enum!!
-    public UserConnectionStatus OtherUserConnectionStatus;
-    public String InvitationMessage;
-    public boolean IsFavorite;
-    public int OtherUserGameID;//TODO find out what these actually are and put into an enum!!
-    public String OtherUserGameStatusMessage;
-    public int OtherUserGameState;//TODO find out what these actually are and put into an enum!!
-    public Date OtherUserGameTimestamp;
-    public String OtherUserAvatarUrl;
-    public Date DateConfirmed;
-    public Date DateMessaged;
-    public Date DateRead;
-    public int UnreadCount;
-    public int MutualFriendCount;
-    public long OtherUserConnectionStatusTimestamp;//TODO use date instead
-    public long RequestedTimestamp;//TODO use date instead
+    public UserConnectionStatus otherUserConnectionStatus;
+    public String invitationMessage;
+    public boolean isFavorite;
+    public int otherUserGameID;//TODO find out what these actually are and put into an enum!!
+    public String otherUserGameStatusMessage;
+    public int otherUserGameState;//TODO find out what these actually are and put into an enum!!
+    public Date otherUserGameTimestamp;
+    public String otherUserAvatarUrl;
+    public Date dateConfirmed;
+    public Date dateMessaged;
+    public Date dateRead;
+    public int unreadCount;
+    public int mutualFriendCount;
+    public long otherUserConnectionStatusTimestamp;//TODO use date instead
+    public long requestedTimestamp;//TODO use date instead
 }

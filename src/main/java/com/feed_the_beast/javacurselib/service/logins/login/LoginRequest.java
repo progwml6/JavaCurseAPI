@@ -11,9 +11,9 @@ public class LoginRequest {
      * @param password your cursenetwork password
      */
     public LoginRequest(String username, String password) {
-        this.Username = username;
-        this.Password = password;
+        this.username = username;
+        this.password = password;
     }
-    public String Username;
-    public String Password;
+    public String username;
+    public String password;
 }

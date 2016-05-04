@@ -7,11 +7,11 @@ import java.util.List;
  * representation of curse contact api ChannelMembershipContract
  */
 public class ChannelMembershipContract {
-    public Date DateMessaged;
-    public Date DateRead;
-    public int UnreadCount;
-    public boolean IsFavorite;
-    public NotificationPreference NotificationPreference;
-    public List<String> NotificationFilters;
-    public Date NotificationMuteDate;
+    public Date dateMessaged;
+    public Date dateRead;
+    public int unreadCount;
+    public boolean isFavorite;
+    public NotificationPreference notificationPreference;
+    public List<String> notificationFilters;
+    public Date notificationMuteDate;
 }

@@ -6,8 +6,8 @@ import java.util.List;
  * representation of curse sessions api CreateSessionResponse
  */
 public class CreateSessionResponse {
-    public String SessionID;
-    public String MachineKey;
-    public UserContract User;
-    public List<DevicePlatform> Platforms;
+    public String sessionID;
+    public String machineKey;
+    public UserContract user;
+    public List<DevicePlatform> platforms;
 }

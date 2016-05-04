@@ -21,7 +21,7 @@ public class ResponseParserTest {
         Response response = ResponseParser.stringToObject(handshakeString);
         assertSame(handshakeString, response.getOrigMessage());
         assertEquals(HandshakeResponse.class, response.getClass());
-        assertFalse(((HandshakeResponse)response).Signal);
+        assertFalse(((HandshakeResponse)response).signal);
 
         System.out.println(response.getClass());
         System.out.println(response.toJsonString());
@@ -31,8 +31,8 @@ public class ResponseParserTest {
     public void handshakeRequest() {
         HandshakeRequest request = HandshakeRequest.PING;
         assertEquals(HandshakeRequest.class, request.getClass());
-        assertTrue(request.Signal);
-        assertEquals(-476754606, request.TypeID);
+        assertTrue(request.signal);
+        assertEquals(-476754606, request.typeID);
         assertEquals(-476754606, request.getTypeID());
     }
 
@@ -40,13 +40,13 @@ public class ResponseParserTest {
     public void markRead() {
         ConversationMarkReadRequest c = new ConversationMarkReadRequest();
         assertEquals(ConversationMarkReadRequest.class, c.getClass());
-        assertEquals(-342895375, c.TypeID);
+        assertEquals(-342895375, c.typeID);
         assertEquals(-342895375, c.getTypeID());
     }
 
     @Test
     public void conversationMessageNotification() {
         Response response = ResponseParser.stringToObject(conversationMessageNotificationString);
-        assertNotNull(((ConversationMessageNotification)response).Body);
+        assertNotNull(((ConversationMessageNotification)response).body);
     }
 }

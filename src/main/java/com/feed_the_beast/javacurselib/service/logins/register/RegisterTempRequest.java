@@ -5,5 +5,5 @@ package com.feed_the_beast.javacurselib.service.logins.register;
  * replies with RegisterTempResponse
  */
 public class RegisterTempRequest {
-    public String Username;
+    public String username;
 }

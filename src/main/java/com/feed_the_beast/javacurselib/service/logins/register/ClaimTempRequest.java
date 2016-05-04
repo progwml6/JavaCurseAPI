@@ -5,7 +5,7 @@ package com.feed_the_beast.javacurselib.service.logins.register;
  * replies with RegisterResponse
  */
 public class ClaimTempRequest {
-    public String TempAccountToken;
-    public String Email;
-    public String Password;
+    public String tempAccountToken;
+    public String email;
+    public String password;
 }

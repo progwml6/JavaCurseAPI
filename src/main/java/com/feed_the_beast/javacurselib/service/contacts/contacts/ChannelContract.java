@@ -8,22 +8,22 @@ import java.util.UUID;
  * representation of curse contact api ChannelContract
  */
 public class ChannelContract {
-    public String GroupTitle;
-    public UUID GroupID;
-    public UUID ParentGroupID;
-    public UUID RootGroupID;
-    public String VoiceSessionCode;
-    public String MessageOfTheDay;
-    public GroupMode GroupMode;
-    public GroupType GroupType;
-    public GroupStatus GroupStatus;
-    public int DisplayOrder;
-    public boolean AllowTemporaryChildGroups;
-    public boolean ForcePushToTalk;
-    public boolean IsDefaultChannel;
-    public Map<Integer,Integer> RolePermissions;
-    public boolean IsPublic;
-    public ChannelMembershipContract Membership;
-    public String UrlPath;
-    public List<GroupMemberContract> VoiceMembers;
+    public String groupTitle;
+    public UUID groupID;
+    public UUID parentGroupID;
+    public UUID rootGroupID;
+    public String voiceSessionCode;
+    public String messageOfTheDay;
+    public GroupMode groupMode;
+    public GroupType groupType;
+    public GroupStatus groupStatus;
+    public int displayOrder;
+    public boolean allowTemporaryChildGroups;
+    public boolean forcePushToTalk;
+    public boolean isDefaultChannel;
+    public Map<Integer,Integer> rolePermissions;
+    public boolean isPublic;
+    public ChannelMembershipContract membership;
+    public String urlPath;
+    public List<GroupMemberContract> voiceMembers;
 }

@@ -4,12 +4,12 @@ package com.feed_the_beast.javacurselib.service.contacts.contacts;
  * representation of curse contacts api ExternalCommunityPublicContract
  */
 public class ExternalCommunityPublicContract {
-    public String ExternalID;
-    public AccountType Type;
-    public String ExternalName;
-    public int GameID;
-    public String ExternalGameName;
-    public String ExternalStatus;
-    public String ExternalUrl;
-    public boolean IsLive;
+    public String externalID;
+    public AccountType type;
+    public String externalName;
+    public int gameID;
+    public String externalGameName;
+    public String externalStatus;
+    public String externalUrl;
+    public boolean isLive;
 }

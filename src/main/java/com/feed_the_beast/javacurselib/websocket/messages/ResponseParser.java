@@ -1,18 +1,31 @@
 package com.feed_the_beast.javacurselib.websocket.messages;
 
-
+import com.feed_the_beast.javacurselib.CurseApp;
 import com.feed_the_beast.javacurselib.utils.DateAdapter;
 import com.feed_the_beast.javacurselib.utils.UUIDAdapter;
-import com.feed_the_beast.javacurselib.websocket.messages.notifications.*;
+import com.feed_the_beast.javacurselib.websocket.messages.notifications.ConversationMessageNotification;
+import com.feed_the_beast.javacurselib.websocket.messages.notifications.HandshakeResponse;
+import com.feed_the_beast.javacurselib.websocket.messages.notifications.JoinResponse;
+import com.feed_the_beast.javacurselib.websocket.messages.notifications.Response;
+import com.feed_the_beast.javacurselib.websocket.messages.notifications.UnknownResponse;
 import com.feed_the_beast.javacurselib.websocket.messages.requests.Request;
 import com.google.common.collect.BiMap;
 import com.google.common.collect.HashBiMap;
-import com.google.gson.*;
+import com.google.gson.FieldNamingPolicy;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.JsonDeserializationContext;
+import com.google.gson.JsonDeserializer;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParseException;
+import com.google.gson.JsonPrimitive;
+import com.google.gson.JsonSerializationContext;
+import com.google.gson.JsonSerializer;
 
 import java.lang.reflect.Type;
 import java.util.Date;
 import java.util.UUID;
-
 
 @SuppressWarnings("Duplicates")
 public class ResponseParser {
@@ -31,12 +44,15 @@ public class ResponseParser {
         builder.registerTypeAdapter(Response.class, new ResponseDeserializer(responseMappings));
         builder.registerTypeAdapter(Response.class, new ResponseSerializer(responseMappings));
         builder.registerTypeAdapter(Request.class, new RequestSerializer());
+        builder.setFieldNamingPolicy(FieldNamingPolicy.UPPER_CAMEL_CASE);//auto capitalizes first letter of java field when going to json
         builder.enableComplexMapKeySerialization();
-        builder.setPrettyPrinting();
+        if (CurseApp.isDebugMode()) {
+            builder.setPrettyPrinting();
+        }
         GSON = builder.create();
     }
 
-    public static Response stringToObject(String s) {
+    public static Response stringToObject (String s) {
         Response r = GSON.fromJson(s, Response.class);
         r.setOrigMessage(s);
         return r;
@@ -45,12 +61,12 @@ public class ResponseParser {
     private static class ResponseDeserializer implements JsonDeserializer<Response> {
         private BiMap<Integer, Class> mapping;
 
-        public ResponseDeserializer(BiMap<Integer, Class> mapping) {
+        public ResponseDeserializer (BiMap<Integer, Class> mapping) {
             this.mapping = mapping;
         }
 
         @Override
-        public Response deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
+        public Response deserialize (JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
             JsonElement body = json.getAsJsonObject().get("Body");
             int typeid = json.getAsJsonObject().get("TypeID").getAsInt();
 
@@ -68,12 +84,12 @@ public class ResponseParser {
     private static class ResponseSerializer implements JsonSerializer<Response> {
         BiMap<Integer, Class> mapping;
 
-        public ResponseSerializer(BiMap<Integer, Class> mapping) {
+        public ResponseSerializer (BiMap<Integer, Class> mapping) {
             this.mapping = mapping;
         }
 
         @Override
-        public JsonElement serialize(Response src, Type typeOfSrc, JsonSerializationContext context) {
+        public JsonElement serialize (Response src, Type typeOfSrc, JsonSerializationContext context) {
             JsonObject result = new JsonObject();
             JsonElement body = context.serialize(src, src.getClass());
             result.add("TypeID", new JsonPrimitive(mapping.inverse().get(src.getClass())));
@@ -84,7 +100,7 @@ public class ResponseParser {
 
     private static class RequestSerializer implements JsonSerializer<Request> {
         @Override
-        public JsonElement serialize(Request src, Type typeOfSrc, JsonSerializationContext context) {
+        public JsonElement serialize (Request src, Type typeOfSrc, JsonSerializationContext context) {
             JsonObject result = new JsonObject();
             JsonElement body = context.serialize(src, src.getClass());
             result.add("TypeID", new JsonPrimitive(src.getTypeID()));

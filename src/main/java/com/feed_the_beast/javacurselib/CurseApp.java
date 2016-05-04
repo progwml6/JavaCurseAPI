@@ -17,6 +17,10 @@ import java.util.UUID;
  * Created by progwml6 on 4/28/16.
  */
 public class CurseApp {
+
+    public static boolean isDebugMode() {
+        return true;
+    }
     public static LoginResponse login (String username, String password) {
         LoginRequest lr = new LoginRequest(username, password);
         String jsonToSend = JsonFactory.GSON.toJson(lr);
@@ -38,18 +42,18 @@ public class CurseApp {
 
     public static void main (String args[]) {
         LoginResponse lr = login(args[0], args[1]);
-        ContactsResponse cr = getContacts(lr.Session.Token);
-        CreateSessionResponse sessionResponse = getSession(lr.Session.Token, UUID.randomUUID(), DevicePlatform.UNKNOWN);
-        for (GroupNotification g : cr.Groups) {
-            if (g.GroupTitle.equals("CurseForge")) {
-                for (ChannelContract c : g.Channels) {
-                    if (c.GroupTitle.equals("app-api-chat")) {
+        ContactsResponse cr = getContacts(lr.session.token);
+        CreateSessionResponse sessionResponse = getSession(lr.session.token, UUID.randomUUID(), DevicePlatform.UNKNOWN);
+        for (GroupNotification g : cr.groups) {
+            if (g.groupTitle.equals("CurseForge")) {
+                for (ChannelContract c : g.channels) {
+                    if (c.groupTitle.equals("app-api-chat")) {
                         System.out.println("you probably have access to this magical API Channel if you are seeing this code");
                     }
                 }
             }
         }
-        System.out.println(sessionResponse.SessionID);
+        System.out.println(sessionResponse.sessionID);
 
         WebSocketStarter.start(lr, sessionResponse, Apis.NOTIFICATIONS);
     }

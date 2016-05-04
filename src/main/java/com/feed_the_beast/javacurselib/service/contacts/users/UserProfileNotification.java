@@ -6,15 +6,15 @@ import java.util.List;
  * representation of curse contact api UserProfileNotification
  */
 public class UserProfileNotification {
-    public int UserID;
-    public String Username;
-    public String Name;
-    public String City;
-    public String State;
-    public String CountryCode;
-    public String AboutMe;
-    public int FriendCount;
+    public int userID;
+    public String username;
+    public String name;
+    public String city;
+    public String state;
+    public String countryCode;
+    public String aboutMe;
+    public int friendCount;
     public int lastGameID;
-    public List<FriendHintContract> Identities;
-    public List<MutualFriendNotification> MutualFriends;
+    public List<FriendHintContract> identities;
+    public List<MutualFriendNotification> mutualFriends;
 }

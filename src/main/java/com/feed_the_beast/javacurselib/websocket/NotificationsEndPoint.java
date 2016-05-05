@@ -17,7 +17,7 @@ public class NotificationsEndPoint extends Endpoint {
     private JoinRequest initRequest;
     private ResponseHandler responsehandler;
 
-    public NotificationsEndPoint(@Nonnull LoginResponse loginResponse, @Nonnull CreateSessionResponse sessionResponse, @Nonnull String endpoint, @Nonnull ResponseHandler responseHandler) {
+    public NotificationsEndPoint(@Nonnull LoginResponse loginResponse, @Nonnull CreateSessionResponse sessionResponse, @Nonnull ResponseHandler responseHandler) {
         this.initRequest = new JoinRequest(loginResponse, sessionResponse);
         this.responsehandler = responseHandler;
     }

@@ -9,9 +9,11 @@ import com.feed_the_beast.javacurselib.service.sessions.sessions.CreateSessionRe
 import com.feed_the_beast.javacurselib.service.sessions.sessions.CreateSessionResponse;
 import com.feed_the_beast.javacurselib.service.sessions.sessions.DevicePlatform;
 import com.feed_the_beast.javacurselib.utils.NetworkRequest;
-import com.feed_the_beast.javacurselib.websocket.WebSocketStarter;
+import com.feed_the_beast.javacurselib.websocket.WebSocket;
 
+import java.net.URI;
 import java.util.UUID;
+import java.util.concurrent.CountDownLatch;
 
 /**
  * Created by progwml6 on 4/28/16.
@@ -55,6 +57,22 @@ public class CurseApp {
         }
         System.out.println(sessionResponse.sessionID);
 
-        WebSocketStarter.start(lr, sessionResponse, Apis.NOTIFICATIONS);
+        // websocket testing code starts here
+        WebSocket ws = null;
+        try {
+            ws = new WebSocket(lr, sessionResponse, new URI(Apis.NOTIFICATIONS));
+        } catch (Exception e) {
+            System.out.println("failed");
+            e.printStackTrace();
+            System.exit(0);
+        }
+        ws.setupResponseHandlers(); // this method will be removed
+        // to add your own handlers call ws.getResponseHandler() and configure it
+        CountDownLatch latch = new CountDownLatch(1);
+        ws.start();
+        try {
+            latch.await();
+        } catch (InterruptedException e) {
+        }
     }
 }

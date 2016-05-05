@@ -7,8 +7,8 @@ public class ConversationMessageNotification extends BaseResponse implements Res
     public String contactID;
     //ConversationType: Curse_Friends_Enums.ConversationType;
     public String rootConversationID;
-    public int timestamp;
-    public int senderID;
+    public long timestamp;
+    public long senderID;
     public String senderName;
     public int senderPermissions;
     public int[] senderRoles;

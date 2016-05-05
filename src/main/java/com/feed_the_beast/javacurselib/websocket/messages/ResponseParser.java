@@ -34,6 +34,7 @@ public class ResponseParser {
         builder.registerTypeAdapter(Request.class, new RequestSerializer());
         builder.setFieldNamingPolicy(FieldNamingPolicy.UPPER_CAMEL_CASE);//auto capitalizes first letter of java field when going to json
         builder.enableComplexMapKeySerialization();
+        builder.serializeNulls();
         if (CurseApp.isDebugMode()) {
             builder.setPrettyPrinting();
         }

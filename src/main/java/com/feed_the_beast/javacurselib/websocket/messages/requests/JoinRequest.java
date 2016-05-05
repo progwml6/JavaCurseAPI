@@ -2,7 +2,6 @@ package com.feed_the_beast.javacurselib.websocket.messages.requests;
 
 import com.feed_the_beast.javacurselib.service.logins.login.LoginResponse;
 import com.feed_the_beast.javacurselib.service.sessions.sessions.CreateSessionResponse;
-import com.feed_the_beast.javacurselib.websocket.NotificationsServiceContractType;
 
 import javax.annotation.Nonnull;
 
@@ -10,7 +9,6 @@ import javax.annotation.Nonnull;
  * Server sends back JoinResponse
  */
 public class JoinRequest extends BaseRequest implements Request {
-    public NotificationsServiceContractType typeID = NotificationsServiceContractType.JOIN_REQUEST;
     public int userID;
     public String machineKey;
     public String sessionID;
@@ -27,7 +25,7 @@ public class JoinRequest extends BaseRequest implements Request {
     }
 
     @Override
-    public NotificationsServiceContractType getTypeID() {
-        return this.typeID;
+    public RequestsServiceContractType getTypeID() {
+        return RequestsServiceContractType.JOIN_REQUEST;
     }
 }

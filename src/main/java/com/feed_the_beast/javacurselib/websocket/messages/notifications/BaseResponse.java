@@ -1,10 +1,9 @@
 package com.feed_the_beast.javacurselib.websocket.messages.notifications;
 
-import com.feed_the_beast.javacurselib.websocket.NotificationsServiceContractType;
 import com.feed_the_beast.javacurselib.websocket.messages.ResponseParser;
 
 public abstract class BaseResponse implements Response {
-    NotificationsServiceContractType typeID;
+    transient NotificationsServiceContractType typeID;
     transient String origMessage;
 
     @Override
@@ -21,4 +20,16 @@ public abstract class BaseResponse implements Response {
     public void setOrigMessage(String s) {
         origMessage = s;
     }
+
+    @Override
+    public NotificationsServiceContractType getTypeID() {
+        return typeID;
+    }
+
+    @Override
+    public void setTypeID(NotificationsServiceContractType t) {
+        typeID = t;
+    }
+
+    // TODO: add generic POJO toString
 }

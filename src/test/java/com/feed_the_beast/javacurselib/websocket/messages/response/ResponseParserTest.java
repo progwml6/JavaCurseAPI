@@ -32,7 +32,6 @@ public class ResponseParserTest {
         HandshakeRequest request = HandshakeRequest.PING;
         assertEquals(HandshakeRequest.class, request.getClass());
         assertTrue(request.signal);
-        assertEquals(-476754606, request.typeID.getValue());
         assertEquals(-476754606, request.getTypeID().getValue());
     }
 
@@ -40,7 +39,6 @@ public class ResponseParserTest {
     public void markRead() {
         ConversationMarkReadRequest c = new ConversationMarkReadRequest();
         assertEquals(ConversationMarkReadRequest.class, c.getClass());
-        assertEquals(-342895375, c.typeID.getValue());
         assertEquals(-342895375, c.getTypeID().getValue());
     }
 

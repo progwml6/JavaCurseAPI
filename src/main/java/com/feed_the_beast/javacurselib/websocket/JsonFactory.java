@@ -1,26 +1,18 @@
-package com.feed_the_beast.javacurselib.websocket.messages;
+package com.feed_the_beast.javacurselib.websocket;
 
 import com.feed_the_beast.javacurselib.data.JsonFactory;
 import com.feed_the_beast.javacurselib.utils.DateAdapter;
-import com.feed_the_beast.javacurselib.websocket.messages.notifications.*;
+import com.feed_the_beast.javacurselib.websocket.messages.notifications.NotificationsServiceContractType;
+import com.feed_the_beast.javacurselib.websocket.messages.notifications.Response;
+import com.feed_the_beast.javacurselib.websocket.messages.notifications.UnknownResponse;
 import com.feed_the_beast.javacurselib.websocket.messages.requests.Request;
-import com.google.gson.FieldNamingPolicy;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
-import com.google.gson.JsonDeserializationContext;
-import com.google.gson.JsonDeserializer;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParseException;
-import com.google.gson.JsonPrimitive;
-import com.google.gson.JsonSerializationContext;
-import com.google.gson.JsonSerializer;
+import com.google.gson.*;
 
 import java.lang.reflect.Type;
 import java.util.Date;
 
 @SuppressWarnings("Duplicates")
-public class ResponseParser {
+public class JsonFactory {
     public static final Gson GSON;
     static {
         GsonBuilder builder = new GsonBuilder();
@@ -37,7 +29,7 @@ public class ResponseParser {
         GSON = builder.create();
     }
 
-    public static Response stringToObject (String s) {
+    public static Response stringToResponse(String s) {
         Response r = GSON.fromJson(s, Response.class);
         r.setOrigMessage(s);
         return r;

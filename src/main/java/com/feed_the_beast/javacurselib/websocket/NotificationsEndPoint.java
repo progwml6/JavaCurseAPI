@@ -5,7 +5,6 @@ import com.feed_the_beast.javacurselib.service.logins.login.LoginResponse;
 import com.feed_the_beast.javacurselib.service.sessions.sessions.CreateSessionResponse;
 import com.feed_the_beast.javacurselib.websocket.messages.requests.JoinRequest;
 import com.feed_the_beast.javacurselib.websocket.messages.notifications.Response;
-import com.feed_the_beast.javacurselib.websocket.messages.ResponseParser;
 import com.feed_the_beast.javacurselib.websocket.messages.handler.ResponseHandler;
 
 import javax.annotation.Nonnull;
@@ -53,7 +52,7 @@ public class NotificationsEndPoint extends Endpoint {
         @Override
         public void onMessage(String msg) {
             try {
-                Response response = ResponseParser.stringToObject(msg);
+                Response response = JsonFactory.stringToResponse(msg);
                 responseHandler.executeTasks(response, session);
             } catch (Exception e) {
                 logger.severe("onMessage failed");

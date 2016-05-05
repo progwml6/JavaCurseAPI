@@ -7,6 +7,9 @@ public class HandshakeRequest extends BaseRequest implements Request {
     public transient static HandshakeRequest PING = new HandshakeRequest();
     public boolean signal = true;
 
+    private HandshakeRequest() {
+    }
+
     @Override
     public RequestsServiceContractType getTypeID() {
         return RequestsServiceContractType.HANDSHAKE;

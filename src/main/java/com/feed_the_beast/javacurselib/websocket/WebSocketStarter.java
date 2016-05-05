@@ -20,7 +20,6 @@ public class WebSocketStarter {
 
 
         WebSocketContainer client = ContainerProvider.getWebSocketContainer();
-        ClientEndpointConfig cec = ClientEndpointConfig.Builder.create().configurator(new NotificationsEndPointConfigurator(loginResponse)).build();
         setupResponseHandler(responseHandler);
         NotificationsEndPoint notificationsEndPoint = new NotificationsEndPoint(loginResponse, sessionResponse, endpoint, responseHandler);
 

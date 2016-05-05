@@ -1,8 +1,7 @@
-package com.feed_the_beast.javacurselib.websocket.messages.response;
+package com.feed_the_beast.javacurselib.websocket.messages.notifications;
 
 
 import com.feed_the_beast.javacurselib.websocket.messages.ResponseParser;
-import com.feed_the_beast.javacurselib.websocket.messages.notifications.*;
 import org.junit.Ignore;
 import org.junit.Test;
 import uk.co.datumedge.hamcrest.json.SameJSONAs;
@@ -19,9 +18,6 @@ public class ResponseParserTest {
         assertSame(handshakeString, response.getOrigMessage());
         assertEquals(HandshakeResponse.class, response.getClass());
         assertFalse(((HandshakeResponse)response).signal);
-
-        System.out.println(response.getClass());
-        System.out.println(response.toJsonString());
     }
 
     @Test

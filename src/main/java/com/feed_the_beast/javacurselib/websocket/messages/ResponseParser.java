@@ -28,7 +28,6 @@ public class ResponseParser {
     static {
         GsonBuilder builder = new GsonBuilder();
         builder.registerTypeAdapter(Date.class, new DateAdapter());
-        builder.registerTypeAdapter(UUID.class, new UUIDAdapter());
         builder.registerTypeAdapter(Response.class, new ResponseDeserializer());
         builder.registerTypeAdapter(Response.class, new ResponseSerializer());
         builder.registerTypeAdapter(Request.class, new RequestSerializer());

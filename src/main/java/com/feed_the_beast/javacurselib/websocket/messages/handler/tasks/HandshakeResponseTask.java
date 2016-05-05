@@ -4,11 +4,13 @@ import com.feed_the_beast.javacurselib.websocket.messages.requests.HandshakeRequ
 import com.feed_the_beast.javacurselib.websocket.messages.notifications.Response;
 
 import javax.websocket.Session;
+import java.util.logging.Logger;
 
 public class HandshakeResponseTask implements ResponseTask {
+    private static final Logger logger = Logger.getLogger(HandshakeResponseTask.class.getName());
     @Override
     public void execute(Session session, Response response) {
-        System.out.println("got ping");
+        logger.finest("got ping");
         try {
             Thread.sleep(5000);
         } catch (InterruptedException e) {

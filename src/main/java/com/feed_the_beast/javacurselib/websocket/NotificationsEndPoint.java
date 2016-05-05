@@ -24,19 +24,15 @@ public class NotificationsEndPoint extends Endpoint {
 
     @Override
     public void onOpen(final Session session, EndpointConfig ec) {
-        logger.info("Connected ... " + session.getId());
-
-        logger.info("adding message handled");
+        logger.info(String.format("Websocket connection opened: %s. Adding message handles into session and sending join requests", session.getId()));
         session.addMessageHandler(new NotificationsMessageHandler(session, responsehandler));
-
-        logger.info("sending InitRequest to start communication");
         initRequest.execute(session);
     }
 
 
     @Override
     public void onClose(Session session, CloseReason closeReason) {
-        logger.info(String.format("Session %s close because of %s", session.getId(), closeReason));
+        logger.severe(String.format("Session %s close because of %s", session.getId(), closeReason));
     }
 
     @Override
@@ -60,7 +56,8 @@ public class NotificationsEndPoint extends Endpoint {
                 Response response = ResponseParser.stringToObject(msg);
                 responseHandler.executeTasks(response, session);
             } catch (Exception e) {
-                throw new RuntimeException(e);
+                logger.severe("onMessage failed");
+                e.printStackTrace();
             }
         }
     }

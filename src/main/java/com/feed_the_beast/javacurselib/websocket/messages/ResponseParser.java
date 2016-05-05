@@ -1,8 +1,6 @@
 package com.feed_the_beast.javacurselib.websocket.messages;
 
-import com.feed_the_beast.javacurselib.CurseApp;
 import com.feed_the_beast.javacurselib.utils.DateAdapter;
-import com.feed_the_beast.javacurselib.utils.UUIDAdapter;
 import com.feed_the_beast.javacurselib.websocket.messages.notifications.*;
 import com.feed_the_beast.javacurselib.websocket.messages.requests.Request;
 import com.google.gson.FieldNamingPolicy;
@@ -19,7 +17,6 @@ import com.google.gson.JsonSerializer;
 
 import java.lang.reflect.Type;
 import java.util.Date;
-import java.util.UUID;
 
 @SuppressWarnings("Duplicates")
 public class ResponseParser {
@@ -34,7 +31,7 @@ public class ResponseParser {
         builder.setFieldNamingPolicy(FieldNamingPolicy.UPPER_CAMEL_CASE);//auto capitalizes first letter of java field when going to json
         builder.enableComplexMapKeySerialization();
         builder.serializeNulls();
-        if (CurseApp.isDebugMode()) {
+        if (true) {     // TODO change that as soon as there is proper data
             builder.setPrettyPrinting();
         }
         GSON = builder.create();

@@ -1,5 +1,7 @@
-package com.feed_the_beast.javacurselib;
+package com.feed_the_beast.javacurselib.examples.app_v1;
 
+import com.feed_the_beast.javacurselib.data.Apis;
+import com.feed_the_beast.javacurselib.data.JsonFactory;
 import com.feed_the_beast.javacurselib.service.contacts.contacts.ChannelContract;
 import com.feed_the_beast.javacurselib.service.contacts.contacts.ContactsResponse;
 import com.feed_the_beast.javacurselib.service.contacts.contacts.GroupNotification;
@@ -10,6 +12,8 @@ import com.feed_the_beast.javacurselib.service.sessions.sessions.CreateSessionRe
 import com.feed_the_beast.javacurselib.service.sessions.sessions.DevicePlatform;
 import com.feed_the_beast.javacurselib.utils.NetworkRequest;
 import com.feed_the_beast.javacurselib.websocket.WebSocket;
+import com.feed_the_beast.javacurselib.websocket.messages.handler.ResponseHandler;
+import com.feed_the_beast.javacurselib.websocket.messages.notifications.NotificationsServiceContractType;
 
 import java.net.URI;
 import java.util.UUID;
@@ -66,7 +70,11 @@ public class CurseApp {
             e.printStackTrace();
             System.exit(0);
         }
-        ws.setupResponseHandlers(); // this method will be removed
+
+        ResponseHandler responseHandler = ws.getResponseHandler();
+        responseHandler.addTask(new DebugResponseTask(), NotificationsServiceContractType.CONVERSATION_MESSAGE_NOTIFICATION);
+        responseHandler.addTask(new DefaultResponseTask(), NotificationsServiceContractType.UNKNOWN);
+
         // to add your own handlers call ws.getResponseHandler() and configure it
         CountDownLatch latch = new CountDownLatch(1);
         ws.start();

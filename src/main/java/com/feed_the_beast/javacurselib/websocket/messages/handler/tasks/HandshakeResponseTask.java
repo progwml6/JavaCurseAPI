@@ -6,7 +6,7 @@ import com.feed_the_beast.javacurselib.websocket.messages.notifications.Response
 import javax.websocket.Session;
 import java.util.logging.Logger;
 
-public class HandshakeResponseTask implements ResponseTask {
+public class HandshakeResponseTask implements Task {
     private static final Logger logger = Logger.getLogger(HandshakeResponseTask.class.getName());
     @Override
     public void execute(Session session, Response response) {

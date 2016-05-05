@@ -1,5 +1,6 @@
-package com.feed_the_beast.javacurselib;
+package com.feed_the_beast.javacurselib.data;
 
+import com.feed_the_beast.javacurselib.examples.app_v1.CurseApp;
 import com.feed_the_beast.javacurselib.utils.DateAdapter;
 import com.feed_the_beast.javacurselib.utils.UUIDAdapter;
 import com.google.gson.FieldNamingPolicy;

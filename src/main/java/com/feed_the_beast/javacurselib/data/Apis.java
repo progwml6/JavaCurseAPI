@@ -1,4 +1,4 @@
-package com.feed_the_beast.javacurselib;
+package com.feed_the_beast.javacurselib.data;
 
 /**
  * list of known API's go to /help for API docs.

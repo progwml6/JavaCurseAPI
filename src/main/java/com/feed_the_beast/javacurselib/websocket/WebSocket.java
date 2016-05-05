@@ -1,11 +1,11 @@
 package com.feed_the_beast.javacurselib.websocket;
 
+import com.feed_the_beast.javacurselib.examples.app_v1.DebugResponseTask;
+import com.feed_the_beast.javacurselib.examples.app_v1.DefaultResponseTask;
 import com.feed_the_beast.javacurselib.service.logins.login.LoginResponse;
 import com.feed_the_beast.javacurselib.service.sessions.sessions.CreateSessionResponse;
 import com.feed_the_beast.javacurselib.websocket.messages.handler.ResponseHandler;
 import com.feed_the_beast.javacurselib.websocket.messages.notifications.*;
-import com.feed_the_beast.javacurselib.websocket.messages.notifications.HandshakeResponse;
-import com.feed_the_beast.javacurselib.websocket.messages.notifications.JoinResponse;
 import com.feed_the_beast.javacurselib.websocket.messages.handler.tasks.*;
 import com.feed_the_beast.javacurselib.websocket.messages.requests.ConversationMarkReadRequest;
 import com.feed_the_beast.javacurselib.websocket.messages.requests.ConversationMessageRequest;
@@ -20,7 +20,7 @@ import java.util.logging.Logger;
 public class WebSocket {
     private static final Logger logger = Logger.getLogger(WebSocket.class.getName());
 
-    public ResponseHandler responseHandler = new ResponseHandler();
+    private final ResponseHandler responseHandler = new ResponseHandler();
     private LoginResponse loginResponse;
     private CreateSessionResponse sessionResponse;
     private URI endpoint;
@@ -30,6 +30,10 @@ public class WebSocket {
         this.loginResponse = loginResponse;
         this.sessionResponse = sessionResponse;
         this.endpoint = endpoint;
+
+        // register required internal tasks
+        responseHandler.addTask(new JoinResponseTask(), NotificationsServiceContractType.JOIN_RESPONSE);
+        responseHandler.addTask(new HandshakeResponseTask(), NotificationsServiceContractType.HANDSHAKE);
     }
 
     public boolean start() {
@@ -48,16 +52,6 @@ public class WebSocket {
 
     public ResponseHandler getResponseHandler() {
         return responseHandler;
-    }
-
-    @Deprecated // use getResponseHandler
-    // this if for testing only
-    // TODO: add JoinResponseTask and HandshakeResponseTask into internal handler
-    public void setupResponseHandlers() {
-        responseHandler.addTask(new DebugResponseTask(), -2, ConversationMessageNotification.class);
-        responseHandler.addTask(new JoinResponseTask(), 0, JoinResponse.class);
-        responseHandler.addTask(new HandshakeResponseTask(), 0, HandshakeResponse.class);
-        responseHandler.addTask(new DefaultResponseTask(), -2, UnknownResponse.class);
     }
 
     // TODO: add logic to check for reply/notification

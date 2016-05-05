@@ -1,44 +1,37 @@
 package com.feed_the_beast.javacurselib.websocket.messages.handler;
 
-import com.feed_the_beast.javacurselib.websocket.messages.notifications.BaseResponse;
+import com.feed_the_beast.javacurselib.websocket.messages.notifications.NotificationsServiceContractType;
 import com.feed_the_beast.javacurselib.websocket.messages.notifications.Response;
-import com.feed_the_beast.javacurselib.websocket.messages.handler.tasks.ResponseTask;
+import com.feed_the_beast.javacurselib.websocket.messages.handler.tasks.Task;
 import com.google.common.collect.Lists;
 
+import javax.annotation.Nonnull;
 import javax.websocket.Session;
 import java.util.List;
 
 
 public class ResponseHandler {
-    static List<Integer> priorities = Lists.newArrayList(-2, -1, 0, 1, 2);
     List<ResponseTaskContainer> containers = Lists.newArrayList();
 
-    public void addTask(ResponseTask task, int priority, Class<? extends BaseResponse> clazz) {
-        //check args
-        containers.add(new ResponseTaskContainer(task, priority, clazz));
+    public void addTask(@Nonnull Task task, @Nonnull NotificationsServiceContractType type) {
+        containers.add(new ResponseTaskContainer(task, type));
     }
 
     public void executeTasks(Response response, Session session) {
-        for (int i : priorities) {
-            for (ResponseTaskContainer c : containers) {
-                if (c.priority == i) {
-                    if (response.getClass() == c.clazz) {
-                        c.task.execute(session, response);
-                    }
-                }
+        for (ResponseTaskContainer c : containers) {
+            if (response.getTypeID() == c.type) {
+                c.task.execute(session, response);
             }
         }
     }
 
     static class ResponseTaskContainer {
-        ResponseTask task;
-        int priority;
-        Class clazz;
+        Task task;
+        NotificationsServiceContractType type;
 
-        public ResponseTaskContainer(ResponseTask r, int p, Class<? extends BaseResponse> clazz) {
+        public ResponseTaskContainer(Task r, NotificationsServiceContractType type) {
             task = r;
-            priority = p;
-            this.clazz = clazz;
+            this.type = type;
         }
     }
 }

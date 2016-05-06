@@ -19,7 +19,7 @@ public class ResponseHandler {
         this.webSocket = webSocket;
     }
     private WebSocket webSocket;
-    private HandshakeResponseTask handshakeResponseTask = new HandshakeResponseTask();
+    //private HandshakeResponseTask handshakeResponseTask = new HandshakeResponseTask();
     private JoinResponseTask joinResponseTask = new JoinResponseTask();
 
     public void addTask(@Nonnull Task task, @Nonnull NotificationsServiceContractType type) {
@@ -28,10 +28,11 @@ public class ResponseHandler {
 
     public boolean executeInternalTasks(@Nonnull Response response) {
         if (response.getTypeID() == NotificationsServiceContractType.JOIN_RESPONSE) {
-            joinResponseTask.execute(webSocket.getRequestHandler(), response);
+            //joinResponseTask.execute(webSocket.getRequestHandler(), response);
+            webSocket.startPingThread();
             return false;
         } else if (response.getTypeID() == NotificationsServiceContractType.HANDSHAKE) {
-            handshakeResponseTask.execute(webSocket.getRequestHandler(), response);
+            //handshakeResponseTask.execute(webSocket.getRequestHandler(), response);
             return false;
         }
         return true;

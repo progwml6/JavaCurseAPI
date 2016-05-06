@@ -6,12 +6,17 @@ import com.feed_the_beast.javacurselib.websocket.messages.handler.RequestHandler
 import com.feed_the_beast.javacurselib.websocket.messages.handler.ResponseHandler;
 import com.feed_the_beast.javacurselib.websocket.messages.requests.ConversationMarkReadRequest;
 import com.feed_the_beast.javacurselib.websocket.messages.requests.ConversationMessageRequest;
+import com.feed_the_beast.javacurselib.websocket.messages.requests.HandshakeRequest;
 
 import javax.annotation.Nonnull;
 import javax.websocket.*;
 import java.io.IOException;
 import java.net.URI;
 import java.util.UUID;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledFuture;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 
 // TODO: split public functions into separated class. Hint: hide implementation behind facade
@@ -27,6 +32,8 @@ public class WebSocket {
     private Session session;
     private WebSocketContainer client = ContainerProvider.getWebSocketContainer();
     private NotificationsEndPoint notificationsEndPoint;    //TODO: make configurable?
+    private ScheduledFuture<?> pingThread;
+    private ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(1);
 
     public WebSocket(@Nonnull LoginResponse loginResponse, @Nonnull CreateSessionResponse sessionResponse, @Nonnull URI endpoint) {
         this.loginResponse = loginResponse;
@@ -38,15 +45,33 @@ public class WebSocket {
     }
 
     public boolean start() {
-        try {
-            notificationsEndPoint = new NotificationsEndPoint(loginResponse, sessionResponse, responseHandler, requestHandler);
-            session = client.connectToServer(notificationsEndPoint, null, endpoint);
-        } catch (IOException|DeploymentException e) {
-            logger.severe("failed");
-            e.printStackTrace();
-            return false;
+        boolean connected = false;
+        while (!connected) {
+            try {
+                notificationsEndPoint = new NotificationsEndPoint(loginResponse, sessionResponse, this);
+                session = client.connectToServer(notificationsEndPoint, null, endpoint);
+                connected = true;
+            } catch (IOException | DeploymentException e) {
+                logger.severe("failed");
+                e.printStackTrace();
+            }
+            try {
+                Thread.sleep(10000);
+            } catch (InterruptedException e) {
+            }
         }
         return true;
+    }
+
+    public void startPingThread() {
+        stopPingThread();
+        pingThread = scheduledExecutorService.scheduleAtFixedRate(new PingThread(),0, 5, TimeUnit.SECONDS);
+    }
+
+    public void stopPingThread() {
+        if (pingThread != null) {
+            pingThread.cancel(true);
+        }
     }
 
     public ResponseHandler getResponseHandler() {
@@ -59,6 +84,17 @@ public class WebSocket {
 
     public Session getSession() {
         return session;
+    }
+
+    private class PingThread implements Runnable {
+        @Override
+        public void run() {
+            try {
+                requestHandler.execute(HandshakeRequest.PING);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     // Sends a message. Best-effort, does not check return codes or socket error

@@ -11,13 +11,4 @@ public abstract class BaseRequest implements Request {
     public String toJsonString() {
         return JsonFactory.GSON.toJson(this, Request.class);
     }
-
-    @Override
-    public void execute(@Nonnull Session session) {
-        try {
-            session.getBasicRemote().sendText(toJsonString());
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-    }
 }

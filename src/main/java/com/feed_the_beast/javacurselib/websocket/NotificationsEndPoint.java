@@ -16,11 +16,13 @@ public class NotificationsEndPoint extends Endpoint {
     private JoinRequest initRequest;
     private ResponseHandler responsehandler;
     private RequestHandler requestHandler;
+    private WebSocket webSocket;
 
-    public NotificationsEndPoint(@Nonnull LoginResponse loginResponse, @Nonnull CreateSessionResponse sessionResponse, @Nonnull ResponseHandler responseHandler, @Nonnull RequestHandler requestHandler) {
+    public NotificationsEndPoint(@Nonnull LoginResponse loginResponse, @Nonnull CreateSessionResponse sessionResponse, @Nonnull WebSocket webSocket) {
         this.initRequest = new JoinRequest(loginResponse, sessionResponse);
-        this.responsehandler = responseHandler;
-        this.requestHandler = requestHandler;
+        this.responsehandler = webSocket.getResponseHandler();
+        this.requestHandler = webSocket.getRequestHandler();
+        this.webSocket = webSocket;
     }
 
     @Override
@@ -34,13 +36,16 @@ public class NotificationsEndPoint extends Endpoint {
 
     @Override
     public void onClose(Session session, CloseReason closeReason) {
-        logger.severe(String.format("Session %s close because of %s", session.getId(), closeReason));
+        logger.warning(String.format("Session %s close because of %s", session.getId(), closeReason));
+        // TODO: should this reconnect?
+
     }
 
     @Override
     public void onError(Session session, Throwable t) {
         logger.severe(String.format("Session %s errored: %s", session.getId(), t.toString()));
         t.printStackTrace();
+        //TODO: reconnect?!
     }
 
     private static class NotificationsMessageHandler implements MessageHandler.Whole<String> {

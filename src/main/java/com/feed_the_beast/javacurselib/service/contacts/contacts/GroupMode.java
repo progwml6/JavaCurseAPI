@@ -8,7 +8,7 @@ public enum GroupMode {
 
     private int value;
 
-    GroupMode (int numVal) {
+    GroupMode (int value) {
         this.value = value;
     }
 

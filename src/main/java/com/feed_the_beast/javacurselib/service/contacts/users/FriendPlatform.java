@@ -7,7 +7,7 @@ public enum FriendPlatform {
     UNKNOWN(0), BATTLE_NET(1), STEAM(2), FACEBOOK(3), SKYPE(4);
     private int value;
 
-    FriendPlatform (int numVal) {
+    FriendPlatform (int value) {
         this.value = value;
     }
 

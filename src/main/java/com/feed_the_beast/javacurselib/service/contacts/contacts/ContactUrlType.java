@@ -8,7 +8,7 @@ public enum ContactUrlType {
 
     private int value;
 
-    ContactUrlType (int numVal) {
+    ContactUrlType (int value) {
         this.value = value;
     }
 

@@ -7,7 +7,7 @@ public enum NotificationPreference {
     ENABLED(0), DISABLED(1), FILTERED(2);
     private int value;
 
-    NotificationPreference (int numVal) {
+    NotificationPreference (int value) {
         this.value = value;
     }
 

@@ -7,7 +7,7 @@ public enum GroupSubType {
     CUSTOM(0), GUILD(1), STREAM(2);
     private int value;
 
-    GroupSubType (int numVal) {
+    GroupSubType (int value) {
         this.value = value;
     }
 

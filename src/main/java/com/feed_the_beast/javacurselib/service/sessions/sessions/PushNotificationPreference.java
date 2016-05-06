@@ -7,7 +7,7 @@ public enum PushNotificationPreference {
     ALL(0), FAVORITES(1), NONE(2);
     private int value;
 
-    PushNotificationPreference (int numVal) {
+    PushNotificationPreference (int value) {
         this.value = value;
     }
 

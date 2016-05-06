@@ -9,7 +9,7 @@ public enum LoginStatus {
             108), GENERAL_ERROR(1000);
     private int value;
 
-    LoginStatus (int numVal) {
+    LoginStatus (int value) {
         this.value = value;
     }
 

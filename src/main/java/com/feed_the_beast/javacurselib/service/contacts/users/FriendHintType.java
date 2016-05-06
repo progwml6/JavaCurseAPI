@@ -7,7 +7,7 @@ public enum FriendHintType {
     UNKNOWN(0), CENTRAL_ID(1), USERNAME(2), EMAIL(3), SITE(4), GAME(5), PLATFORM(6);
     private int value;
 
-    FriendHintType (int numVal) {
+    FriendHintType (int value) {
         this.value = value;
     }
 

@@ -8,7 +8,7 @@ public enum AccountType {
     CURSE(0), TWITCH(1), YOUTUBE(2);
     private int value;
 
-    AccountType (int numVal) {
+    AccountType (int value) {
         this.value = value;
     }
 

@@ -7,7 +7,7 @@ public enum GroupStatus {
     NORMAL(0), DELETED(1);
     private int value;
 
-    GroupStatus (int numVal) {
+    GroupStatus (int value) {
         this.value = value;
     }
 

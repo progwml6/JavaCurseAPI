@@ -7,7 +7,7 @@ public enum GroupType {
     NORMAL(0), LARGE(1), TEMPORARY(2);
     private int value;
 
-    GroupType (int numVal) {
+    GroupType (int value) {
         this.value = value;
     }
 

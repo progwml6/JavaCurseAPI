@@ -8,7 +8,7 @@ public enum UserConnectionStatus {
 
     private int value;
 
-    UserConnectionStatus (int numVal) {
+    UserConnectionStatus (int value) {
         this.value = value;
     }
 

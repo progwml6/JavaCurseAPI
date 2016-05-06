@@ -8,7 +8,7 @@ public enum FriendshipStatus {
 
     private int value;
 
-    FriendshipStatus (int numVal) {
+    FriendshipStatus (int value) {
         this.value = value;
     }
 

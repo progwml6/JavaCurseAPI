@@ -4,6 +4,7 @@ import com.feed_the_beast.javacurselib.data.Apis;
 import com.feed_the_beast.javacurselib.data.JsonFactory;
 import com.feed_the_beast.javacurselib.service.contacts.contacts.ChannelContract;
 import com.feed_the_beast.javacurselib.service.contacts.contacts.ContactsResponse;
+import com.feed_the_beast.javacurselib.service.contacts.contacts.FriendshipContract;
 import com.feed_the_beast.javacurselib.service.contacts.contacts.GroupNotification;
 import com.feed_the_beast.javacurselib.service.logins.login.LoginRequest;
 import com.feed_the_beast.javacurselib.service.logins.login.LoginResponse;
@@ -14,19 +15,23 @@ import com.feed_the_beast.javacurselib.utils.NetworkRequest;
 import com.feed_the_beast.javacurselib.websocket.WebSocket;
 import com.feed_the_beast.javacurselib.websocket.messages.handler.ResponseHandler;
 import com.feed_the_beast.javacurselib.websocket.messages.notifications.NotificationsServiceContractType;
+import com.google.common.collect.HashBiMap;
 
 import java.net.URI;
 import java.util.UUID;
 import java.util.concurrent.CountDownLatch;
+
+import javax.annotation.Nullable;
 
 /**
  * Created by progwml6 on 4/28/16.
  */
 public class CurseApp {
 
-    public static boolean isDebugMode() {
+    public static boolean isDebugMode () {
         return true;
     }
+
     public static LoginResponse login (String username, String password) {
         LoginRequest lr = new LoginRequest(username, password);
         String jsonToSend = JsonFactory.GSON.toJson(lr);
@@ -42,8 +47,36 @@ public class CurseApp {
 
     public static CreateSessionResponse getSession (String token, UUID machinekey, DevicePlatform platform) {
         String jsonToSend = JsonFactory.GSON.toJson(new CreateSessionRequest(machinekey, platform));
-        String str = NetworkRequest.postJson(Apis.SESSIONS +"sessions", jsonToSend, token);
+        String str = NetworkRequest.postJson(Apis.SESSIONS + "sessions", jsonToSend, token);
         return JsonFactory.GSON.fromJson(str, CreateSessionResponse.class);
+    }
+
+    private static HashBiMap<UUID, String> channelNameIdPairs = HashBiMap.create();
+
+    public static void generateChannelIdMappings (ContactsResponse cr) {
+        for (FriendshipContract friend : cr.friends) {
+            //int, string, string
+            // friend.otherUserID, friend.otherUserNickname, friend.otherUserNickname
+        }
+        for (GroupNotification group : cr.groups) {
+            for(ChannelContract channel : group.channels){
+                channelNameIdPairs.put(channel.groupID, group.groupTitle + "." + channel.groupTitle);//TODO should we make some sort of object for this
+            }
+        }
+    }
+
+    public static UUID getChangelIDFromChannelName (ContactsResponse cr, @Nullable String serverName, String channelName) {
+        if (channelNameIdPairs.isEmpty()) {
+            generateChannelIdMappings(cr);
+        }
+        return channelNameIdPairs.inverse().get(serverName.equals(null) || serverName.isEmpty() ? channelName : serverName + "." + channelName);
+    }
+
+    public static String getChangelNameFromChannelID (ContactsResponse cr, UUID uuid) {
+        if (channelNameIdPairs.isEmpty()) {
+            generateChannelIdMappings(cr);
+        }
+        return channelNameIdPairs.get(uuid);
     }
 
     public static void main (String args[]) {

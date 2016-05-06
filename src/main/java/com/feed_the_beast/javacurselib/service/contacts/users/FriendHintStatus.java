@@ -7,7 +7,7 @@ public enum FriendHintStatus {
     NORMAL(0), DELETED(1);
     private int value;
 
-    FriendHintStatus (int numVal) {
+    FriendHintStatus (int value) {
         this.value = value;
     }
 

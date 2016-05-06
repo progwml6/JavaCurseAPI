@@ -8,7 +8,7 @@ public enum GroupRoleTag {
 
     private int value;
 
-    GroupRoleTag (int numVal) {
+    GroupRoleTag (int value) {
         this.value = value;
     }
 

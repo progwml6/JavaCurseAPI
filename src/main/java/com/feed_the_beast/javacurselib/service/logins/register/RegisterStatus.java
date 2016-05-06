@@ -8,7 +8,7 @@ public enum RegisterStatus {
 
     private int value;
 
-    RegisterStatus (int numVal) {
+    RegisterStatus (int value) {
         this.value = value;
     }
 

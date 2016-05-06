@@ -7,7 +7,7 @@ public enum FriendHintVerification {
     UNKNOWN(0), MANUAL_ENTRY(1), CLIENT_SUBMITTED(100), CLIENT_OBSERVED(200), VERIFIED(300);
     private int value;
 
-    FriendHintVerification (int numVal) {
+    FriendHintVerification (int value) {
         this.value = value;
     }
 

@@ -7,7 +7,7 @@ public enum FriendHintVisibility {
     VISIBLE_TO_FRIENDS(0), VISIBLE_TO_EVERYONE(1), HIDDEN(2);
     private int value;
 
-    FriendHintVisibility (int numVal) {
+    FriendHintVisibility (int value) {
         this.value = value;
     }
 

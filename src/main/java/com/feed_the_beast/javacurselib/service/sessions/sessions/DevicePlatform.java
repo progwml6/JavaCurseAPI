@@ -8,7 +8,7 @@ public enum DevicePlatform {
 
     private int value;
 
-    DevicePlatform (int numVal) {
+    DevicePlatform (int value) {
         this.value = value;
     }
 

@@ -6,6 +6,7 @@ import com.feed_the_beast.javacurselib.service.contacts.contacts.ChannelContract
 import com.feed_the_beast.javacurselib.service.contacts.contacts.ContactsResponse;
 import com.feed_the_beast.javacurselib.service.contacts.contacts.FriendshipContract;
 import com.feed_the_beast.javacurselib.service.contacts.contacts.GroupNotification;
+import com.feed_the_beast.javacurselib.service.groups.bans.GroupBannedUserContract;
 import com.feed_the_beast.javacurselib.service.logins.login.LoginRequest;
 import com.feed_the_beast.javacurselib.service.logins.login.LoginResponse;
 import com.feed_the_beast.javacurselib.service.sessions.sessions.CreateSessionRequest;
@@ -79,6 +80,28 @@ public class CurseApp {
         return channelNameIdPairs.get(uuid);
     }
 
+    /**
+     *
+     * @param serverID id of server to ban from
+     * @param userID id of user to ban
+     * @param reason reason that user is getting banned
+     * @param token curse authentication token
+     * @return GroupBannedUserContract with info about status of ban
+     */
+    public static GroupBannedUserContract banUser(UUID serverID, int userID, String reason, String token) {
+        String ret = NetworkRequest.postText("servers/" + serverID.toString() +"/bans/" + userID,reason, token);
+        return JsonFactory.GSON.fromJson(ret, GroupBannedUserContract.class);
+    }
+
+    /**
+     *
+     * @param serverID id of server to ban user from
+     * @param userID id of user to unban
+     * @param token curse authentication token
+     */
+    public static void removeBan(UUID serverID, int userID, String token) {
+        NetworkRequest.sendDelete("servers/" + serverID.toString() +"/bans/" + userID, token);
+    }
     public static void main (String args[]) {
         LoginResponse lr = login(args[0], args[1]);
         ContactsResponse cr = getContacts(lr.session.token);

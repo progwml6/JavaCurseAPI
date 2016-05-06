@@ -12,7 +12,7 @@ import java.util.UUID;
 
 public class JsonFactory {
     public static final Gson GSON;
-
+    public static boolean DEBUG = true;
     static {
         GsonBuilder builder = new GsonBuilder();
         //builder.registerTypeAdapterFactory(new EnumAdaptorFactory());
@@ -20,7 +20,7 @@ public class JsonFactory {
         builder.registerTypeAdapter(UUID.class, new UUIDAdapter());
         builder.setFieldNamingPolicy(FieldNamingPolicy.UPPER_CAMEL_CASE);
         builder.enableComplexMapKeySerialization();
-        if (CurseApp.isDebugMode()) {
+        if (DEBUG) {
             builder.setPrettyPrinting();
         }
         GSON = builder.create();

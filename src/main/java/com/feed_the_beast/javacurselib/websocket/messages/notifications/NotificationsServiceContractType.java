@@ -1,5 +1,7 @@
 package com.feed_the_beast.javacurselib.websocket.messages.notifications;
 
+import javax.annotation.Nonnull;
+
 /*
  * Enable classes after implementation
  */
@@ -29,7 +31,7 @@ public enum NotificationsServiceContractType {
     private int value;
     private Class<? extends Response> clazz;
 
-    NotificationsServiceContractType(int numVal, Class<? extends Response> clazz) {
+    NotificationsServiceContractType(int numVal, @Nonnull Class<? extends Response> clazz) {
         this.value = numVal;
         this.clazz = clazz;
     }
@@ -51,7 +53,7 @@ public enum NotificationsServiceContractType {
         return UNKNOWN;
     }
 
-    public static NotificationsServiceContractType getEnumForClazz (Class<? extends Response> clazz) {
+    public static NotificationsServiceContractType getEnumForClazz (@Nonnull Class<? extends Response> clazz) {
         for (NotificationsServiceContractType m : NotificationsServiceContractType.values()) {
             if (m.getClazz() == clazz) {
                 return m;

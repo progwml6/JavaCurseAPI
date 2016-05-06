@@ -2,6 +2,8 @@ package com.feed_the_beast.javacurselib.websocket.messages.notifications;
 
 import com.feed_the_beast.javacurselib.websocket.JsonFactory;
 
+import javax.annotation.Nonnull;
+
 public abstract class BaseResponse implements Response {
     transient NotificationsServiceContractType typeID;
     transient String origMessage;
@@ -17,7 +19,7 @@ public abstract class BaseResponse implements Response {
     }
 
     @Override
-    public void setOrigMessage(String s) {
+    public void setOrigMessage(@Nonnull String s) {
         origMessage = s;
     }
 
@@ -27,7 +29,7 @@ public abstract class BaseResponse implements Response {
     }
 
     @Override
-    public void setTypeID(NotificationsServiceContractType t) {
+    public void setTypeID(@Nonnull NotificationsServiceContractType t) {
         typeID = t;
     }
 

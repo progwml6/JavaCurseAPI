@@ -1,5 +1,7 @@
 package com.feed_the_beast.javacurselib.websocket.messages.requests;
 
+import javax.annotation.Nonnull;
+
 public enum RequestsServiceContractType {
     CONVERSATION_MARK_READ_REQUEST(-342895375, ConversationMarkReadRequest.class),
     CONVERSATION_MESSAGE_REQUEST(-2124552136, ConversationMessageRequest.class),
@@ -10,7 +12,7 @@ public enum RequestsServiceContractType {
     private int value;
     private Class<? extends Request> clazz;
 
-    RequestsServiceContractType(int numVal, Class clazz) {
+    RequestsServiceContractType(int numVal, @Nonnull Class clazz) {
         this.value = numVal;
         this.clazz = clazz;
     }
@@ -32,7 +34,7 @@ public enum RequestsServiceContractType {
         throw new RuntimeException("API error");
     }
 
-    public static RequestsServiceContractType getEnumForClazz (Class<? extends Request> clazz) {
+    public static RequestsServiceContractType getEnumForClazz (@Nonnull Class<? extends Request> clazz) {
         for (RequestsServiceContractType m : RequestsServiceContractType.values()) {
             if (m.getClazz() == clazz) {
                 return m;

@@ -1,8 +1,8 @@
 package com.feed_the_beast.javacurselib.websocket;
 
-
 import com.feed_the_beast.javacurselib.service.logins.login.LoginResponse;
 import com.feed_the_beast.javacurselib.service.sessions.sessions.CreateSessionResponse;
+import com.feed_the_beast.javacurselib.websocket.messages.handler.RequestHandler;
 import com.feed_the_beast.javacurselib.websocket.messages.requests.JoinRequest;
 import com.feed_the_beast.javacurselib.websocket.messages.notifications.Response;
 import com.feed_the_beast.javacurselib.websocket.messages.handler.ResponseHandler;
@@ -15,17 +15,20 @@ public class NotificationsEndPoint extends Endpoint {
     private static final Logger logger = Logger.getLogger(NotificationsEndPoint.class.getName());
     private JoinRequest initRequest;
     private ResponseHandler responsehandler;
+    private RequestHandler requestHandler;
 
-    public NotificationsEndPoint(@Nonnull LoginResponse loginResponse, @Nonnull CreateSessionResponse sessionResponse, @Nonnull ResponseHandler responseHandler) {
+    public NotificationsEndPoint(@Nonnull LoginResponse loginResponse, @Nonnull CreateSessionResponse sessionResponse, @Nonnull ResponseHandler responseHandler, @Nonnull RequestHandler requestHandler) {
         this.initRequest = new JoinRequest(loginResponse, sessionResponse);
         this.responsehandler = responseHandler;
+        this.requestHandler = requestHandler;
     }
 
     @Override
     public void onOpen(final Session session, EndpointConfig ec) {
         logger.info(String.format("Websocket connection opened: %s. Adding message handles into session and sending join requests", session.getId()));
-        session.addMessageHandler(new NotificationsMessageHandler(session, responsehandler));
-        initRequest.execute(session);
+        session.addMessageHandler(new NotificationsMessageHandler(responsehandler));
+        requestHandler.setSession(session);
+        requestHandler.execute(initRequest);
     }
 
 
@@ -41,11 +44,9 @@ public class NotificationsEndPoint extends Endpoint {
     }
 
     private static class NotificationsMessageHandler implements MessageHandler.Whole<String> {
-        private final Session session;
         private final ResponseHandler responseHandler;
 
-        public NotificationsMessageHandler(Session session, ResponseHandler responseHandler) {
-            this.session = session;
+        public NotificationsMessageHandler(ResponseHandler responseHandler) {
             this.responseHandler = responseHandler;
         }
 
@@ -53,7 +54,12 @@ public class NotificationsEndPoint extends Endpoint {
         public void onMessage(String msg) {
             try {
                 Response response = JsonFactory.stringToResponse(msg);
-                responseHandler.executeTasks(response, session);
+
+                // Send parsed instance of Response to internal handlers
+                if (responseHandler.executeInternalTasks(response)) {
+                    // continue prosessing with user-defined handlers
+                    responseHandler.executeTasks(response);
+                }
             } catch (Exception e) {
                 logger.severe("onMessage failed");
                 e.printStackTrace();

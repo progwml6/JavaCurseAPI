@@ -1,6 +1,5 @@
 package com.feed_the_beast.javacurselib.websocket;
 
-import com.feed_the_beast.javacurselib.data.JsonFactory;
 import com.feed_the_beast.javacurselib.utils.DateAdapter;
 import com.feed_the_beast.javacurselib.websocket.messages.notifications.NotificationsServiceContractType;
 import com.feed_the_beast.javacurselib.websocket.messages.notifications.Response;
@@ -13,6 +12,7 @@ import java.util.Date;
 
 @SuppressWarnings("Duplicates")
 public class JsonFactory {
+    public static boolean DEBUG = true;
     public static final Gson GSON;
     static {
         GsonBuilder builder = new GsonBuilder();
@@ -23,7 +23,7 @@ public class JsonFactory {
         builder.setFieldNamingPolicy(FieldNamingPolicy.UPPER_CAMEL_CASE);//auto capitalizes first letter of java field when going to json
         builder.enableComplexMapKeySerialization();
         builder.serializeNulls();
-        if (JsonFactory.DEBUG) {     // TODO change that as soon as there is proper data
+        if (DEBUG) {     // TODO change that as soon as there is proper data
             builder.setPrettyPrinting();
         }
         GSON = builder.create();

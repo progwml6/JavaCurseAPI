@@ -1,10 +1,12 @@
 package com.feed_the_beast.javacurselib.websocket.messages.notifications;
 
+import javax.annotation.Nonnull;
+
 public interface Response {
     String toJsonString();
     String getOrigMessage();
-    void setOrigMessage(String s);
+    void setOrigMessage(@Nonnull String s);
     NotificationsServiceContractType getTypeID();
-    void setTypeID(NotificationsServiceContractType t);
+    void setTypeID(@Nonnull NotificationsServiceContractType t);
 
 }

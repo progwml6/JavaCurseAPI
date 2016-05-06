@@ -2,6 +2,7 @@ package com.feed_the_beast.javacurselib.websocket.messages.requests;
 
 import com.feed_the_beast.javacurselib.websocket.JsonFactory;
 
+import javax.annotation.Nonnull;
 import javax.websocket.Session;
 import java.io.IOException;
 
@@ -12,7 +13,7 @@ public abstract class BaseRequest implements Request {
     }
 
     @Override
-    public void execute(Session session) {
+    public void execute(@Nonnull Session session) {
         try {
             session.getBasicRemote().sendText(toJsonString());
         } catch (IOException e) {

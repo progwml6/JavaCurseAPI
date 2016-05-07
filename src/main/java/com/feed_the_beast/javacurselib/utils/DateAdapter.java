@@ -15,6 +15,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
+import java.util.TimeZone;
 
 //TODO test and fix this as this is based on Mojang date formats
 public class DateAdapter implements JsonDeserializer<Date>, JsonSerializer<Date> {
@@ -22,11 +23,16 @@ public class DateAdapter implements JsonDeserializer<Date>, JsonSerializer<Date>
     private final DateFormat curseShort = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss'Z'");//curse date sample short 1970-01-01T00:00:00Z
     private final DateFormat curseLong = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSSS'Z'");//curse date sample long 2015-05-08T16:53:32.8198336Z
 
+    public DateAdapter() {
+        curseShort.setTimeZone(TimeZone.getTimeZone("UTC"));
+        curseLong.setTimeZone(TimeZone.getTimeZone("UTC"));
+    }
+
     @Override
     public JsonElement serialize (Date value, Type type, JsonSerializationContext context) {
         synchronized (enUsFormat) {
             String ret = this.curseLong.format(value);
-            return new JsonPrimitive(ret.substring(0, 22) + ":" + ret.substring(22));
+            return new JsonPrimitive(ret);
         }
     }
 

@@ -51,7 +51,7 @@ if (System.getenv().BUILD_NUMBER != null) {
     ext.buildNum = "9999999"
 }
 
-group = 'com.feed_the_beast.javacurselib'
+group = 'com.feed_the_beast'
 version = "0.0.1-${project.buildNum}"
 description = "Java CurseAPI library"
 sourceCompatibility = 1.7

@@ -60,7 +60,7 @@ public class CurseApp {
             // friend.otherUserID, friend.otherUserNickname, friend.otherUserNickname
         }
         for (GroupNotification group : cr.groups) {
-            for(ChannelContract channel : group.channels){
+            for (ChannelContract channel : group.channels) {
                 channelNameIdPairs.put(channel.groupID, group.groupTitle + "." + channel.groupTitle);//TODO should we make some sort of object for this
             }
         }
@@ -88,8 +88,8 @@ public class CurseApp {
      * @param token curse authentication token
      * @return GroupBannedUserContract with info about status of ban
      */
-    public static GroupBannedUserContract banUser(UUID serverID, int userID, String reason, String token) {
-        String ret = NetworkRequest.postText("servers/" + serverID.toString() +"/bans/" + userID,reason, token);
+    public static GroupBannedUserContract banUser (UUID serverID, int userID, String reason, String token) {
+        String ret = NetworkRequest.postText(Apis.GROUPS + "servers/" + serverID.toString() + "/bans/" + userID, reason, token);
         return JsonFactory.GSON.fromJson(ret, GroupBannedUserContract.class);
     }
 
@@ -99,9 +99,21 @@ public class CurseApp {
      * @param userID id of user to unban
      * @param token curse authentication token
      */
-    public static void removeBan(UUID serverID, int userID, String token) {
-        NetworkRequest.sendDelete("servers/" + serverID.toString() +"/bans/" + userID, token);
+    public static void removeBan (UUID serverID, int userID, String token) {
+        NetworkRequest.sendDelete(Apis.GROUPS + "servers/" + serverID.toString() + "/bans/" + userID, token);
     }
+
+    /**
+     *
+     * @param conversationID id of the conversation
+     * @param id id of the message
+     * @param timestamp
+     * @param token
+     */
+    public static void deleteMessage (String conversationID, String id, long timestamp, String token) {
+        NetworkRequest.sendDelete(Apis.CONVERSATIONS + "conversations/" + conversationID + "/" + id + "-" + timestamp, token);
+    }
+
     public static void main (String args[]) {
         LoginResponse lr = login(args[0], args[1]);
         ContactsResponse cr = getContacts(lr.session.token);

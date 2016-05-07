@@ -1,11 +1,17 @@
 package com.feed_the_beast.javacurselib.websocket.messages.notifications;
 
+import com.feed_the_beast.javacurselib.service.conversations.conversations.AttachmentNotification;
+import com.feed_the_beast.javacurselib.service.conversations.conversations.ConversationNotificationType;
+import com.feed_the_beast.javacurselib.service.conversations.conversations.ConversationType;
+
+import java.util.List;
+
 public class ConversationMessageNotification extends BaseResponse implements Response {
     public String clientID;
     public String serverID;
     public String conversationID;
     public String contactID;
-    //ConversationType: Curse_Friends_Enums.ConversationType;
+    public ConversationType conversationType;
     public String rootConversationID;
     public long timestamp;
     public long senderID;
@@ -27,8 +33,8 @@ public class ConversationMessageNotification extends BaseResponse implements Res
     public int[] likeUserIDs;
     public String[] likeUsernames;
     public int[] contentTags;
-    //Attachments: AttachmentNotification[];
-    int notificationType;  // TODO: enum: NotificationType: Curse_Friends_Enums.ConversationNotificationType;
+    public List<AttachmentNotification> attachments;
+    public ConversationNotificationType notificationType;
 
     @Override
     public String toString() {

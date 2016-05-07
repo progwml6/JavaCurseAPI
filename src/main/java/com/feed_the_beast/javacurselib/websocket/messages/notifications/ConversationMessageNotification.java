@@ -1,5 +1,6 @@
 package com.feed_the_beast.javacurselib.websocket.messages.notifications;
 
+import com.feed_the_beast.javacurselib.CurseGUID;
 import com.feed_the_beast.javacurselib.service.conversations.conversations.AttachmentNotification;
 import com.feed_the_beast.javacurselib.service.conversations.conversations.ConversationNotificationType;
 import com.feed_the_beast.javacurselib.service.conversations.conversations.ConversationType;
@@ -9,10 +10,10 @@ import java.util.List;
 public class ConversationMessageNotification extends BaseResponse implements Response {
     public String clientID;
     public String serverID;
-    public String conversationID;
-    public String contactID;
+    public CurseGUID conversationID;
+    public CurseGUID contactID;
     public ConversationType conversationType;
-    public String rootConversationID;
+    public CurseGUID rootConversationID;
     public long timestamp;
     public long senderID;
     public String senderName;

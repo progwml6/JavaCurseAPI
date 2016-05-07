@@ -11,6 +11,13 @@ import static org.junit.Assert.*;
 public class ResponseParserTest {
     static String handshakeString = "{\"TypeID\":-476754606,\"Body\":{\"Signal\":false}}";
     static String conversationMessageNotificationString = "{\"TypeID\":-635182161,\"Body\":{\"ClientID\":\"4f2f68a6-90fc-44ef-9278-4c76150f2be1\",\"ServerID\":\"afaa7607-c89f-4ebb-bb29-8c98dc885f4b\",\"ConversationID\":\"46a99533-2f0a-4bc0-bfb5-4621d904aed5\",\"ContactID\":\"46a99533-2f0a-4bc0-bfb5-4621d904aed5\",\"ConversationType\":1,\"RootConversationID\":\"a06020d9-40a4-4ff4-b167-8249ae54d4ef\",\"Timestamp\":1462283407754,\"SenderID\":13663374,\"SenderName\":\"jikuja\",\"SenderPermissions\":-1,\"SenderRoles\":[1],\"SenderVanityRole\":1,\"Mentions\":[],\"RecipientID\":0,\"Body\":\"kk\",\"IsDeleted\":false,\"DeletedTimestamp\":0,\"DeletedUserID\":0,\"DeletedUsername\":null,\"EditedTimestamp\":0,\"EditedUserID\":0,\"EditedUsername\":null,\"LikeCount\":0,\"LikeUserIDs\":[],\"LikeUsernames\":[],\"ContentTags\":[],\"Attachments\":[],\"NotificationType\":0}}";
+    static String conversationMessageNotificationStringForPM = "{\"TypeID\":-635182161,\"Body\":{\"ClientID\":\"6f70487d-0c33-43c1-9d13-5bc937b185a1\",\n" +
+            "\"ServerID\":\"caa94092-246e-48e4-a207-03ff792d9055\",\"ConversationID\":\"4972463:13663374\",\n" +
+            "\"ContactID\":\"4972463\",\"ConversationType\":0,\"RootConversationID\":null,\"Timestamp\":1462636659626,\n" +
+            "\"SenderID\":4972463,\"SenderName\":\"kk\",\"SenderPermissions\":0,\"SenderRoles\":[],\"SenderVanityRole\":0,\n" +
+            "\"Mentions\":[],\"RecipientID\":13663374,\"Body\":\"kk\",\"IsDeleted\":false,\n" +
+            "\"DeletedTimestamp\":0,\"DeletedUserID\":0,\"DeletedUsername\":null,\"EditedTimestamp\":0,\"EditedUserID\":0,\"EditedUsername\":null,\n" +
+            "\"LikeCount\":0,\"LikeUserIDs\":[],\"LikeUsernames\":[],\"ContentTags\":[],\"Attachments\":[],\"NotificationType\":0}}";
     static String unknownResponseString = "{\"TypeID\":-666666666,\"Body\":{\"ClientID\":\"4f2f68a6-90fc-44ef-9278-4c76150f2be1\",\"ServerID\":\"afaa7607-c89f-4ebb-bb29-8c98dc885f4b\",\"ConversationID\":\"46a99533-2f0a-4bc0-bfb5-4621d904aed5\",\"ContactID\":\"46a99533-2f0a-4bc0-bfb5-4621d904aed5\",\"ConversationType\":1,\"RootConversationID\":\"a06020d9-40a4-4ff4-b167-8249ae54d4ef\",\"Timestamp\":1462283407754,\"SenderID\":13663374,\"SenderName\":\"jikuja\",\"SenderPermissions\":-1,\"SenderRoles\":[1],\"SenderVanityRole\":1,\"Mentions\":[],\"RecipientID\":0,\"Body\":\"kk\",\"IsDeleted\":false,\"DeletedTimestamp\":0,\"DeletedUserID\":0,\"DeletedUsername\":null,\"EditedTimestamp\":0,\"EditedUserID\":0,\"EditedUsername\":null,\"LikeCount\":0,\"LikeUserIDs\":[],\"LikeUsernames\":[],\"ContentTags\":[],\"Attachments\":[],\"NotificationType\":0}}";
     static String markRead = "{\"TypeID\":-695526586,\"Body\":{\"GroupID\":\"00000000-0000-0000-0000-000000000000\",\"FriendID\":0,\"Timestamp\":\"0001-01-01T00:00:00Z\",\"ConversationID\":\"8d45eb7f-6392-4ea4-a15f-bd3faac9381a\"}}";
 
@@ -28,19 +35,32 @@ public class ResponseParserTest {
         assertThat(response.toJsonString(), SameJSONAs.sameJSONAs(handshakeString));
     }
 
+    //////////////////////////////////////////////////////////////////////////////////////////////
     @Test
     public void conversationMessageNotification() {
         Response response = JsonFactory.stringToResponse(conversationMessageNotificationString);
-        //TODO
     }
 
-    @Ignore // Add missing fields
+    @Ignore // TODO: check failing fields
     @Test
     public void conversationMessageNotificationPedantic() {
         Response response = JsonFactory.stringToResponse(conversationMessageNotificationString);
         assertThat(response.toJsonString(), SameJSONAs.sameJSONAs(conversationMessageNotificationString));
     }
 
+    @Test
+    public void conversationMessageNotificationForPM() {
+        Response response = JsonFactory.stringToResponse(conversationMessageNotificationStringForPM);
+    }
+
+    @Ignore // TODO: check failing fields
+    @Test
+    public void conversationMessageNotificationPedanticForPM() {
+        Response response = JsonFactory.stringToResponse(conversationMessageNotificationStringForPM);
+        assertThat(response.toJsonString(), SameJSONAs.sameJSONAs(conversationMessageNotificationStringForPM));
+    }
+
+    //////////////////////////////////////////////////////////////////////////////////////////////
     @Test
     public void markRead() {
         Response response = JsonFactory.stringToResponse(markRead);
@@ -53,6 +73,7 @@ public class ResponseParserTest {
         assertThat(response.toJsonString(), SameJSONAs.sameJSONAs(markRead));
     }
 
+    //////////////////////////////////////////////////////////////////////////////////////////////
     @Test
     public void unknownResponseCreation() {
         Response response = JsonFactory.stringToResponse(unknownResponseString);

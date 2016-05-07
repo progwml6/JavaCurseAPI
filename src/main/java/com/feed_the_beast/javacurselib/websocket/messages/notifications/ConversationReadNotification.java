@@ -1,6 +1,8 @@
 package com.feed_the_beast.javacurselib.websocket.messages.notifications;
 
 
+import com.feed_the_beast.javacurselib.CurseGUID;
+
 import java.util.Date;
 import java.util.UUID;
 
@@ -9,8 +11,8 @@ import java.util.UUID;
  */
 
 public class ConversationReadNotification extends BaseResponse implements Response {
-    public UUID groupID;
+    public CurseGUID groupID;
     public long friendID;
     public Date timestamp;
-    public UUID conversationID;
+    public CurseGUID conversationID;
 }

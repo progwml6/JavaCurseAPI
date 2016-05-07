@@ -1,11 +1,11 @@
 package com.feed_the_beast.javacurselib.examples.app_v1;
 
+import com.feed_the_beast.javacurselib.CurseGUID;
 import com.feed_the_beast.javacurselib.websocket.WebSocket;
 import com.feed_the_beast.javacurselib.websocket.messages.handler.tasks.Task;
 import com.feed_the_beast.javacurselib.websocket.messages.notifications.ConversationMessageNotification;
 
 import javax.annotation.Nonnull;
-import java.util.UUID;
 
 public class BotTask implements Task<ConversationMessageNotification> {
     @Override
@@ -15,7 +15,7 @@ public class BotTask implements Task<ConversationMessageNotification> {
         }
 
         if (msg.body.startsWith("!ban")) {
-            webSocket.sendMessage(UUID.fromString("msg.conversationID"), "Lol !ban");
+            webSocket.sendMessage(CurseGUID.newFromString("msg.conversationID"), "Lol !ban");
         }
     }
 }

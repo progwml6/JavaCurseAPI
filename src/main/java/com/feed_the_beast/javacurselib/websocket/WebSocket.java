@@ -1,5 +1,6 @@
 package com.feed_the_beast.javacurselib.websocket;
 
+import com.feed_the_beast.javacurselib.CurseGUID;
 import com.feed_the_beast.javacurselib.service.logins.login.LoginResponse;
 import com.feed_the_beast.javacurselib.service.sessions.sessions.CreateSessionResponse;
 import com.feed_the_beast.javacurselib.websocket.messages.handler.RequestHandler;
@@ -99,7 +100,7 @@ public class WebSocket {
 
     // Sends a message. Best-effort, does not check return codes or socket error
     // TODO: write proper message queue
-    public void sendMessage(@Nonnull UUID conversationID, String message) {
+    public void sendMessage(@Nonnull CurseGUID conversationID, String message) {
         ConversationMessageRequest request = new ConversationMessageRequest(conversationID, message);
         requestHandler.execute(request);
     }
@@ -110,7 +111,7 @@ public class WebSocket {
     }
 
     // Just send MarkRead. Best-effort Server does not repond for  request
-    public void sendMarkRead(@Nonnull UUID conversationID) {
+    public void sendMarkRead(@Nonnull CurseGUID conversationID) {
         ConversationMarkReadRequest request = new ConversationMarkReadRequest(conversationID);
         requestHandler.execute(request);
     }

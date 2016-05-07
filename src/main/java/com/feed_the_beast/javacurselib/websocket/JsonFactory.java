@@ -1,5 +1,7 @@
 package com.feed_the_beast.javacurselib.websocket;
 
+import com.feed_the_beast.javacurselib.CurseGUID;
+import com.feed_the_beast.javacurselib.utils.CurseGUIDAdapter;
 import com.feed_the_beast.javacurselib.utils.DateAdapter;
 import com.feed_the_beast.javacurselib.websocket.messages.notifications.NotificationsServiceContractType;
 import com.feed_the_beast.javacurselib.websocket.messages.notifications.Response;
@@ -20,6 +22,7 @@ public class JsonFactory {
         builder.registerTypeAdapter(Response.class, new ResponseDeserializer());
         builder.registerTypeAdapter(Response.class, new ResponseSerializer());
         builder.registerTypeAdapter(Request.class, new RequestSerializer());
+        builder.registerTypeAdapter(CurseGUID.class, new CurseGUIDAdapter());
         builder.setFieldNamingPolicy(FieldNamingPolicy.UPPER_CAMEL_CASE);//auto capitalizes first letter of java field when going to json
         builder.enableComplexMapKeySerialization();
         builder.serializeNulls();

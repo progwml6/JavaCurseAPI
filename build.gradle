@@ -54,8 +54,8 @@ if (System.getenv().BUILD_NUMBER != null) {
 group = 'com.feed_the_beast'
 version = "0.0.1-${project.buildNum}"
 description = "Java CurseAPI library"
-sourceCompatibility = 1.7
-targetCompatibility = 1.7
+sourceCompatibility = 1.8
+targetCompatibility = 1.8
 shadowJar  {
   exclude 'META-INF/*.DSA'
   exclude 'META-INF/*.RSA'

@@ -13,6 +13,6 @@ public class DefaultResponseTask implements Task {
     private static final Logger logger = Logger.getLogger(DefaultResponseTask.class.getName());
     @Override
     public void execute(@Nonnull WebSocket webSocket, @Nonnull Response response) {
-        logger.info(response.getClass().getSimpleName() + " : " + response.getOrigMessage());
+        logger.info(response.toString());
     }
 }

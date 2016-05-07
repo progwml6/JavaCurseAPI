@@ -141,7 +141,9 @@ public class CurseApp {
 
         ResponseHandler responseHandler = ws.getResponseHandler();
         responseHandler.addTask(new DebugResponseTask(), NotificationsServiceContractType.CONVERSATION_MESSAGE_NOTIFICATION);
-        responseHandler.addTask(new DefaultResponseTask(), NotificationsServiceContractType.UNKNOWN);
+        responseHandler.addTask(new DefaultResponseTask(), NotificationsServiceContractType.CONVERSATION_READ_NOTIFICATION);
+
+        responseHandler.addTask(new DebugResponseTask(), NotificationsServiceContractType.UNKNOWN);
 
         // to add your own handlers call ws.getResponseHandler() and configure it
         CountDownLatch latch = new CountDownLatch(1);

@@ -13,6 +13,6 @@ public class DebugResponseTask implements Task {
     private static final Logger logger = Logger.getLogger(DebugResponseTask.class.getName());
     @Override
     public void execute(@Nonnull WebSocket webSocket, @Nonnull Response response) {
-        logger.info(String.format("%s\n\t%s\n\t%s", response.getClass().getName(), response.getOrigMessage(), response.toString()));
+        logger.info(String.format("Class: %s\n\tjson: %s\n\ttoString: %s", response.getClass().getSimpleName(), response.getOrigMessage(), response.toString()));
     }
 }

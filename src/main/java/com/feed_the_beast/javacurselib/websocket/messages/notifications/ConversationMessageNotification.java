@@ -39,6 +39,10 @@ public class ConversationMessageNotification extends BaseResponse implements Res
 
     @Override
     public String toString() {
-        return String.format("msg: %s: %s", (body==null ? null : senderName), (body==null ? null : body));
+        return "ConversationMessageNotification{" +
+                "body='" + body + '\'' +
+                ", senderName='" + senderName + '\'' +
+                ", conversationType=" + conversationType +
+                '}';
     }
 }

@@ -1,5 +1,6 @@
 package com.feed_the_beast.javacurselib.examples.app_v1;
 
+import com.feed_the_beast.javacurselib.CurseGUID;
 import com.feed_the_beast.javacurselib.data.Apis;
 import com.feed_the_beast.javacurselib.data.JsonFactory;
 import com.feed_the_beast.javacurselib.service.contacts.contacts.ChannelContract;
@@ -19,7 +20,6 @@ import com.feed_the_beast.javacurselib.websocket.messages.notifications.Notifica
 import com.google.common.collect.HashBiMap;
 
 import java.net.URI;
-import java.util.UUID;
 import java.util.concurrent.CountDownLatch;
 
 import javax.annotation.Nullable;
@@ -28,10 +28,6 @@ import javax.annotation.Nullable;
  * Created by progwml6 on 4/28/16.
  */
 public class CurseApp {
-
-    public static boolean isDebugMode () {
-        return true;
-    }
 
     public static LoginResponse login (String username, String password) {
         LoginRequest lr = new LoginRequest(username, password);
@@ -46,13 +42,13 @@ public class CurseApp {
         return JsonFactory.GSON.fromJson(str, ContactsResponse.class);
     }
 
-    public static CreateSessionResponse getSession (String token, UUID machinekey, DevicePlatform platform) {
+    public static CreateSessionResponse getSession (String token, CurseGUID machinekey, DevicePlatform platform) {
         String jsonToSend = JsonFactory.GSON.toJson(new CreateSessionRequest(machinekey, platform));
         String str = NetworkRequest.postJson(Apis.SESSIONS + "sessions", jsonToSend, token);
         return JsonFactory.GSON.fromJson(str, CreateSessionResponse.class);
     }
 
-    private static HashBiMap<UUID, String> channelNameIdPairs = HashBiMap.create();
+    private static HashBiMap<CurseGUID, String> channelNameIdPairs = HashBiMap.create();
 
     public static void generateChannelIdMappings (ContactsResponse cr) {
         for (FriendshipContract friend : cr.friends) {
@@ -66,18 +62,18 @@ public class CurseApp {
         }
     }
 
-    public static UUID getChangelIDFromChannelName (ContactsResponse cr, @Nullable String serverName, String channelName) {
+    public static CurseGUID getChangelIDFromChannelName (ContactsResponse cr, @Nullable String serverName, String channelName) {
         if (channelNameIdPairs.isEmpty()) {
             generateChannelIdMappings(cr);
         }
         return channelNameIdPairs.inverse().get(serverName.equals(null) || serverName.isEmpty() ? channelName : serverName + "." + channelName);
     }
 
-    public static String getChangelNameFromChannelID (ContactsResponse cr, UUID uuid) {
+    public static String getChangelNameFromChannelID (ContactsResponse cr, CurseGUID guid) {
         if (channelNameIdPairs.isEmpty()) {
             generateChannelIdMappings(cr);
         }
-        return channelNameIdPairs.get(uuid);
+        return channelNameIdPairs.get(guid);
     }
 
     /**
@@ -88,8 +84,8 @@ public class CurseApp {
      * @param token curse authentication token
      * @return GroupBannedUserContract with info about status of ban
      */
-    public static GroupBannedUserContract banUser (UUID serverID, int userID, String reason, String token) {
-        String ret = NetworkRequest.postText(Apis.GROUPS + "servers/" + serverID.toString() + "/bans/" + userID, reason, token);
+    public static GroupBannedUserContract banUser (CurseGUID serverID, int userID, String reason, String token) {
+        String ret = NetworkRequest.postText(Apis.GROUPS + "servers/" + serverID.serialize() + "/bans/" + userID, reason, token);
         return JsonFactory.GSON.fromJson(ret, GroupBannedUserContract.class);
     }
 
@@ -99,8 +95,8 @@ public class CurseApp {
      * @param userID id of user to unban
      * @param token curse authentication token
      */
-    public static void removeBan (UUID serverID, int userID, String token) {
-        NetworkRequest.sendDelete(Apis.GROUPS + "servers/" + serverID.toString() + "/bans/" + userID, token);
+    public static void removeBan (CurseGUID serverID, int userID, String token) {
+        NetworkRequest.sendDelete(Apis.GROUPS + "servers/" + serverID.serialize() + "/bans/" + userID, token);
     }
 
     /**
@@ -117,7 +113,7 @@ public class CurseApp {
     public static void main (String args[]) {
         LoginResponse lr = login(args[0], args[1]);
         ContactsResponse cr = getContacts(lr.session.token);
-        CreateSessionResponse sessionResponse = getSession(lr.session.token, UUID.randomUUID(), DevicePlatform.UNKNOWN);
+        CreateSessionResponse sessionResponse = getSession(lr.session.token, CurseGUID.newRandomUUID(), DevicePlatform.UNKNOWN);
         for (GroupNotification g : cr.groups) {
             if (g.groupTitle.equals("CurseForge")) {
                 for (ChannelContract c : g.channels) {

@@ -13,7 +13,6 @@ import javax.annotation.Nonnull;
 import javax.websocket.*;
 import java.io.IOException;
 import java.net.URI;
-import java.util.UUID;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;

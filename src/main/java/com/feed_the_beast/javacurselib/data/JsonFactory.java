@@ -1,25 +1,24 @@
 package com.feed_the_beast.javacurselib.data;
 
-import com.feed_the_beast.javacurselib.examples.app_v1.CurseApp;
+import com.feed_the_beast.javacurselib.CurseGUID;
+import com.feed_the_beast.javacurselib.utils.CurseGUIDAdapter;
 import com.feed_the_beast.javacurselib.utils.DateAdapter;
-import com.feed_the_beast.javacurselib.utils.UUIDAdapter;
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import java.util.Date;
-import java.util.UUID;
 
 public class JsonFactory {
     public static final Gson GSON;
     public static boolean DEBUG = true;
     static {
         GsonBuilder builder = new GsonBuilder();
-        //builder.registerTypeAdapterFactory(new EnumAdaptorFactory());
         builder.registerTypeAdapter(Date.class, new DateAdapter());
-        builder.registerTypeAdapter(UUID.class, new UUIDAdapter());
+        builder.registerTypeAdapter(CurseGUID.class, new CurseGUIDAdapter());
         builder.setFieldNamingPolicy(FieldNamingPolicy.UPPER_CAMEL_CASE);
         builder.enableComplexMapKeySerialization();
+        builder.serializeNulls();
         if (DEBUG) {
             builder.setPrettyPrinting();
         }

@@ -1,14 +1,15 @@
 package com.feed_the_beast.javacurselib.service.sessions.sessions;
 
+import com.feed_the_beast.javacurselib.CurseGUID;
+
 import java.util.List;
-import java.util.UUID;
 
 /**
  * representation of curse sessions api CreateSessionResponse
  */
 public class CreateSessionResponse {
-    public UUID sessionID;
-    public UUID machineKey;
+    public CurseGUID sessionID;
+    public CurseGUID machineKey;
     public UserContract user;
     public List<DevicePlatform> platforms;
 }

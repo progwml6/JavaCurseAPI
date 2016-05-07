@@ -1,12 +1,12 @@
 package com.feed_the_beast.javacurselib.service.groups.bans;
 
-import java.util.UUID;
+import com.feed_the_beast.javacurselib.CurseGUID;
 
 /**
  * representation of curse groups/bans api GroupBannedUserContract model
  */
 public class GroupBannedUserContract {
-    public UUID groupID;
+    public CurseGUID groupID;
     public String groupTitle;
     public int userID;
     public String userName;

@@ -1,18 +1,19 @@
 package com.feed_the_beast.javacurselib.service.contacts.contacts;
 
 
+import com.feed_the_beast.javacurselib.CurseGUID;
+
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 /**
  * representation of curse contacts api GroupNotification
  */
 public class GroupNotification {
     public String groupTitle;
-    public UUID groupID;
-    public UUID parentGroupID;
-    public UUID rootGroupID;
+    public CurseGUID groupID;
+    public CurseGUID parentGroupID;
+    public CurseGUID rootGroupID;
     public String voiceSessionCode;
     public String messageOfTheDay;
     public GroupType groupType;

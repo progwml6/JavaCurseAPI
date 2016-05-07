@@ -1,19 +1,19 @@
 package com.feed_the_beast.javacurselib.websocket.messages.requests;
 
+import com.feed_the_beast.javacurselib.CurseGUID;
 import com.feed_the_beast.javacurselib.service.contacts.contacts.UserConnectionStatus;
 import com.feed_the_beast.javacurselib.service.logins.login.LoginResponse;
 import com.feed_the_beast.javacurselib.service.sessions.sessions.CreateSessionResponse;
 
 import javax.annotation.Nonnull;
-import java.util.UUID;
 
 /*
  * Server sends back JoinResponse
  */
 public class JoinRequest extends BaseRequest implements Request {
     public long userID;
-    public UUID machineKey;
-    public UUID sessionID;
+    public CurseGUID machineKey;
+    public CurseGUID sessionID;
     // TODO: requires testing. Current impl sends "ONLINE" which is accepted by server
     // TODO: enum serialization!
     public UserConnectionStatus status = UserConnectionStatus.ONLINE ;
@@ -32,7 +32,7 @@ public class JoinRequest extends BaseRequest implements Request {
         this.sessionID = sessionResponse.sessionID;
     }
 
-    JoinRequest(long userID, UUID machineKey, UUID sessionID) {
+    JoinRequest(long userID, CurseGUID machineKey, CurseGUID sessionID) {
         this.userID = userID;
         this.machineKey = machineKey;
         this.sessionID = sessionID;

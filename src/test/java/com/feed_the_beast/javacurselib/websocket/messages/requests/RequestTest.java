@@ -13,7 +13,7 @@ public class RequestTest {
 
     @Test
     public void joinRequest() {
-        JoinRequest r = new JoinRequest(1234, new UUID(1, 0), new UUID(0,1));
+        JoinRequest r = new JoinRequest(1234, CurseGUID.newFromUUID(new UUID(1, 0)), CurseGUID.newFromUUID(new UUID(0,1)));
         System.out.println(r.toJsonString());
     }
 

@@ -64,7 +64,7 @@ public class CurseGUID {
         this.intRight = intRight;
     }
 
-    public static CurseGUID newFromString(String s) {
+    public static CurseGUID newFromUUIDString(String s) {
         CurseGUID result = new CurseGUID(UUID.fromString(s));
         return result;
     }
@@ -84,8 +84,43 @@ public class CurseGUID {
         return result;
     }
 
-    public static CurseGUID newRandomGUID() {
+    public static CurseGUID newRandomUUID() {
         CurseGUID result = new CurseGUID(UUID.randomUUID());
+        return result;
+    }
+
+    public static CurseGUID newFromZeroUUID() {
+        CurseGUID result = new CurseGUID(new UUID(0,0));
+        return result;
+    }
+
+    public String serialize() {
+        switch (getType()) {
+            case UUID:
+                return getUuid().toString();
+            case INT:
+                return Long.toString(getIntLeft());
+            case TWO_INTS:
+                return Long.toString(getIntLeft()) + ":" + Long.toString(getIntRight());
+        }
+        return null;
+    }
+
+    public static CurseGUID deserialize(String s) {
+        CurseGUID result;
+        if (s.matches("[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}")) {
+            result = CurseGUID.newFromUUIDString(s);
+        } else if (s.matches("[0-9]*")) {
+            long l = Long.parseLong(s);
+            result = CurseGUID.newFromLong(l);
+        } else if (s.matches("[0-9]*:[0-9]*")) {
+            String[] splitted = s.split(":");
+            long l = Long.parseLong(splitted[0]);
+            long r = Long.parseLong(splitted[1]);
+            result = CurseGUID.newFromLong(l, r);
+        } else {
+            throw new IllegalStateException();
+        }
         return result;
     }
 
@@ -97,5 +132,34 @@ public class CurseGUID {
                 ", intRight=" + intRight +
                 ", type=" + type +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        CurseGUID curseGUID = (CurseGUID) o;
+
+        if (type != curseGUID.type) return false;
+        switch (type) {
+            case UUID:
+                return uuid.equals(curseGUID.uuid);
+            case INT:
+                return intLeft == curseGUID.intLeft;
+            case TWO_INTS:
+                return intLeft == curseGUID.intLeft
+                        && intRight == curseGUID.intRight;
+        }
+        return false;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = uuid.hashCode();
+        result = 31 * result + (int) (intLeft ^ (intLeft >>> 32));
+        result = 31 * result + (int) (intRight ^ (intRight >>> 32));
+        result = 31 * result + type.hashCode();
+        return result;
     }
 }

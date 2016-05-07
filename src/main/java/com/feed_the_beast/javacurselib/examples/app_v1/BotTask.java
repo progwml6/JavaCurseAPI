@@ -15,7 +15,8 @@ public class BotTask implements Task<ConversationMessageNotification> {
         }
 
         if (msg.body.startsWith("!ban")) {
-            webSocket.sendMessage(CurseGUID.newFromString("msg.conversationID"), "Lol !ban");
+            // maybe works, maybe not
+            webSocket.sendMessage(msg.conversationID, "Lol !ban");
         }
     }
 }

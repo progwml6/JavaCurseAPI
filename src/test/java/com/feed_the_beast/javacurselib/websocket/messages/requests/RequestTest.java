@@ -1,7 +1,6 @@
 package com.feed_the_beast.javacurselib.websocket.messages.requests;
 
 import com.feed_the_beast.javacurselib.CurseGUID;
-import org.junit.Ignore;
 import org.junit.Test;
 import uk.co.datumedge.hamcrest.json.SameJSONAs;
 
@@ -28,7 +27,7 @@ public class RequestTest {
 
     @Test
     public void messageRequest() {
-        Request r = new ConversationMessageRequest(CurseGUID.newRandomGUID(), "Test messsage");
+        Request r = new ConversationMessageRequest(CurseGUID.newRandomUUID(), "Test messsage");
         String json = r.toJsonString();
         assertTrue(json.contains("AttachmentID"));
         assertTrue(json.contains("00000000-0000-0000-0000-000000000000"));

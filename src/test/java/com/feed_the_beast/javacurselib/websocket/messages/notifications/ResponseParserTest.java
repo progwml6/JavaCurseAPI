@@ -41,7 +41,6 @@ public class ResponseParserTest {
         Response response = JsonFactory.stringToResponse(conversationMessageNotificationString);
     }
 
-    @Ignore // TODO: check failing fields
     @Test
     public void conversationMessageNotificationPedantic() {
         Response response = JsonFactory.stringToResponse(conversationMessageNotificationString);
@@ -53,7 +52,6 @@ public class ResponseParserTest {
         Response response = JsonFactory.stringToResponse(conversationMessageNotificationStringForPM);
     }
 
-    @Ignore // TODO: check failing fields
     @Test
     public void conversationMessageNotificationPedanticForPM() {
         Response response = JsonFactory.stringToResponse(conversationMessageNotificationStringForPM);

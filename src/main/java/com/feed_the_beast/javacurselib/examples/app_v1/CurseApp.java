@@ -10,6 +10,7 @@ import com.feed_the_beast.javacurselib.service.contacts.contacts.GroupNotificati
 import com.feed_the_beast.javacurselib.service.groups.bans.GroupBannedUserContract;
 import com.feed_the_beast.javacurselib.service.logins.login.LoginRequest;
 import com.feed_the_beast.javacurselib.service.logins.login.LoginResponse;
+import com.feed_the_beast.javacurselib.rest.REST;
 import com.feed_the_beast.javacurselib.service.sessions.sessions.CreateSessionRequest;
 import com.feed_the_beast.javacurselib.service.sessions.sessions.CreateSessionResponse;
 import com.feed_the_beast.javacurselib.service.sessions.sessions.DevicePlatform;
@@ -18,9 +19,13 @@ import com.feed_the_beast.javacurselib.websocket.WebSocket;
 import com.feed_the_beast.javacurselib.websocket.messages.handler.ResponseHandler;
 import com.feed_the_beast.javacurselib.websocket.messages.notifications.NotificationsServiceContractType;
 import com.google.common.collect.HashBiMap;
+import retrofit2.adapter.java8.HttpException;
+
 
 import java.net.URI;
+import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CountDownLatch;
+import java.util.concurrent.ExecutionException;
 
 import javax.annotation.Nullable;
 
@@ -110,22 +115,74 @@ public class CurseApp {
         NetworkRequest.sendDelete(Apis.CONVERSATIONS + "conversations/" + conversationID + "/" + id + "-" + timestamp, token);
     }
 
-    public static void main (String args[]) {
-        LoginResponse lr = login(args[0], args[1]);
-        ContactsResponse cr = getContacts(lr.session.token);
-        CreateSessionResponse sessionResponse = getSession(lr.session.token, CurseGUID.newRandomUUID(), DevicePlatform.UNKNOWN);
-        for (GroupNotification g : cr.groups) {
-            if (g.groupTitle.equals("CurseForge")) {
-                for (ChannelContract c : g.channels) {
-                    if (c.groupTitle.equals("app-api-chat")) {
-                        System.out.println("you probably have access to this magical API Channel if you are seeing this code");
-                    }
-                }
-            }
-        }
-        System.out.println(sessionResponse.sessionID);
+    private static LoginResponse lr = null;;
+    private static CreateSessionResponse sessionResponse = null;
 
-        // websocket testing code starts here
+    public static void main (String args[]) {
+        /********
+         * Login request: synchronous call (example)
+         *******/
+
+        try {
+            lr = REST.loginsWebService.login2(new LoginRequest(args[0], args[1])).get();
+        } catch (InterruptedException e) {
+            // should not happen, just ignore
+        } catch (ExecutionException e) {
+            if (e.getCause() instanceof HttpException) {
+                System.out.println("Request failed: HTTP code: " + ((HttpException) e.getCause()).code());
+                // TODO: add helper function(s) to verbosely debug fail reason(s) and/or check if retrofit/okhttp logging
+            } else {
+                // network or  parser error, just print exception with causes
+                e.printStackTrace();
+            }
+            System.exit(1);
+        }
+        System.out.println("Synchronous login done");
+
+        // TODO: fix this by making REST fully non-static class and/or using other proper design patterns
+        REST.setAuthToken(lr.session.token);
+
+
+        /********
+         * Session: Asynchronous call (example)
+         *******/
+
+        // create latch, extra synchronization to create sane example
+        CountDownLatch sessionLatch = new CountDownLatch(1);
+
+        CompletableFuture<CreateSessionResponse> createSessionResponseCompletableFuture = REST.sessionsWebService.postSessions2(new CreateSessionRequest(CurseGUID.newRandomUUID(), DevicePlatform.UNKNOWN), lr.session.token);
+
+        createSessionResponseCompletableFuture.whenComplete((r, e) -> {
+            if (e != null) {
+                if (e.getCause() instanceof HttpException) {
+                    System.out.println("Request failed: HTTP code: " + ((HttpException) e.getCause()).code());
+                    // TODO: see comment in login response
+                } else {
+                    // network or  parser error, just print exception with causes
+                    e.printStackTrace();
+                }
+                System.exit(1);
+            }
+
+            // all is ok. Set value
+            sessionResponse = r;
+            // and make man thread to continue again
+            sessionLatch.countDown();
+        });
+
+        // ugly code/synchronization just to implement example
+        try {
+            sessionLatch.await();
+            // as soon as lock opened we know that sessionResponse is usable and it is safe to start websocket
+        } catch (InterruptedException e) {
+            System.exit(1);
+            // should not happen, just ignore
+        }
+        System.out.println("Async session done");
+
+        /************************************
+         *  websocket testing/example code
+        *************************************/
         WebSocket ws = null;
         try {
             ws = new WebSocket(lr, sessionResponse, new URI(Apis.NOTIFICATIONS));
@@ -134,7 +191,6 @@ public class CurseApp {
             e.printStackTrace();
             System.exit(0);
         }
-
         ResponseHandler responseHandler = ws.getResponseHandler();
         responseHandler.addTask(new DebugResponseTask(), NotificationsServiceContractType.CONVERSATION_MESSAGE_NOTIFICATION);
         responseHandler.addTask(new DefaultResponseTask(), NotificationsServiceContractType.CONVERSATION_READ_NOTIFICATION);
@@ -144,6 +200,7 @@ public class CurseApp {
         // to add your own handlers call ws.getResponseHandler() and configure it
         CountDownLatch latch = new CountDownLatch(1);
         ws.start();
+        System.out.println("Websocket up and running, suspend thread");
         try {
             latch.await();
         } catch (InterruptedException e) {

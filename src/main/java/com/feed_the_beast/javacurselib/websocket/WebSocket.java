@@ -99,7 +99,7 @@ public class WebSocket {
 
     // Sends a message. Best-effort, does not check return codes or socket error
     // TODO: write proper message queue
-    public void sendMessage(@Nonnull CurseGUID conversationID, String message) {
+    public void sendMessage(@Nonnull CurseGUID conversationID, @Nonnull String message) {
         ConversationMessageRequest request = new ConversationMessageRequest(conversationID, message);
         requestHandler.execute(request);
     }

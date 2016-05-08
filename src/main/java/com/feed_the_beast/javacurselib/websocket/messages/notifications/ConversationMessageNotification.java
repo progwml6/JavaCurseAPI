@@ -23,7 +23,7 @@ public class ConversationMessageNotification extends BaseResponse implements Res
     public int[] mentions;
     public int recipientID;
     public String body;
-    boolean isDeleted;
+    public boolean isDeleted;
     public int deletedTimestamp;
     public int deletedUserID;
     public String deletedUsername;

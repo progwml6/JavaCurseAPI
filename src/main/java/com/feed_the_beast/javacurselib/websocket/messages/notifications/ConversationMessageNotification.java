@@ -9,7 +9,7 @@ import java.util.List;
 
 public class ConversationMessageNotification extends BaseResponse implements Response {
     public String clientID;
-    public String serverID;
+    public CurseGUID serverID;
     public CurseGUID conversationID;
     public CurseGUID contactID;
     public ConversationType conversationType;

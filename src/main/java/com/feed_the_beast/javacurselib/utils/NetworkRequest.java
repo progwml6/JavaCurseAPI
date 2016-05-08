@@ -18,7 +18,7 @@ public class NetworkRequest {
     }
 
     public static String sendDelete (String url, String token) {
-        return executeGet(url, token);
+        return executeDelete(url, token);
     }
 
     public static String postJson (String url, String json, String token) {

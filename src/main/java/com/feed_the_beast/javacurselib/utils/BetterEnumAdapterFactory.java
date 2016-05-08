@@ -41,7 +41,7 @@ import java.util.Map;
  */
 
 public class BetterEnumAdapterFactory implements TypeAdapterFactory {
-        @SuppressWarnings({"rawtypes", "unchecked"})
+        //@SuppressWarnings({"rawtypes", "unchecked"})
         @Override public <T> TypeAdapter<T> create(Gson gson, TypeToken<T> typeToken) {
             Class<? super T> rawType = typeToken.getRawType();
             if (!Enum.class.isAssignableFrom(rawType) || rawType == Enum.class) {
@@ -54,21 +54,21 @@ public class BetterEnumAdapterFactory implements TypeAdapterFactory {
         }
 
     private static final class EnumTypeAdapter<T extends Enum<T>> extends TypeAdapter<T> {
-        private final Map<String, T> nameToConstant = new HashMap<String, T>();
-        private final Map<T, String> constantToName = new HashMap<T, String>();
+        private final Map<Integer, T> valueToConstant = new HashMap<>();
+        private final Map<T, Integer> constantToValue = new HashMap<>();
 
         public EnumTypeAdapter(Class<T> classOfT) {
             try {
                 for (T constant : classOfT.getEnumConstants()) {
-                    String name = constant.name();
+                    int value = constant.ordinal();
 
-                    SerializedName annotation = classOfT.getField(name).getAnnotation(SerializedName.class);
+                    SerializedName annotation = classOfT.getField(constant.name()).getAnnotation(SerializedName.class);
                     if (annotation != null) {
-                        name = annotation.value();
+                        value = Integer.parseInt(annotation.value());
 
                     }
-                    nameToConstant.put(name, constant);
-                    constantToName.put(constant, name);
+                    valueToConstant.put(value, constant);
+                    constantToValue.put(constant, value);
                 }
             } catch (NoSuchFieldException e) {
                 throw new AssertionError("Missing field in " + classOfT.getName(), e);
@@ -79,11 +79,11 @@ public class BetterEnumAdapterFactory implements TypeAdapterFactory {
                 in.nextNull();
                 return null;
             }
-            return nameToConstant.get(in.nextString());
+            return valueToConstant.get(in.nextInt());
         }
 
         @Override public void write(JsonWriter out, T value) throws IOException {
-            out.value(value == null ? null : constantToName.get(value));
+            out.value(value == null ? null : constantToValue.get(value));
         }
     }
 }

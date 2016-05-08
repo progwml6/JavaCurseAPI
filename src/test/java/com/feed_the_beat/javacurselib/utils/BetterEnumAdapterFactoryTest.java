@@ -29,16 +29,16 @@ public class BetterEnumAdapterFactoryTest {
 
     @Test
     public void deserializer() throws Exception {
-        assertTrue(h.conversationType != null);
+        assertTrue(h.ConversationType != null);
     }
 
     @Test
     public void serializer() throws Exception {
-        String s =GSON.toJson(h);
+        String s = GSON.toJson(h);
         assertEquals(testString, s);
     }
 
     private class Helper {
-        private ConversationType conversationType;
+        private ConversationType ConversationType;
     }
 }

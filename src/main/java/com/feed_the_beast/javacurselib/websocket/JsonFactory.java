@@ -1,6 +1,7 @@
 package com.feed_the_beast.javacurselib.websocket;
 
 import com.feed_the_beast.javacurselib.CurseGUID;
+import com.feed_the_beast.javacurselib.utils.BetterEnumAdapterFactory;
 import com.feed_the_beast.javacurselib.utils.CurseGUIDAdapter;
 import com.feed_the_beast.javacurselib.utils.DateAdapter;
 import com.feed_the_beast.javacurselib.websocket.messages.notifications.NotificationsServiceContractType;
@@ -19,6 +20,7 @@ public class JsonFactory {
     static {
         GsonBuilder builder = new GsonBuilder();
         builder.registerTypeAdapter(Date.class, new DateAdapter());
+        builder.registerTypeAdapterFactory(new BetterEnumAdapterFactory());
         builder.registerTypeAdapter(Response.class, new ResponseDeserializer());
         builder.registerTypeAdapter(Response.class, new ResponseSerializer());
         builder.registerTypeAdapter(Request.class, new RequestSerializer());

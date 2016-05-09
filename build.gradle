@@ -118,3 +118,12 @@ if (project.hasProperty("remote_maven") && project.hasProperty("sftp_pass")) {
             }
         }
     }
+
+task dependencySizes << {
+    def size = 0
+    configurations.compile.files.each { file ->
+        println file.getName() + " " + file.size() + " bytes"
+            size += file.size()
+        }
+    println "Dependencies size: $size bytes"
+}

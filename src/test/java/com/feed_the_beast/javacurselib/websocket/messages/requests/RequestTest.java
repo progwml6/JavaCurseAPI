@@ -1,6 +1,6 @@
 package com.feed_the_beast.javacurselib.websocket.messages.requests;
 
-import com.feed_the_beast.javacurselib.CurseGUID;
+import com.feed_the_beast.javacurselib.utils.CurseGUID;
 import org.junit.Test;
 import uk.co.datumedge.hamcrest.json.SameJSONAs;
 

@@ -1,6 +1,6 @@
 package com.feed_the_beast.javacurselib.websocket;
 
-import com.feed_the_beast.javacurselib.CurseGUID;
+import com.feed_the_beast.javacurselib.utils.CurseGUID;
 import com.feed_the_beast.javacurselib.utils.BetterEnumAdapterFactory;
 import com.feed_the_beast.javacurselib.utils.CurseGUIDAdapter;
 import com.feed_the_beast.javacurselib.utils.DateAdapter;

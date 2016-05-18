@@ -1,7 +1,7 @@
 package com.feed_the_beast.javacurselib.websocket.messages.notifications;
 
 
-import com.feed_the_beast.javacurselib.CurseGUID;
+import com.feed_the_beast.javacurselib.utils.CurseGUID;
 
 import java.util.Date;
 

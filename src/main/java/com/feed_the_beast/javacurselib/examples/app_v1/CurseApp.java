@@ -1,6 +1,6 @@
 package com.feed_the_beast.javacurselib.examples.app_v1;
 
-import com.feed_the_beast.javacurselib.CurseGUID;
+import com.feed_the_beast.javacurselib.utils.CurseGUID;
 import com.feed_the_beast.javacurselib.data.Apis;
 import com.feed_the_beast.javacurselib.data.JsonFactory;
 import com.feed_the_beast.javacurselib.service.contacts.contacts.ChannelContract;

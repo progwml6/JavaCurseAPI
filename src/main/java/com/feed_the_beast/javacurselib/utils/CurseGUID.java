@@ -1,4 +1,4 @@
-package com.feed_the_beast.javacurselib;
+package com.feed_the_beast.javacurselib.utils;
 
 import javax.annotation.Nonnull;
 import java.util.UUID;

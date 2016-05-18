@@ -1,6 +1,6 @@
 package com.feed_the_beast.javacurselib.service.sessions.sessions;
 
-import com.feed_the_beast.javacurselib.CurseGUID;
+import com.feed_the_beast.javacurselib.utils.CurseGUID;
 
 
 /**

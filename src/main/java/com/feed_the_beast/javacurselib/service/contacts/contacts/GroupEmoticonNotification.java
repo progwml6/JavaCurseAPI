@@ -1,6 +1,6 @@
 package com.feed_the_beast.javacurselib.service.contacts.contacts;
 
-import com.feed_the_beast.javacurselib.CurseGUID;
+import com.feed_the_beast.javacurselib.utils.CurseGUID;
 import com.google.gson.annotations.SerializedName;
 
 

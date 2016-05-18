@@ -1,6 +1,5 @@
 package com.feed_the_beast.javacurselib.utils;
 
-import com.feed_the_beast.javacurselib.CurseGUID;
 import com.google.gson.*;
 
 import java.lang.reflect.Type;

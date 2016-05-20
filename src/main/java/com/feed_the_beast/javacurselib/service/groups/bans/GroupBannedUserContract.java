@@ -15,4 +15,5 @@ public class GroupBannedUserContract {
     public long statusTimestamp;
     public String reason;
     public boolean isBanned;
+    public String maskedIPAddress;
 }

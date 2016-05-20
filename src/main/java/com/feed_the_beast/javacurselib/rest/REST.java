@@ -18,6 +18,7 @@ import java.io.IOException;
 public class REST {
     public static LoginsWebService loginsWebService;
     public static SessionsWebService sessionsWebService;
+    public static ContactWebService contactWebService;
 
     public static void setAuthToken(@Nonnull String authToken) {
         REST.authToken = authToken;
@@ -55,6 +56,7 @@ public class REST {
 
         //TODO: create other endpoints
         sessionsWebService = builder.baseUrl(Apis.SESSIONS).build().create(SessionsWebService.class);
+        contactWebService = builder.baseUrl(Apis.CONTACTS).build().create(ContactWebService.class);
     }
 
     private REST() {}

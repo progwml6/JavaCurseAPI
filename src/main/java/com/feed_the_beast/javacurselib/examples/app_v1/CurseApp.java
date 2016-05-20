@@ -1,5 +1,6 @@
 package com.feed_the_beast.javacurselib.examples.app_v1;
 
+import com.feed_the_beast.javacurselib.service.contacts.users.UserProfileNotification;
 import com.feed_the_beast.javacurselib.utils.CurseGUID;
 import com.feed_the_beast.javacurselib.data.Apis;
 import com.feed_the_beast.javacurselib.data.JsonFactory;
@@ -117,6 +118,7 @@ public class CurseApp {
 
     private static LoginResponse lr = null;;
     private static CreateSessionResponse sessionResponse = null;
+    public static ContactsResponse contactsResponse = null;
 
     public static void main (String args[]) {
         /********
@@ -124,7 +126,7 @@ public class CurseApp {
          *******/
 
         try {
-            lr = REST.loginsWebService.login2(new LoginRequest(args[0], args[1])).get();
+            lr = REST.loginsWebService.login(new LoginRequest(args[0], args[1])).get();
         } catch (InterruptedException e) {
             // should not happen, just ignore
         } catch (ExecutionException e) {
@@ -137,7 +139,7 @@ public class CurseApp {
             }
             System.exit(1);
         }
-        System.out.println("Synchronous login done");
+        System.out.println("Synchronous login done: " + lr);
 
         // TODO: fix this by making REST fully non-static class and/or using other proper design patterns
         REST.setAuthToken(lr.session.token);
@@ -150,7 +152,7 @@ public class CurseApp {
         // create latch, extra synchronization to create sane example
         CountDownLatch sessionLatch = new CountDownLatch(1);
 
-        CompletableFuture<CreateSessionResponse> createSessionResponseCompletableFuture = REST.sessionsWebService.postSessions2(new CreateSessionRequest(CurseGUID.newRandomUUID(), DevicePlatform.UNKNOWN), lr.session.token);
+        CompletableFuture<CreateSessionResponse> createSessionResponseCompletableFuture = REST.sessionsWebService.postSessions(new CreateSessionRequest(CurseGUID.newRandomUUID(), DevicePlatform.UNKNOWN));
 
         createSessionResponseCompletableFuture.whenComplete((r, e) -> {
             if (e != null) {
@@ -178,7 +180,29 @@ public class CurseApp {
             System.exit(1);
             // should not happen, just ignore
         }
-        System.out.println("Async session done");
+        System.out.println("Async session done: " + sessionResponse);
+
+        /***************************
+         *  experiment with data.
+         ***************************/
+
+        contactsResponse = REST.contactWebService.getContacts().join(); // wil throw RuntimeException if fails
+        for (GroupNotification g: contactsResponse.groups) {
+            if (g.groupTitle.equals("CurseForge")) {
+                for (ChannelContract c: g.channels) {
+                    if (c.groupTitle.equals("app-api-chat")) {
+                        System.out.println("you probably have access to this magical API Channel if you are seeing this code");
+                    }
+                }
+            }
+        }
+        if (true) {
+            System.out.println("WIP: contactResponse: " + contactsResponse);
+        }
+
+
+        UserProfileNotification myInfo = REST.contactWebService.getUsers_id(sessionResponse.user.userID).join();
+        System.out.println("my own user info: " + myInfo);
 
         /************************************
          *  websocket testing/example code

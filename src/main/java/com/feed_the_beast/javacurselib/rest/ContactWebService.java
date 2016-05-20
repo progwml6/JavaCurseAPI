@@ -3,30 +3,42 @@ package com.feed_the_beast.javacurselib.rest;
 import com.feed_the_beast.javacurselib.service.contacts.contacts.ContactUrlResponse;
 import com.feed_the_beast.javacurselib.service.contacts.contacts.ContactsResponse;
 import com.feed_the_beast.javacurselib.service.contacts.users.UserProfileNotification;
-import retrofit2.http.Body;
-import retrofit2.http.GET;
-import retrofit2.http.POST;
-import retrofit2.http.Path;
+import retrofit2.http.*;
 
 import java.util.concurrent.CompletableFuture;
 
-public interface ContactWebService {
-    @GET("/contacts")
-    CompletableFuture<ContactsResponse> getContacts();
 
-    @GET("contacts/recent/{timestamp}")
-    CompletableFuture<ContactsResponse> getContacts_recent(
-            @Path("timestamp") long timestamp
-    );
+public class ContactWebService {
+    // divide service to multiple interfaces. Makes method naming easier
 
-    @POST("contacts/url")
-    CompletableFuture<ContactUrlResponse> postContact_url(
-            @Body String body // TODO: https://contacts-v1.curseapp.net/Help/Api/POST-contacts-url
-    );
+    public interface Contacts {
+        @GET("/contacts")
+        CompletableFuture<ContactsResponse> get();
 
-    @GET("users/{id}")
-    CompletableFuture<UserProfileNotification> getUsers_id(
-            @Path("id") long id
-    );
+        @GET("contacts/recent/{timestamp}")
+        CompletableFuture<ContactsResponse> getRecent(
+                @Path("timestamp") long timestamp
+        );
 
+        @POST("contacts/url")
+        CompletableFuture<ContactUrlResponse> url(
+                @Body String body // TODO: https://contacts-v1.curseapp.net/Help/Api/POST-contacts-url
+        );
+    }
+
+    public interface Users {
+        @GET("users/{id}")
+        CompletableFuture<UserProfileNotification> getByID(
+                @Path("id") long id
+        );
+    }
+
+    public interface FriendSuggestions {
+        //TODO: add class
+        //@GET("friend-suggestions")
+        //CompletableFuture<FriendSuggestionContract> get();
+
+        @DELETE("friend-suggestions/{friendID}")
+        CompletableFuture<Void> delete(@Path("friendID") long friendID);
+    }
 }

@@ -13,22 +13,23 @@ import java.util.concurrent.CompletableFuture;
 
 public interface SessionsWebService {
     @POST("/sessions")
-    CompletableFuture<CreateSessionResponse> postSessions(
+    CompletableFuture<CreateSessionResponse> create(
             @Body CreateSessionRequest createSessionRequest);
 
     // HTTP return code. TODO: test/no body at all?
     @DELETE("/sessions")
-    CompletableFuture<Void> deleteSessions(
+    CompletableFuture<Void> delete(
             @Body CreateSessionRequest createSessionRequest);
 
     // TODO: add class
+    @Deprecated
     @POST("/sessions/{machineKey}/tokens")
-    CompletableFuture<Void> postSessions_machineKey_tokens(
+    CompletableFuture<Void> doSomethingWithTokens(
             // TODO: fix */ @Body UpdateDeviceTokensRequest updateDeviceTokensRequest,
             @Path("machineKey") CurseGUID machineKey);
 
     @DELETE("sessions/{machineKey}/tokens/{deviceID}")
-    CompletableFuture<Void> deleteSessions_machineKey_tokens_deviceID(
+    CompletableFuture<Void> delete(
             @Path("machineKey") CurseGUID machineKey,
             @Path("deviceID") String deviceID
     );

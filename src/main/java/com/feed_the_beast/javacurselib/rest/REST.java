@@ -16,9 +16,11 @@ import java.io.IOException;
 // TODO: should not be static class: fix
 
 public class REST {
-    public static LoginsWebService loginsWebService;
-    public static SessionsWebService sessionsWebService;
-    public static ContactWebService contactWebService;
+    public static LoginsWebService login;
+    public static SessionsWebService session;
+    public static ContactWebService.Contacts contacts;
+    public static ContactWebService.Users users;
+    public static ConversationsWebService conversations;
 
     public static void setAuthToken(@Nonnull String authToken) {
         REST.authToken = authToken;
@@ -48,15 +50,20 @@ public class REST {
                 .addConverterFactory(GsonConverterFactory.create(JsonFactory.GSON))
                 .addCallAdapterFactory(Java8CallAdapterFactory.create());
 
-        // TODO: some of the loginsWebService might require auth token, check
-        loginsWebService = builder.baseUrl(Apis.LOGINS).build().create(LoginsWebService.class);
+        // TODO: some of the LoginsWebService calls might require auth token, check later
+        login = builder.baseUrl(Apis.LOGINS).build().create(LoginsWebService.class);
 
         // Rest of the endpoints requires auth token in headers
         builder.client(okClient);
 
-        //TODO: create other endpoints
-        sessionsWebService = builder.baseUrl(Apis.SESSIONS).build().create(SessionsWebService.class);
-        contactWebService = builder.baseUrl(Apis.CONTACTS).build().create(ContactWebService.class);
+        session = builder.baseUrl(Apis.SESSIONS).build().create(SessionsWebService.class);
+
+        contacts = builder.baseUrl(Apis.CONTACTS).build().create(ContactWebService.Contacts.class);
+        users = builder.build().create(ContactWebService.Users.class);
+
+        conversations = builder.baseUrl(Apis.CONVERSATIONS).build().create(ConversationsWebService.class);
+
+
     }
 
     private REST() {}

@@ -126,7 +126,7 @@ public class CurseApp {
          *******/
 
         try {
-            lr = REST.loginsWebService.login(new LoginRequest(args[0], args[1])).get();
+            lr = REST.login.login(new LoginRequest(args[0], args[1])).get();
         } catch (InterruptedException e) {
             // should not happen, just ignore
         } catch (ExecutionException e) {
@@ -152,7 +152,7 @@ public class CurseApp {
         // create latch, extra synchronization to create sane example
         CountDownLatch sessionLatch = new CountDownLatch(1);
 
-        CompletableFuture<CreateSessionResponse> createSessionResponseCompletableFuture = REST.sessionsWebService.postSessions(new CreateSessionRequest(CurseGUID.newRandomUUID(), DevicePlatform.UNKNOWN));
+        CompletableFuture<CreateSessionResponse> createSessionResponseCompletableFuture = REST.session.create(new CreateSessionRequest(CurseGUID.newRandomUUID(), DevicePlatform.UNKNOWN));
 
         createSessionResponseCompletableFuture.whenComplete((r, e) -> {
             if (e != null) {
@@ -186,7 +186,7 @@ public class CurseApp {
          *  experiment with data.
          ***************************/
 
-        contactsResponse = REST.contactWebService.getContacts().join(); // wil throw RuntimeException if fails
+        contactsResponse = REST.contacts.get().join(); // wil throw RuntimeException if fails
         for (GroupNotification g: contactsResponse.groups) {
             if (g.groupTitle.equals("CurseForge")) {
                 for (ChannelContract c: g.channels) {
@@ -201,7 +201,7 @@ public class CurseApp {
         }
 
 
-        UserProfileNotification myInfo = REST.contactWebService.getUsers_id(sessionResponse.user.userID).join();
+        UserProfileNotification myInfo = REST.users.getByID(sessionResponse.user.userID).join();
         System.out.println("my own user info: " + myInfo);
 
         /************************************

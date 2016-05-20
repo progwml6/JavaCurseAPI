@@ -14,8 +14,25 @@ public class LoginSession {
     public String emailAddress;
     public boolean effectivePremiumStatus;
     public boolean actualPremiumStatus;
-    public int subscriptionToken;
+    public long subscriptionToken;
     public long expires;
     public long renewAfter;
     public boolean isTemporaryAccount;
+
+    @Override
+    public String toString() {
+        return "LoginSession{" +
+                "userID=" + userID +
+                ", username='" + username + '\'' +
+                ", sessionID='<HIDDEN>'" +
+                ", token=<HIDDEN" +
+                ", emailAddress='<HIDDEN>'" +
+                ", effectivePremiumStatus=" + effectivePremiumStatus +
+                ", actualPremiumStatus=" + actualPremiumStatus +
+                ", subscriptionToken=" + subscriptionToken +
+                ", expires=" + expires +
+                ", renewAfter=" + renewAfter +
+                ", isTemporaryAccount=" + isTemporaryAccount +
+                '}';
+    }
 }

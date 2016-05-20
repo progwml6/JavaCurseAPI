@@ -8,7 +8,7 @@ public class CurseGUID {
     public enum Type {
         UUID(0), INT(1), TWO_INTS(1);
 
-        private int value;
+        private long value;
 
         Type(int value) {
             this.value = value;
@@ -126,12 +126,15 @@ public class CurseGUID {
 
     @Override
     public String toString() {
-        return "CurseGUID{" +
-                "uuid=" + uuid +
-                ", intLeft=" + intLeft +
-                ", intRight=" + intRight +
-                ", type=" + type +
-                '}';
+        switch (type) {
+            case UUID:
+                return uuid.toString();
+            case INT:
+                return Long.toString(intLeft);
+            case TWO_INTS:
+                return Long.toString(intLeft) + ":" + Long.toString(intRight);
+        }
+        return "ERROR?";
     }
 
     @Override

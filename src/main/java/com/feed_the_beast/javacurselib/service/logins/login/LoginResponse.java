@@ -7,4 +7,13 @@ public class LoginResponse {
     public LoginStatus status;
     public String statusMessage;
     public LoginSession session;
+
+    @Override
+    public String toString() {
+        return "LoginResponse{" +
+                "status=" + status +
+                ", statusMessage='" + statusMessage + '\'' +
+                ", session=" + session +
+                '}';
+    }
 }

@@ -21,6 +21,7 @@ public class REST {
     public static ContactWebService.Contacts contacts;
     public static ContactWebService.Users users;
     public static ConversationsWebService conversations;
+    public static GroupsWebService.Servers servers;
 
     public static void setAuthToken(@Nonnull String authToken) {
         REST.authToken = authToken;
@@ -59,7 +60,10 @@ public class REST {
         session = builder.baseUrl(Apis.SESSIONS).build().create(SessionsWebService.class);
 
         contacts = builder.baseUrl(Apis.CONTACTS).build().create(ContactWebService.Contacts.class);
-        users = builder.build().create(ContactWebService.Users.class);
+
+        servers = builder.baseUrl(Apis.GROUPS).build().create(GroupsWebService.Servers.class);
+
+        users = builder.baseUrl(Apis.CONTACTS).build().create(ContactWebService.Users.class);
 
         conversations = builder.baseUrl(Apis.CONVERSATIONS).build().create(ConversationsWebService.class);
 

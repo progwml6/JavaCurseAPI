@@ -24,17 +24,16 @@ public class GroupWebService {
         );
 
         @POST("servers/{serverID}/bans/{userID}")
-        CompletableFuture<GroupBannedUserContract> ban(
+        CompletableFuture<GroupBannedUserContract> ban (
                 @Path("serverID") CurseGUID serverID,
                 @Path("userid") long userID,
                 @Body String reason);
 
-
         @DELETE("servers/{serverID}/bans/{userID}")
-        CompletableFuture<Void> unban(
+        CompletableFuture<Void> unban (
                 @Path("serverID") CurseGUID serverID,
                 @Path("userID") long userID
-                );
+        );
 
     }
 }

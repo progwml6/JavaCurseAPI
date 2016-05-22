@@ -1,4 +1,4 @@
-package com.feed_the_beast.javacurselib.service.contacts.users;
+package com.feed_the_beast.javacurselib.common.enums;
 
 /**
  * representation of curse contact api FriendHintStatus model

@@ -1,6 +1,6 @@
 package com.feed_the_beat.javacurselib.utils;
 
-import com.feed_the_beast.javacurselib.service.conversations.conversations.ConversationType;
+import com.feed_the_beast.javacurselib.common.enums.ConversationType;
 import com.feed_the_beast.javacurselib.utils.BetterEnumAdapterFactory;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

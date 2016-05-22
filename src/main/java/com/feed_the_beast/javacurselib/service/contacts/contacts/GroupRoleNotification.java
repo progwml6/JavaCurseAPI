@@ -1,5 +1,8 @@
 package com.feed_the_beast.javacurselib.service.contacts.contacts;
 
+import com.feed_the_beast.javacurselib.common.enums.AccountType;
+import com.feed_the_beast.javacurselib.common.enums.GroupRoleTag;
+
 /**
  * representation of curse contact api GroupRoleNotification
  */

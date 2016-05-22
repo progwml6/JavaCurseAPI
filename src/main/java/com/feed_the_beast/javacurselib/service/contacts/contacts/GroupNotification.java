@@ -1,6 +1,10 @@
 package com.feed_the_beast.javacurselib.service.contacts.contacts;
 
 
+import com.feed_the_beast.javacurselib.common.enums.GroupMode;
+import com.feed_the_beast.javacurselib.common.enums.GroupStatus;
+import com.feed_the_beast.javacurselib.common.enums.GroupSubType;
+import com.feed_the_beast.javacurselib.common.enums.GroupType;
 import com.feed_the_beast.javacurselib.utils.CurseGUID;
 
 import java.util.List;

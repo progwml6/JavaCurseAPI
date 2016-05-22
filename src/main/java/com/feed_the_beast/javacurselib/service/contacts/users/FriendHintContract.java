@@ -1,5 +1,6 @@
 package com.feed_the_beast.javacurselib.service.contacts.users;
 
+import com.feed_the_beast.javacurselib.common.enums.*;
 import com.google.gson.annotations.SerializedName;
 
 /**

@@ -1,4 +1,4 @@
-package com.feed_the_beast.javacurselib.service.sessions.sessions;
+package com.feed_the_beast.javacurselib.common.enums;
 
 /**
  * representation of curse sessions api DevicePlatform

@@ -1,7 +1,7 @@
 package com.feed_the_beast.javacurselib.websocket.messages.requests;
 
 import com.feed_the_beast.javacurselib.utils.CurseGUID;
-import com.feed_the_beast.javacurselib.service.contacts.contacts.UserConnectionStatus;
+import com.feed_the_beast.javacurselib.common.enums.UserConnectionStatus;
 import com.feed_the_beast.javacurselib.service.logins.login.LoginResponse;
 import com.feed_the_beast.javacurselib.service.sessions.sessions.CreateSessionResponse;
 

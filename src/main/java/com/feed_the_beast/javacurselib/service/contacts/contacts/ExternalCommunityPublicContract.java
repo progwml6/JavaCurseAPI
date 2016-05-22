@@ -1,5 +1,7 @@
 package com.feed_the_beast.javacurselib.service.contacts.contacts;
 
+import com.feed_the_beast.javacurselib.common.enums.AccountType;
+
 /**
  * representation of curse contacts api ExternalCommunityPublicContract
  */

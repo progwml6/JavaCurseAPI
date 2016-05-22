@@ -10,17 +10,20 @@ import com.google.common.collect.Lists;
 
 import javax.annotation.Nonnull;
 import java.util.List;
+import java.util.logging.Logger;
 
 
 public class ResponseHandler {
+    private static final Logger logger = Logger.getLogger(ResponseHandler.class.getName());
     private List<ResponseTaskContainer> containers = Lists.newArrayList();
 
     public void setWebSocket(@Nonnull WebSocket webSocket) {
         this.webSocket = webSocket;
     }
     private WebSocket webSocket;
+    // TODO: remove internal handlers if ...
     //private HandshakeResponseTask handshakeResponseTask = new HandshakeResponseTask();
-    private JoinResponseTask joinResponseTask = new JoinResponseTask();
+    //private JoinResponseTask joinResponseTask = new JoinResponseTask();
 
     public void addTask(@Nonnull Task task, @Nonnull NotificationsServiceContractType type) {
         containers.add(new ResponseTaskContainer(task, type));
@@ -28,6 +31,9 @@ public class ResponseHandler {
 
     public boolean executeInternalTasks(@Nonnull Response response) {
         if (response.getTypeID() == NotificationsServiceContractType.JOIN_RESPONSE) {
+            logger.info("Got JoinResponse: " + response);
+            logger.info(response.getOrigMessage());
+
             //joinResponseTask.execute(webSocket.getRequestHandler(), response);
             webSocket.startPingThread();
             return false;
@@ -46,7 +52,7 @@ public class ResponseHandler {
         }
     }
 
-    static class ResponseTaskContainer {
+    private static class ResponseTaskContainer {
         Task task;
         NotificationsServiceContractType type;
 

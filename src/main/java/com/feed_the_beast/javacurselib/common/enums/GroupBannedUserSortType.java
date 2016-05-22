@@ -1,4 +1,4 @@
-package com.feed_the_beast.javacurselib.service.groups.bans;
+package com.feed_the_beast.javacurselib.common.enums;
 
 /**
  * representation of curse groups/bans api GroupBannedUserSortType model

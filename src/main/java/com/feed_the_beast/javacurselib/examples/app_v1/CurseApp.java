@@ -14,7 +14,7 @@ import com.feed_the_beast.javacurselib.service.logins.login.LoginResponse;
 import com.feed_the_beast.javacurselib.rest.REST;
 import com.feed_the_beast.javacurselib.service.sessions.sessions.CreateSessionRequest;
 import com.feed_the_beast.javacurselib.service.sessions.sessions.CreateSessionResponse;
-import com.feed_the_beast.javacurselib.service.sessions.sessions.DevicePlatform;
+import com.feed_the_beast.javacurselib.common.enums.DevicePlatform;
 import com.feed_the_beast.javacurselib.utils.NetworkRequest;
 import com.feed_the_beast.javacurselib.websocket.WebSocket;
 import com.feed_the_beast.javacurselib.websocket.messages.handler.ResponseHandler;
@@ -218,6 +218,7 @@ public class CurseApp {
         ResponseHandler responseHandler = ws.getResponseHandler();
         responseHandler.addTask(new DebugResponseTask(), NotificationsServiceContractType.CONVERSATION_MESSAGE_NOTIFICATION);
         responseHandler.addTask(new DefaultResponseTask(), NotificationsServiceContractType.CONVERSATION_READ_NOTIFICATION);
+        responseHandler.addTask(new DebugResponseTask(), NotificationsServiceContractType.GROUP_CHANGE_NOTIFICATION);
 
         responseHandler.addTask(new DebugResponseTask(), NotificationsServiceContractType.UNKNOWN);
 

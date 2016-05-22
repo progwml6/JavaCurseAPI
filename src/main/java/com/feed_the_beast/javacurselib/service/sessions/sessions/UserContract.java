@@ -1,6 +1,7 @@
 package com.feed_the_beast.javacurselib.service.sessions.sessions;
 
-import com.feed_the_beast.javacurselib.service.contacts.contacts.UserConnectionStatus;
+import com.feed_the_beast.javacurselib.common.enums.PushNotificationPreference;
+import com.feed_the_beast.javacurselib.common.enums.UserConnectionStatus;
 
 import java.util.Date;
 

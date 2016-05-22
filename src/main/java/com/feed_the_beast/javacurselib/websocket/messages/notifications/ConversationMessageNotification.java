@@ -2,8 +2,8 @@ package com.feed_the_beast.javacurselib.websocket.messages.notifications;
 
 import com.feed_the_beast.javacurselib.utils.CurseGUID;
 import com.feed_the_beast.javacurselib.service.conversations.conversations.AttachmentNotification;
-import com.feed_the_beast.javacurselib.service.conversations.conversations.ConversationNotificationType;
-import com.feed_the_beast.javacurselib.service.conversations.conversations.ConversationType;
+import com.feed_the_beast.javacurselib.common.enums.ConversationNotificationType;
+import com.feed_the_beast.javacurselib.common.enums.ConversationType;
 
 import java.util.List;
 

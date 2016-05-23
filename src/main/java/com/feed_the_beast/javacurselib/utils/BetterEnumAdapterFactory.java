@@ -21,10 +21,10 @@ package com.feed_the_beast.javacurselib.utils;
  */
 
 import com.google.gson.Gson;
+import com.google.gson.JsonParseException;
 import com.google.gson.TypeAdapter;
 import com.google.gson.TypeAdapterFactory;
 
-import com.google.gson.annotations.SerializedName;
 import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonToken;
@@ -35,9 +35,9 @@ import java.util.HashMap;
 import java.util.Map;
 
 /*
- * (de)serialize with values, not with enum names
+ * (de)serialize from/to values, not with enum names like GSON's default adapter does
  *
- * TODO: implement
+ * Ordinal values start from zero and are continuous
  */
 
 public class BetterEnumAdapterFactory implements TypeAdapterFactory {
@@ -50,36 +50,54 @@ public class BetterEnumAdapterFactory implements TypeAdapterFactory {
             if (!rawType.isEnum()) {
                 rawType = rawType.getSuperclass(); // handle anonymous subclasses
             }
+            // We only care enums which implements BetterEnum for getValue method
+            if (!BetterEnum.class.isAssignableFrom(rawType) || rawType == BetterEnum.class) {
+                return null;
+            }
             return (TypeAdapter<T>) new EnumTypeAdapter(rawType);
         }
 
-    private static final class EnumTypeAdapter<T extends Enum<T>> extends TypeAdapter<T> {
-        private final Map<Integer, T> valueToConstant = new HashMap<>();
-        private final Map<T, Integer> constantToValue = new HashMap<>();
+        private static final class EnumTypeAdapter<T extends Enum<T> & BetterEnum<S>, S extends Number> extends TypeAdapter<T> {
+            private final Map<S, T> valueToConstant = new HashMap<>();
+            private final Map<T, S> constantToValue = new HashMap<>();
+            private boolean valueIsLong = false;
+
 
         public EnumTypeAdapter(Class<T> classOfT) {
-            try {
-                for (T constant : classOfT.getEnumConstants()) {
-                    int value = constant.ordinal();
+            for (T constant : classOfT.getEnumConstants()) {
+                S value = constant.getValue();
 
-                    SerializedName annotation = classOfT.getField(constant.name()).getAnnotation(SerializedName.class);
-                    if (annotation != null) {
-                        value = Integer.parseInt(annotation.value());
+                valueToConstant.put(value, constant);
+                constantToValue.put(constant, value);
+            }
 
-                    }
-                    valueToConstant.put(value, constant);
-                    constantToValue.put(constant, value);
+            // stupid hack
+            for (S n: valueToConstant.keySet()) {
+                if (n instanceof Long) {
+                    valueIsLong = true;
                 }
-            } catch (NoSuchFieldException e) {
-                throw new AssertionError("Missing field in " + classOfT.getName(), e);
+                return;
             }
         }
         @Override public T read(JsonReader in) throws IOException {
+            T result;
             if (in.peek() == JsonToken.NULL) {
                 in.nextNull();
                 return null;
             }
-            return valueToConstant.get(in.nextInt());
+
+            // T
+            if (valueIsLong) {
+                result = valueToConstant.get(in.nextLong());
+            } else {
+                result = valueToConstant.get(in.nextInt());
+            }
+
+            if (result == null) {
+                throw new JsonParseException("Failed to find enum");
+            }
+
+            return result;
         }
 
         @Override public void write(JsonWriter out, T value) throws IOException {

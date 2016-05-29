@@ -1,37 +1,30 @@
-package com.feed_the_beast.javacurselib.examples.app_v1;
+package com.feed_the_beast.javacurselib.websocket;
 
-import com.feed_the_beast.javacurselib.websocket.WebSocket;
-import com.feed_the_beast.javacurselib.websocket.messages.handler.tasks.Task;
-import com.feed_the_beast.javacurselib.websocket.messages.notifications.Response;
-
-import javax.annotation.Nonnull;
 import java.io.*;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.logging.Logger;
 
-public class SaveJsonsTask implements Task {
-    private static final Logger logger = Logger.getLogger(SaveJsonsTask.class.getName());
+public class JsonDiskWriter {
+    private static final Logger logger = Logger.getLogger(JsonDiskWriter.class.getName());
     private final JsonSaver jsonSaver;
 
-    public SaveJsonsTask(File file) {
+    public JsonDiskWriter(File file) {
         this.jsonSaver = new JsonSaver(file);
-        this.jsonSaver.run();
+        this.jsonSaver.start();
     }
 
-    public SaveJsonsTask(String file) {
+    public JsonDiskWriter(String file) {
         this(new File(file));
     }
 
-    @Override
-    public void execute(@Nonnull WebSocket webSocket, @Nonnull Response response) {
-        jsonSaver.add(response.getOrigMessage());
+    public void write (String json) {
+        jsonSaver.add(json);
     }
 
     private static class JsonSaver extends Thread {
         private  BlockingQueue<String> toWrite;
         private  BufferedWriter writer;
-
 
         public JsonSaver(File file) {
             try {

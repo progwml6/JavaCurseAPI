@@ -17,6 +17,7 @@ public class NotificationsEndPoint extends Endpoint {
     private ResponseHandler responsehandler;
     private RequestHandler requestHandler;
     private WebSocket webSocket;
+    private JsonDiskWriter jsonDiskWriter;
 
     public NotificationsEndPoint(@Nonnull LoginResponse loginResponse, @Nonnull CreateSessionResponse sessionResponse, @Nonnull WebSocket webSocket) {
         this.initRequest = new JoinRequest(loginResponse, sessionResponse);
@@ -50,14 +51,26 @@ public class NotificationsEndPoint extends Endpoint {
 
     private static class NotificationsMessageHandler implements MessageHandler.Whole<String> {
         private final ResponseHandler responseHandler;
+        private JsonDiskWriter jsonDiskWriter;
 
         public NotificationsMessageHandler(ResponseHandler responseHandler) {
             this.responseHandler = responseHandler;
+
+            String file = System.getenv("JAVACURSEAPI_JSONDUMPS");
+            if (file != null && !file.isEmpty()) {
+                jsonDiskWriter = new JsonDiskWriter(file);
+            }
         }
 
         @Override
         public void onMessage(String msg) {
             try {
+                // if json dump is enabled write json to disk
+                if (jsonDiskWriter != null) {
+                    jsonDiskWriter.write(msg);
+                }
+
+                // parse json
                 Response response = JsonFactory.stringToResponse(msg);
 
                 // Send parsed instance of Response to internal handlers

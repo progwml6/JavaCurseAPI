@@ -222,10 +222,6 @@ public class CurseApp {
         ws.addTask(new DebugResponseTask(), NotificationsServiceContractType.GROUP_CHANGE_NOTIFICATION);
 
         ws.addTask(new DebugResponseTask(), NotificationsServiceContractType.UNKNOWN);
-        String file = System.getenv("JAVACURSEAPI_JSONDUMPS");
-        if (file != null && !file.isEmpty()) {
-            ws.addTaskForAllTypes(new SaveJsonsTask(file));
-        }
 
         // to add your own handlers call ws.getResponseHandler() and configure it
         CountDownLatch latch = new CountDownLatch(1);

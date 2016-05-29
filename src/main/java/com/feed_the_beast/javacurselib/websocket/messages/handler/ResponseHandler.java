@@ -16,17 +16,25 @@ import java.util.logging.Logger;
 public class ResponseHandler {
     private static final Logger logger = Logger.getLogger(ResponseHandler.class.getName());
     private List<ResponseTaskContainer> containers = Lists.newArrayList();
-
-    public void setWebSocket(@Nonnull WebSocket webSocket) {
-        this.webSocket = webSocket;
-    }
+    private List<Task> allTypes = Lists.newArrayList();
     private WebSocket webSocket;
+
     // TODO: remove internal handlers if ...
     //private HandshakeResponseTask handshakeResponseTask = new HandshakeResponseTask();
     //private JoinResponseTask joinResponseTask = new JoinResponseTask();
 
+
+    public ResponseHandler(WebSocket webSocket) {
+        this.webSocket = webSocket;
+    }
+
+
     public void addTask(@Nonnull Task task, @Nonnull NotificationsServiceContractType type) {
         containers.add(new ResponseTaskContainer(task, type));
+    }
+
+    public void addTaskForAllTypes(@Nonnull Task task) {
+        allTypes.add(task);
     }
 
     public boolean executeInternalTasks(@Nonnull Response response) {
@@ -45,6 +53,10 @@ public class ResponseHandler {
     }
 
     public void executeTasks(@Nonnull Response response) {
+        for (Task c: allTypes) {
+            c.execute(webSocket, response);
+        }
+
         for (ResponseTaskContainer c : containers) {
             if (response.getTypeID() == c.type) {
                 c.task.execute(webSocket, response);

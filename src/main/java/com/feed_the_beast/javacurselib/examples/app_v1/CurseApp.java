@@ -17,7 +17,6 @@ import com.feed_the_beast.javacurselib.service.sessions.sessions.CreateSessionRe
 import com.feed_the_beast.javacurselib.common.enums.DevicePlatform;
 import com.feed_the_beast.javacurselib.utils.NetworkRequest;
 import com.feed_the_beast.javacurselib.websocket.WebSocket;
-import com.feed_the_beast.javacurselib.websocket.messages.handler.ResponseHandler;
 import com.feed_the_beast.javacurselib.websocket.messages.notifications.NotificationsServiceContractType;
 import com.google.common.collect.HashBiMap;
 import retrofit2.adapter.java8.HttpException;
@@ -126,7 +125,9 @@ public class CurseApp {
          *******/
 
         try {
-            lr = REST.login.login(new LoginRequest(args[0], args[1])).get();
+            String user = args.length >= 2 ? args[0] : System.getenv("JAVACURSEAPI_USER");
+            String pass = args.length >= 2 ? args[1] : System.getenv("JAVACURSEAPI_PASS");
+            lr = REST.login.login(new LoginRequest(user, pass)).get();
         } catch (InterruptedException e) {
             // should not happen, just ignore
         } catch (ExecutionException e) {
@@ -215,12 +216,16 @@ public class CurseApp {
             e.printStackTrace();
             System.exit(0);
         }
-        ResponseHandler responseHandler = ws.getResponseHandler();
-        responseHandler.addTask(new DebugResponseTask(), NotificationsServiceContractType.CONVERSATION_MESSAGE_NOTIFICATION);
-        responseHandler.addTask(new DefaultResponseTask(), NotificationsServiceContractType.CONVERSATION_READ_NOTIFICATION);
-        responseHandler.addTask(new DebugResponseTask(), NotificationsServiceContractType.GROUP_CHANGE_NOTIFICATION);
 
-        responseHandler.addTask(new DebugResponseTask(), NotificationsServiceContractType.UNKNOWN);
+        ws.addTask(new DebugResponseTask(), NotificationsServiceContractType.CONVERSATION_MESSAGE_NOTIFICATION);
+        ws.addTask(new DefaultResponseTask(), NotificationsServiceContractType.CONVERSATION_READ_NOTIFICATION);
+        ws.addTask(new DebugResponseTask(), NotificationsServiceContractType.GROUP_CHANGE_NOTIFICATION);
+
+        ws.addTask(new DebugResponseTask(), NotificationsServiceContractType.UNKNOWN);
+        String file = System.getenv("JAVACURSEAPI_JSONDUMPS");
+        if (file != null && !file.isEmpty()) {
+            ws.addTaskForAllTypes(new SaveJsonsTask(file));
+        }
 
         // to add your own handlers call ws.getResponseHandler() and configure it
         CountDownLatch latch = new CountDownLatch(1);

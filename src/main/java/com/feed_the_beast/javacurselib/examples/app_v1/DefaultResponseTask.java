@@ -6,7 +6,6 @@ import com.feed_the_beast.javacurselib.websocket.messages.handler.tasks.Task;
 import com.feed_the_beast.javacurselib.websocket.messages.notifications.Response;
 
 import javax.annotation.Nonnull;
-import javax.websocket.Session;
 import java.util.logging.Logger;
 
 public class DefaultResponseTask implements Task {

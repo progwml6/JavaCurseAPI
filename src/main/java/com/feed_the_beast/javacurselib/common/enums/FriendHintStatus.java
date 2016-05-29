@@ -1,9 +1,13 @@
 package com.feed_the_beast.javacurselib.common.enums;
 
+import com.feed_the_beast.javacurselib.utils.BetterEnum;
+
+import javax.annotation.Nonnull;
+
 /**
  * representation of curse contact api FriendHintStatus model
  */
-public enum FriendHintStatus {
+public enum FriendHintStatus implements BetterEnum<Integer> {
     NORMAL(0), DELETED(1);
     private int value;
 
@@ -11,8 +15,9 @@ public enum FriendHintStatus {
         this.value = value;
     }
 
-    public int getValue () {
+    @Nonnull
+    @Override
+    public Integer getValue () {
         return value;
     }
-
 }

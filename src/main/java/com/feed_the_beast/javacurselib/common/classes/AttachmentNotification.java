@@ -1,4 +1,4 @@
-package com.feed_the_beast.javacurselib.service.conversations.conversations;
+package com.feed_the_beast.javacurselib.common.classes;
 
 import com.google.gson.annotations.SerializedName;
 

@@ -4,21 +4,18 @@ import com.feed_the_beast.javacurselib.utils.BetterEnum;
 
 import javax.annotation.Nonnull;
 
-/**
- * representation of curse contact api GroupMode
- */
-public enum GroupMode implements BetterEnum<Integer> {
-    TEXT_AND_VOICE(0), TEXT_ONLY(1);
+public enum ExternalCommunityLinkChangeType implements BetterEnum<Integer> {
+    LINKED(0), UNLINKED(1), LIVESTATUS(2);
 
-    private int value;
+    int value;
 
-    GroupMode (int value) {
+    ExternalCommunityLinkChangeType(int value) {
         this.value = value;
     }
 
     @Nonnull
     @Override
-    public Integer getValue () {
+    public Integer getValue() {
         return value;
     }
 }

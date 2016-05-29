@@ -1,6 +1,8 @@
 package com.feed_the_beast.javacurselib.service.contacts.contacts;
 
 
+import com.feed_the_beast.javacurselib.common.classes.ExternalCommunityPublicContract;
+import com.feed_the_beast.javacurselib.common.classes.GroupMemberContract;
 import com.feed_the_beast.javacurselib.common.enums.GroupMode;
 import com.feed_the_beast.javacurselib.common.enums.GroupStatus;
 import com.feed_the_beast.javacurselib.common.enums.GroupSubType;

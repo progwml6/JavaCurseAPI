@@ -1,6 +1,10 @@
 package com.feed_the_beast.javacurselib.common.enums;
 
-public enum GroupMemberRemovedReason {
+import com.feed_the_beast.javacurselib.utils.BetterEnum;
+
+import javax.annotation.Nonnull;
+
+public enum GroupMemberRemovedReason implements BetterEnum<Integer> {
     LEFT(0), KICKED (1), BANNED(2);
     private int value;
 
@@ -8,8 +12,9 @@ public enum GroupMemberRemovedReason {
         this.value = value;
     }
 
-    public int getValue () {
+    @Nonnull
+    @Override
+    public Integer getValue () {
         return value;
     }
-
 }

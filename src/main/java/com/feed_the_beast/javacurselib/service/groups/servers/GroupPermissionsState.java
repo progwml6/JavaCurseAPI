@@ -1,9 +1,13 @@
 package com.feed_the_beast.javacurselib.service.groups.servers;
 
+import com.feed_the_beast.javacurselib.utils.BetterEnum;
+
+import javax.annotation.Nonnull;
+
 /**
  * Created by progwml6 on 5/22/16.
  */
-public enum GroupPermissionsState {
+public enum GroupPermissionsState implements BetterEnum<Integer> {
     ALLOWED(0), ALLOWED_INHERITED(1), NOT_ALLOWED(2), NOT_ALLOWED_INHERITED(3);
 
     private int value;
@@ -12,8 +16,9 @@ public enum GroupPermissionsState {
         this.value = value;
     }
 
-    public int getValue () {
+    @Nonnull
+    @Override
+    public Integer getValue () {
         return value;
     }
-
 }

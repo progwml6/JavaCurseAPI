@@ -6,7 +6,7 @@ import com.feed_the_beast.javacurselib.data.Apis;
 import com.feed_the_beast.javacurselib.data.JsonFactory;
 import com.feed_the_beast.javacurselib.service.contacts.contacts.ChannelContract;
 import com.feed_the_beast.javacurselib.service.contacts.contacts.ContactsResponse;
-import com.feed_the_beast.javacurselib.service.contacts.contacts.FriendshipContract;
+import com.feed_the_beast.javacurselib.common.classes.FriendshipContract;
 import com.feed_the_beast.javacurselib.service.contacts.contacts.GroupNotification;
 import com.feed_the_beast.javacurselib.service.groups.bans.GroupBannedUserContract;
 import com.feed_the_beast.javacurselib.service.logins.login.LoginRequest;

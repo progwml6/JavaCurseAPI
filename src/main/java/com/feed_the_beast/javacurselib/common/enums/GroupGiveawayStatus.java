@@ -4,14 +4,13 @@ import com.feed_the_beast.javacurselib.utils.BetterEnum;
 
 import javax.annotation.Nonnull;
 
-/**
- * representation of curse contact api FriendHintVisibility model
- */
-public enum FriendHintVisibility implements BetterEnum<Integer> {
-    VISIBLE_TO_FRIENDS(0), VISIBLE_TO_EVERYONE(1), HIDDEN(2);
+public enum GroupGiveawayStatus implements BetterEnum<Integer> {
+    ACTIVE(0), ROLLING(1), WAITINGFORCLAIM(2),
+    CLAIMED(3), ENDED(4), INACTIVE(5);
+
     private int value;
 
-    FriendHintVisibility (int value) {
+    GroupGiveawayStatus(int value) {
         this.value = value;
     }
 

@@ -2,32 +2,30 @@ package com.feed_the_beast.javacurselib.websocket.messages.notifications;
 
 import javax.annotation.Nonnull;
 
-/*
- * Enable classes after implementation
- */
 public enum NotificationsServiceContractType {
     HANDSHAKE(-476754606, HandshakeResponse.class),
-    //CALL_NOTIFICATION(-1669214322, ),
-    //CALL_RESPONDED_NOTIFICATION(-1145188782, ),
+    CALL_NOTIFICATION(-1669214322, CallNotification.class),
+    CALL_RESPONDED_NOTIFICATION(-1145188782, CallRespondedNotification.class),
     CONVERSATION_MESSAGE_NOTIFICATION(-635182161, ConversationMessageNotification.class),
-    //CONVERSATION_MESSAGE_RESPONSE(705131365, ),
+    CONVERSATION_MESSAGE_RESPONSE(705131365, ConversationMessageResponse.class),
     CONVERSATION_READ_NOTIFICATION(-695526586, ConversationReadNotification.class),
-    //EXTERNAL_COMMUNITY_LINK_CHANGED_NOTIFICATION(738704822, ),
-    //FRIENDSHIP_CHANGE_NOTIFICATION(580569888, ),
-    //FRIENDSHIP_REMOVED_NOTIFICATION(1216900677, ),
-    //FRIEND_SUGGESTION_NOTIFICATION(-1001397130, ),
+    EXTERNAL_COMMUNITY_LINK_CHANGED_NOTIFICATION(738704822, ExternalCommunityLinkChangedNotification.class),
+    FRIENDSHIP_CHANGE_NOTIFICATION(580569888, FriendshipChangeNotification.class),
+    FRIENDSHIP_REMOVED_NOTIFICATION(1216900677, FriendshipRemovedNotification.class),
+    FRIEND_SUGGESTION_NOTIFICATION(-1001397130, FriendSuggestionNotification.class),
     GROUP_CHANGE_NOTIFICATION(149631008, GroupChangeNotification.class),
-    //GROUP_GIVEAWAY_CHANGED_NOTIFICATION(1519023790, ),
-    //GROUP_GIVEAWAY_SETTINGS_NOTIFICATION(-1318725298, ),
-    //GROUP_INVITATION_NOTIFICATION(-1732183626, ),
-    //GROUP_POLL_CHANGED_NOTIFICATION(-1942550100, ),
-    //GROUP_POLL_SETTINGS_NOTIFICATION(-34150280, ),
-    //GROUP_PREFERENCE_NOTIFICATION(72981382, ),
+    GROUP_GIVEAWAY_CHANGED_NOTIFICATION(1519023790, GroupGiveawayChangedNotification.class),
+    GROUP_GIVEAWAY_SETTINGS_NOTIFICATION(-1318725298, GroupGiveawaySettingsNotification.class),
+    GROUP_INVITATION_NOTIFICATION(-1732183626, GroupInvitationNotification.class),
+    GROUP_POLL_CHANGED_NOTIFICATION(-1942550100, GroupPollChangedNotification.class),
+    GROUP_POLL_SETTINGS_NOTIFICATION(-34150280, GroupPollSettingsNotification.class),
+    GROUP_PREFERENCE_NOTIFICATION(72981382, GroupPreferenceNotification.class),
     JOIN_RESPONSE(-815187584, JoinResponse.class),
-    //USER_CHANGE_NOTIFICATION(937250613, ),
-    //USER_CLIENT_SETTINGS_NOTIFICATION(-1641871686, ),
+    USER_CHANGE_NOTIFICATION(937250613, UserChangeNotification.class),
+    USER_CLIENT_SETTINGS_NOTIFICATION(-1641871686, UserClientSettingsNotification.class),
     // Fallback
     UNKNOWN(Integer.MIN_VALUE, UnknownResponse.class);
+
     private int value;
     private Class<? extends Response> clazz;
 

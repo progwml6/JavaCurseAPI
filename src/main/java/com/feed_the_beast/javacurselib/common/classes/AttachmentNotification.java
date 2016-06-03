@@ -15,7 +15,7 @@ public class AttachmentNotification {
     public int height;
     public boolean isAnimated;
     public boolean isEmbed;
-    public int AuthorID;
-    public String AuthorName;
+    public int authorID;
+    public String authorName;
     public long timestamp;
 }

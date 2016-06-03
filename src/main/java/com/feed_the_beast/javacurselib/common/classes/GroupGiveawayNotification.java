@@ -16,7 +16,7 @@ public class GroupGiveawayNotification {
     public long  rollsBeforeWinner;
     public long[] autoClaimRoles;
     public long[] autoEnterRoles;
-    public long[] IgnoredUsers;
+    public long[] ignoredUsers;
     public long entries;
     public long fakeRollsLeft;
     //public { [key: number]: number } topShares;

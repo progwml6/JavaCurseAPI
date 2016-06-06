@@ -5,6 +5,7 @@ import com.feed_the_beast.javacurselib.websocket.messages.notifications.Response
 
 import javax.annotation.Nonnull;
 
+@FunctionalInterface
 public interface  Task<T extends Response> {
     void execute(@Nonnull WebSocket webSocket, @Nonnull T response);
 }

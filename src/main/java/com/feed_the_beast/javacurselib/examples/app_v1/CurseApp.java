@@ -220,6 +220,10 @@ public class CurseApp {
         ws.addTask(new DebugResponseTask(), NotificationsServiceContractType.CONVERSATION_MESSAGE_NOTIFICATION);
         ws.addTask(new DefaultResponseTask(), NotificationsServiceContractType.CONVERSATION_READ_NOTIFICATION);
         ws.addTask(new DebugResponseTask(), NotificationsServiceContractType.GROUP_CHANGE_NOTIFICATION);
+        ws.addTask((websocket, resp) -> {
+            System.out.println("CONVERSATION_MESSAGE_NOTIFICATION from lambda:" + websocket + " : " + resp);
+        },
+                NotificationsServiceContractType.CONVERSATION_MESSAGE_NOTIFICATION);
 
         ws.addTask(new DebugResponseTask(), NotificationsServiceContractType.UNKNOWN);
 

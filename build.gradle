@@ -42,6 +42,8 @@ dependencies {
     testCompile 'org.powermock:powermock-module-junit4-rule-agent:1.6.3'
     testCompile 'org.openjdk.jmh:jmh-core:1.12'
     testCompile 'org.openjdk.jmh:jmh-generator-annprocess:1.12'
+    testCompile 'com.squareup.okhttp3:mockwebserver:3.2.0'
+    testCompile 'com.squareup.okhttp3:logging-interceptor:3.2.0'
 
     deployerJars 'org.apache.maven.wagon:wagon-ssh:2.2'
 }

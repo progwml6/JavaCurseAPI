@@ -1,5 +1,6 @@
 package com.feed_the_beast.javacurselib.rest;
 
+import com.feed_the_beast.javacurselib.data.Apis;
 import com.feed_the_beast.javacurselib.service.contacts.contacts.ContactUrlResponse;
 import com.feed_the_beast.javacurselib.service.contacts.contacts.ContactsResponse;
 import com.feed_the_beast.javacurselib.service.contacts.users.UserProfileNotification;
@@ -9,7 +10,7 @@ import java.util.concurrent.CompletableFuture;
 
 
 public class ContactWebService {
-    // divide service to multiple interfaces. Makes method naming easier
+    final static String ENDPOINT = Apis.CONTACTS;
 
     public interface Contacts {
         @GET("/contacts")

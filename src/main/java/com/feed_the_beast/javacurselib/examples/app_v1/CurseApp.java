@@ -1,5 +1,6 @@
 package com.feed_the_beast.javacurselib.examples.app_v1;
 
+import com.feed_the_beast.javacurselib.rest.ContactWebService;
 import com.feed_the_beast.javacurselib.service.contacts.users.UserProfileNotification;
 import com.feed_the_beast.javacurselib.utils.CurseGUID;
 import com.feed_the_beast.javacurselib.data.Apis;
@@ -144,6 +145,7 @@ public class CurseApp {
 
         // TODO: fix this by making REST fully non-static class and/or using other proper design patterns
         REST.setAuthToken(lr.session.token);
+        //REST.authInterceptor.setAuthToken(lr.session.token);
 
 
         /********

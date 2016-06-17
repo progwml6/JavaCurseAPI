@@ -1,4 +1,4 @@
-package com.feed_the_beast.javacurselib.examples.app_v1;
+package com.feed_the_beast.javacurselib.tools.jsondumper;
 
 import com.feed_the_beast.javacurselib.websocket.JsonFactory;
 import com.feed_the_beast.javacurselib.websocket.messages.notifications.Response;

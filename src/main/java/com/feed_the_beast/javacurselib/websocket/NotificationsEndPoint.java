@@ -1,6 +1,5 @@
 package com.feed_the_beast.javacurselib.websocket;
 
-import com.feed_the_beast.javacurselib.examples.app_v1.JsonDiskWriter;
 import com.feed_the_beast.javacurselib.service.logins.login.LoginResponse;
 import com.feed_the_beast.javacurselib.service.sessions.sessions.CreateSessionResponse;
 import com.feed_the_beast.javacurselib.websocket.messages.handler.RequestHandler;

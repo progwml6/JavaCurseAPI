@@ -1,12 +1,17 @@
 package com.feed_the_beast.javacurselib.rest;
 
+import com.feed_the_beast.javacurselib.common.classes.ExternalCommunityPublicContract;
 import com.feed_the_beast.javacurselib.data.Apis;
-import com.feed_the_beast.javacurselib.service.contacts.users.UserProfileNotification;
+import com.feed_the_beast.javacurselib.service.contacts.contacts.GroupNotification;
 import com.feed_the_beast.javacurselib.service.groups.bans.BanUserRequest;
 import com.feed_the_beast.javacurselib.service.groups.bans.GroupBannedUserContract;
 import com.feed_the_beast.javacurselib.service.groups.servers.GroupRoleDetails;
 import com.feed_the_beast.javacurselib.utils.CurseGUID;
-import retrofit2.http.*;
+import retrofit2.http.Body;
+import retrofit2.http.DELETE;
+import retrofit2.http.GET;
+import retrofit2.http.POST;
+import retrofit2.http.Path;
 
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
@@ -18,13 +23,44 @@ public class GroupsWebService {
     final static String ENDPOINT = Apis.GROUPS;
 
     public interface Servers {
+        @POST("groups/{groupID}/favorite")
+        CompletableFuture<Void> favorite (
+                @Path("groupID") CurseGUID groupID
+        );
+
+        @POST("groups/{groupID}/unfavorite")
+        CompletableFuture<Void> unfavorite (
+                @Path("groupID") CurseGUID groupID
+        );
+
+        @POST("servers/{groupID}/join")
+        CompletableFuture<GroupNotification> joinGroup (
+                @Path("groupID") CurseGUID groupID
+        );
+
+        @POST("groups/{groupID}/leave")
+        CompletableFuture<Void> leaveGroup (
+                @Path("groupID") CurseGUID groupID
+        );
+
+        @GET("servers/{serverID}/live-streams")
+        CompletableFuture<ExternalCommunityPublicContract> getLiveStreams (
+                @Path("serverID") CurseGUID serverID
+        );
+
+        @DELETE("groups/{groupID}/members/{userID}")
+        CompletableFuture<Void> removeFromGroup (
+                @Path("groupID") CurseGUID groupID,
+                @Path("userID") long userID
+        );
+
         @GET("servers/{groupID}/roles")
-        CompletableFuture<List<GroupRoleDetails>> getServerRoles(
+        CompletableFuture<List<GroupRoleDetails>> getServerRoles (
                 @Path("groupID") CurseGUID groupID
         );
 
         @GET("servers/{groupID}/roles/{roleID}")
-        CompletableFuture<List<GroupRoleDetails>> getServerRoleID(
+        CompletableFuture<List<GroupRoleDetails>> getServerRoleID (
                 @Path("groupID") CurseGUID groupID,
                 @Path("roleID") long roleID
         );

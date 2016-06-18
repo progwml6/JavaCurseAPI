@@ -9,9 +9,11 @@ import lombok.extern.slf4j.Slf4j;
 import javax.annotation.Nonnull;
 
 @Slf4j
-public class DefaultResponseTask implements Task {
+public class TraceResponseTask implements Task {
     @Override
     public void execute(@Nonnull WebSocket webSocket, @Nonnull Response response) {
-        log.info("\n\t{}", response);
+        if (log.isTraceEnabled()) {
+            log.trace(response.toString());
+        }
     }
 }

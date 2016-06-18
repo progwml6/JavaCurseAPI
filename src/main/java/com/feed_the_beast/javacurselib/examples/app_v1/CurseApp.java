@@ -1,21 +1,20 @@
 package com.feed_the_beast.javacurselib.examples.app_v1;
 
-import com.feed_the_beast.javacurselib.common.classes.FriendshipContract;
 import com.feed_the_beast.javacurselib.common.enums.DevicePlatform;
+import com.feed_the_beast.javacurselib.service.contacts.users.UserProfileNotification;
+import com.feed_the_beast.javacurselib.utils.CurseGUID;
 import com.feed_the_beast.javacurselib.data.Apis;
 import com.feed_the_beast.javacurselib.rest.REST;
 import com.feed_the_beast.javacurselib.service.contacts.contacts.ChannelContract;
 import com.feed_the_beast.javacurselib.service.contacts.contacts.ContactsResponse;
 import com.feed_the_beast.javacurselib.service.contacts.contacts.GroupNotification;
-import com.feed_the_beast.javacurselib.service.contacts.users.UserProfileNotification;
 import com.feed_the_beast.javacurselib.service.logins.login.LoginRequest;
 import com.feed_the_beast.javacurselib.service.logins.login.LoginResponse;
 import com.feed_the_beast.javacurselib.service.sessions.sessions.CreateSessionRequest;
 import com.feed_the_beast.javacurselib.service.sessions.sessions.CreateSessionResponse;
-import com.feed_the_beast.javacurselib.utils.CurseGUID;
 import com.feed_the_beast.javacurselib.websocket.WebSocket;
 import com.feed_the_beast.javacurselib.websocket.messages.notifications.NotificationsServiceContractType;
-import com.google.common.collect.HashBiMap;
+import lombok.extern.slf4j.Slf4j;
 import retrofit2.adapter.java8.HttpException;
 
 import java.net.URI;
@@ -23,43 +22,13 @@ import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.ExecutionException;
 
-import javax.annotation.Nullable;
 
 /**
  * Created by progwml6 on 4/28/16.
  */
+@Slf4j
 public class CurseApp {
-
-    private static HashBiMap<CurseGUID, String> channelNameIdPairs = HashBiMap.create();
-
-    public static void generateChannelIdMappings (ContactsResponse cr) {
-        for (FriendshipContract friend : cr.friends) {
-            //int, string, string
-            // friend.otherUserID, friend.otherUserNickname, friend.otherUserNickname
-        }
-        for (GroupNotification group : cr.groups) {
-            for (ChannelContract channel : group.channels) {
-                channelNameIdPairs.put(channel.groupID, group.groupTitle + "." + channel.groupTitle);//TODO should we make some sort of object for this
-            }
-        }
-    }
-
-    public static CurseGUID getChangelIDFromChannelName (ContactsResponse cr, @Nullable String serverName, String channelName) {
-        if (channelNameIdPairs.isEmpty()) {
-            generateChannelIdMappings(cr);
-        }
-        return channelNameIdPairs.inverse().get(serverName.equals(null) || serverName.isEmpty() ? channelName : serverName + "." + channelName);
-    }
-
-    public static String getChangelNameFromChannelID (ContactsResponse cr, CurseGUID guid) {
-        if (channelNameIdPairs.isEmpty()) {
-            generateChannelIdMappings(cr);
-        }
-        return channelNameIdPairs.get(guid);
-    }
-
-    private static LoginResponse lr = null;
-    ;
+    private static LoginResponse lr = null;;
     private static CreateSessionResponse sessionResponse = null;
     public static ContactsResponse contactsResponse = null;
 
@@ -76,15 +45,15 @@ public class CurseApp {
             // should not happen, just ignore
         } catch (ExecutionException e) {
             if (e.getCause() instanceof HttpException) {
-                System.out.println("Request failed: HTTP code: " + ((HttpException) e.getCause()).code());
+                log.error("Request failed: HTTP code: {}", ((HttpException) e.getCause()).code());
                 // TODO: add helper function(s) to verbosely debug fail reason(s) and/or check if retrofit/okhttp logging
             } else {
                 // network or  parser error, just print exception with causes
-                e.printStackTrace();
+                log.error("failed", e);
             }
             System.exit(1);
         }
-        System.out.println("Synchronous login done: " + lr);
+        log.info("Synchronous login done: {}", lr);
 
         // TODO: fix this by making REST fully non-static class and/or using other proper design patterns
         REST.setAuthToken(lr.session.token);
@@ -102,11 +71,10 @@ public class CurseApp {
         createSessionResponseCompletableFuture.whenComplete((r, e) -> {
             if (e != null) {
                 if (e.getCause() instanceof HttpException) {
-                    System.out.println("Request failed: HTTP code: " + ((HttpException) e.getCause()).code());
+                    log.error("Request failed: HTTP code: {}", ((HttpException) e.getCause()).code());
                     // TODO: see comment in login response
                 } else {
-                    // network or  parser error, just print exception with causes
-                    e.printStackTrace();
+                    log.error("failed", e);
                 }
                 System.exit(1);
             }
@@ -125,7 +93,7 @@ public class CurseApp {
             System.exit(1);
             // should not happen, just ignore
         }
-        System.out.println("Async session done: " + sessionResponse);
+        log.info("Async session done: {}", sessionResponse);
 
         /***************************
          *  experiment with data.
@@ -136,17 +104,16 @@ public class CurseApp {
             if (g.groupTitle.equals("CurseForge")) {
                 for (ChannelContract c : g.channels) {
                     if (c.groupTitle.equals("app-api-chat")) {
-                        System.out.println("you probably have access to this magical API Channel if you are seeing this code");
+                        log.info("you probably have access to this magical API Channel if you are seeing this code");
                     }
                 }
             }
         }
-        if (true) {
-            System.out.println("WIP: contactResponse: " + contactsResponse);
-        }
+
+        log.info("ContactResponse: {}", contactsResponse);
 
         UserProfileNotification myInfo = REST.users.getByID(sessionResponse.user.userID).join();
-        System.out.println("my own user info: " + myInfo);
+        log.info("my own user info: {}", myInfo);
 
         /************************************
          *  websocket testing/example code
@@ -155,25 +122,23 @@ public class CurseApp {
         try {
             ws = new WebSocket(lr, sessionResponse, new URI(Apis.NOTIFICATIONS));
         } catch (Exception e) {
-            System.out.println("failed");
-            e.printStackTrace();
+            log.error("failed", e);
             System.exit(0);
         }
 
-        ws.addTask(new DebugResponseTask(), NotificationsServiceContractType.CONVERSATION_MESSAGE_NOTIFICATION);
-        ws.addTask(new DefaultResponseTask(), NotificationsServiceContractType.CONVERSATION_READ_NOTIFICATION);
-        ws.addTask(new DebugResponseTask(), NotificationsServiceContractType.GROUP_CHANGE_NOTIFICATION);
-        ws.addTask((websocket, resp) -> {
-                    System.out.println("CONVERSATION_MESSAGE_NOTIFICATION from lambda:" + websocket + " : " + resp);
-                },
-                NotificationsServiceContractType.CONVERSATION_MESSAGE_NOTIFICATION);
-
-        ws.addTask(new DebugResponseTask(), NotificationsServiceContractType.UNKNOWN);
+        // new safe(sic) websocket logging system
+        ws.addRawTask(new RawResponseLoggerTask());
+        String file = System.getenv("JAVACURSEAPI_JSONDUMPS");
+        if (file != null && !file.isEmpty()) {
+            ws.addRawTask(new JsonDiskWriter(file));
+        }
+        ws.addTaskForAllTypes(new TraceResponseTask());
+        ws.addRequestTask(new TraceRequestTask());
 
         // to add your own handlers call ws.getResponseHandler() and configure it
         CountDownLatch latch = new CountDownLatch(1);
         ws.start();
-        System.out.println("Websocket up and running, suspend thread");
+        log.info("Websocket up and running, block main thread to keep application running");
         try {
             latch.await();
         } catch (InterruptedException e) {

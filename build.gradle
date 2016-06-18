@@ -35,6 +35,11 @@ dependencies {
     compile 'org.apache.commons:commons-lang3:3.3.2'
     compile 'com.google.guava:guava:17.0'//general utility classes
     compile 'com.google.code.findbugs:jsr305:1.3.9'//nonnull stuff
+    compile 'org.projectlombok:lombok:1.16.8'
+
+    compile 'org.slf4j:slf4j-api:1.7.21'
+    runtime 'org.slf4j:slf4j-simple:1.7.21'
+
 
     // test frameworks
     testCompile 'junit:junit:4.12'

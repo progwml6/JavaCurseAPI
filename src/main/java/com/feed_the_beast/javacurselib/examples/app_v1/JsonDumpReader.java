@@ -25,6 +25,7 @@ public class JsonDumpReader {
         }
 
         while (parser.hasNext()) {
+            System.out.println("==================");
             System.out.println(JsonFactory.GSON.fromJson(parser.next(), Response.class));
         }
     }

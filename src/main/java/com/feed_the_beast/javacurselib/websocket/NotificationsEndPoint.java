@@ -1,23 +1,23 @@
 package com.feed_the_beast.javacurselib.websocket;
 
+import com.feed_the_beast.javacurselib.examples.app_v1.JsonDiskWriter;
 import com.feed_the_beast.javacurselib.service.logins.login.LoginResponse;
 import com.feed_the_beast.javacurselib.service.sessions.sessions.CreateSessionResponse;
 import com.feed_the_beast.javacurselib.websocket.messages.handler.RequestHandler;
 import com.feed_the_beast.javacurselib.websocket.messages.requests.JoinRequest;
 import com.feed_the_beast.javacurselib.websocket.messages.notifications.Response;
 import com.feed_the_beast.javacurselib.websocket.messages.handler.ResponseHandler;
+import lombok.extern.slf4j.Slf4j;
 
 import javax.annotation.Nonnull;
 import javax.websocket.*;
-import java.util.logging.Logger;
 
+@Slf4j
 public class NotificationsEndPoint extends Endpoint {
-    private static final Logger logger = Logger.getLogger(NotificationsEndPoint.class.getName());
     private JoinRequest initRequest;
     private ResponseHandler responsehandler;
     private RequestHandler requestHandler;
     private WebSocket webSocket;
-    private JsonDiskWriter jsonDiskWriter;
 
     public NotificationsEndPoint(@Nonnull LoginResponse loginResponse, @Nonnull CreateSessionResponse sessionResponse, @Nonnull WebSocket webSocket) {
         this.initRequest = new JoinRequest(loginResponse, sessionResponse);
@@ -28,7 +28,7 @@ public class NotificationsEndPoint extends Endpoint {
 
     @Override
     public void onOpen(final Session session, EndpointConfig ec) {
-        logger.info(String.format("Websocket connection opened: %s. Adding message handles into session and sending join requests", session.getId()));
+        log.trace("Websocket connection opened: {}. Adding message handles into session and sending join requests", session.getId());
         session.addMessageHandler(new NotificationsMessageHandler(responsehandler));
         requestHandler.setSession(session);
         requestHandler.execute(initRequest);
@@ -37,50 +37,38 @@ public class NotificationsEndPoint extends Endpoint {
 
     @Override
     public void onClose(Session session, CloseReason closeReason) {
-        logger.warning(String.format("Session %s close because of %s", session.getId(), closeReason));
+        log.warn("Session {} close because of {}", session.getId(), closeReason);
         // TODO: should this reconnect?
 
     }
 
     @Override
     public void onError(Session session, Throwable t) {
-        logger.severe(String.format("Session %s errored: %s", session.getId(), t.toString()));
-        t.printStackTrace();
+        log.error("Session {} errored: {}", session.getId(), t.toString(), t);
         //TODO: reconnect?!
     }
 
-    private static class NotificationsMessageHandler implements MessageHandler.Whole<String> {
+    private class NotificationsMessageHandler implements MessageHandler.Whole<String> {
         private final ResponseHandler responseHandler;
-        private JsonDiskWriter jsonDiskWriter;
 
         public NotificationsMessageHandler(ResponseHandler responseHandler) {
             this.responseHandler = responseHandler;
-
-            String file = System.getenv("JAVACURSEAPI_JSONDUMPS");
-            if (file != null && !file.isEmpty()) {
-                jsonDiskWriter = new JsonDiskWriter(file);
-            }
         }
 
         @Override
         public void onMessage(String msg) {
             try {
-                // if json dump is enabled write json to disk
-                if (jsonDiskWriter != null) {
-                    jsonDiskWriter.write(msg);
-                }
+                responseHandler.executeRawTasks(msg);
 
                 // parse json
                 Response response = JsonFactory.stringToResponse(msg);
 
-                // Send parsed instance of Response to internal handlers
-                if (responseHandler.executeInternalTasks(response)) {
-                    // continue prosessing with user-defined handlers
-                    responseHandler.executeTasks(response);
-                }
+                // Send deserialized message to internal handlers
+                responseHandler.executeInternalTasks(response);
+                // continue prosessing with user-defined handlers
+                responseHandler.executeTasks(response);
             } catch (Exception e) {
-                logger.severe("onMessage failed");
-                e.printStackTrace();
+                log.error("onMessage failed", e);
             }
         }
     }

@@ -25,7 +25,7 @@ public class LoginSession {
                 "userID=" + userID +
                 ", username='" + username + '\'' +
                 ", sessionID='<HIDDEN>'" +
-                ", token=<HIDDEN" +
+                ", token=<HIDDEN>" +
                 ", emailAddress='<HIDDEN>'" +
                 ", effectivePremiumStatus=" + effectivePremiumStatus +
                 ", actualPremiumStatus=" + actualPremiumStatus +

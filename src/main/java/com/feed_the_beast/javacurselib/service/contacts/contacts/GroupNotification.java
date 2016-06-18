@@ -8,6 +8,7 @@ import com.feed_the_beast.javacurselib.common.enums.GroupStatus;
 import com.feed_the_beast.javacurselib.common.enums.GroupSubType;
 import com.feed_the_beast.javacurselib.common.enums.GroupType;
 import com.feed_the_beast.javacurselib.utils.CurseGUID;
+import lombok.ToString;
 
 import java.util.List;
 import java.util.Map;
@@ -15,6 +16,7 @@ import java.util.Map;
 /**
  * representation of curse contacts api GroupNotification
  */
+@ToString
 public class GroupNotification {
     public String groupTitle;
     public CurseGUID groupID;

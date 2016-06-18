@@ -5,11 +5,18 @@ import com.feed_the_beast.javacurselib.service.logins.login.LoginResponse;
 import com.feed_the_beast.javacurselib.service.sessions.sessions.CreateSessionResponse;
 import com.feed_the_beast.javacurselib.websocket.messages.handler.RequestHandler;
 import com.feed_the_beast.javacurselib.websocket.messages.handler.ResponseHandler;
+import com.feed_the_beast.javacurselib.websocket.messages.handler.tasks.RawTask;
+import com.feed_the_beast.javacurselib.websocket.messages.handler.tasks.RequestTask;
 import com.feed_the_beast.javacurselib.websocket.messages.handler.tasks.Task;
 import com.feed_the_beast.javacurselib.websocket.messages.notifications.NotificationsServiceContractType;
 import com.feed_the_beast.javacurselib.websocket.messages.requests.ConversationMarkReadRequest;
 import com.feed_the_beast.javacurselib.websocket.messages.requests.ConversationMessageRequest;
 import com.feed_the_beast.javacurselib.websocket.messages.requests.HandshakeRequest;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.extern.slf4j.Slf4j;
+import org.glassfish.tyrus.client.ClientManager;
+import org.glassfish.tyrus.client.ClientProperties;
 
 import javax.annotation.Nonnull;
 import javax.websocket.*;
@@ -19,13 +26,11 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
-import java.util.logging.Logger;
 
 // TODO: split public functions into separated class. Hint: hide implementation behind facade
 //
+@Slf4j
 public class WebSocket {
-    private static final Logger logger = Logger.getLogger(WebSocket.class.getName());
-
     private final ResponseHandler responseHandler;
     private final RequestHandler requestHandler;
     private LoginResponse loginResponse;
@@ -36,6 +41,10 @@ public class WebSocket {
     private NotificationsEndPoint notificationsEndPoint;    //TODO: make configurable?
     private ScheduledFuture<?> pingThread;
     private ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(1);
+
+    @Setter
+    @Getter
+    private boolean logMessages = false;
 
     // API public
     public WebSocket(@Nonnull LoginResponse loginResponse, @Nonnull CreateSessionResponse sessionResponse, @Nonnull URI endpoint) {
@@ -56,8 +65,7 @@ public class WebSocket {
                 session = client.connectToServer(notificationsEndPoint, null, endpoint);
                 connected = true;
             } catch (IOException | DeploymentException e) {
-                logger.severe("failed");
-                e.printStackTrace();
+                log.error("failed", e);
             }
             try {
                 Thread.sleep(10000);
@@ -107,7 +115,7 @@ public class WebSocket {
             try {
                 requestHandler.execute(HandshakeRequest.PING);
             } catch (Exception e) {
-                e.printStackTrace();
+                log.error("failed", e);
             }
         }
     }
@@ -180,5 +188,13 @@ public class WebSocket {
      */
     public void addTaskForAllTypes(@Nonnull Task task) {
         responseHandler.addTaskForAllTypes(task);
+    }
+
+    public void addRawTask(@Nonnull RawTask task) {
+        responseHandler.addRawTask(task);
+    }
+
+    public void addRequestTask(@Nonnull RequestTask task) {
+        requestHandler.addTask(task);
     }
 }

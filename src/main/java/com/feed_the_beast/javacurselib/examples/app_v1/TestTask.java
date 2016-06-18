@@ -6,16 +6,10 @@ import com.feed_the_beast.javacurselib.websocket.messages.notifications.Conversa
 
 import javax.annotation.Nonnull;
 
-public class BotTask implements Task<ConversationMessageNotification> {
+public class TestTask implements Task<ConversationMessageNotification> {
     @Override
     public void execute(@Nonnull WebSocket webSocket, @Nonnull ConversationMessageNotification msg) {
-        if (msg.body.startsWith("!ban") && msg.senderName.equals("jikuja")) {
-            System.out.println("LOLBAN" + msg.body.startsWith("!ban".split(" ")[1]));
-        }
-
-        if (msg.body.startsWith("!ban")) {
-            // maybe works, maybe not
-            webSocket.sendMessage(msg.conversationID, "Lol !ban");
-        }
+        // do nothing. Just be here and make sure we can have execute() with concrete Notifications
+        msg.body.isEmpty();
     }
 }

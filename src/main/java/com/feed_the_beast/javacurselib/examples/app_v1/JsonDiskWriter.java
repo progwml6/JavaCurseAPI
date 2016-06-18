@@ -1,12 +1,14 @@
-package com.feed_the_beast.javacurselib.websocket;
+package com.feed_the_beast.javacurselib.examples.app_v1;
 
+
+import com.feed_the_beast.javacurselib.websocket.messages.handler.tasks.RawTask;
+
+import javax.annotation.Nonnull;
 import java.io.*;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
-import java.util.logging.Logger;
 
-public class JsonDiskWriter {
-    private static final Logger logger = Logger.getLogger(JsonDiskWriter.class.getName());
+public class JsonDiskWriter implements RawTask {
     private final JsonSaver jsonSaver;
 
     public JsonDiskWriter(File file) {
@@ -20,6 +22,11 @@ public class JsonDiskWriter {
 
     public void write (String json) {
         jsonSaver.add(json);
+    }
+
+    @Override
+    public void execute(@Nonnull String message) {
+        write(message);
     }
 
     private static class JsonSaver extends Thread {

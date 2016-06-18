@@ -76,7 +76,6 @@ public class ConversationsTest {
         ConversationsWebService.Conversations conversations = creator.addInterceptor(new MockInterceptor()).createEndpoint(Apis.CONVERSATIONS, ConversationsWebService.Conversations.class);
         CompletableFuture<Void> future = conversations.deleteMessage(CurseGUID.newFromLong(1, 2), CurseGUID.newFromLong(3, 4), 1234);
         Object o = future.join();
-        System.out.println(o);
     }
 
 

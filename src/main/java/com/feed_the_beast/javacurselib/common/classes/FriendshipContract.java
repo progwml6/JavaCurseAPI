@@ -2,12 +2,14 @@ package com.feed_the_beast.javacurselib.common.classes;
 
 import com.feed_the_beast.javacurselib.common.enums.FriendshipStatus;
 import com.feed_the_beast.javacurselib.common.enums.UserConnectionStatus;
+import lombok.ToString;
 
 import java.util.Date;
 
 /**
  * representation of curse contacts api FriendshipContract
  */
+@ToString
 public class FriendshipContract {
     public FriendshipStatus status;
     public int otherUserID;

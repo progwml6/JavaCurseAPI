@@ -7,11 +7,7 @@ import com.feed_the_beast.javacurselib.service.groups.bans.BanUserRequest;
 import com.feed_the_beast.javacurselib.service.groups.bans.GroupBannedUserContract;
 import com.feed_the_beast.javacurselib.service.groups.servers.GroupRoleDetails;
 import com.feed_the_beast.javacurselib.utils.CurseGUID;
-import retrofit2.http.Body;
-import retrofit2.http.DELETE;
-import retrofit2.http.GET;
-import retrofit2.http.POST;
-import retrofit2.http.Path;
+import retrofit2.http.*;
 
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
@@ -87,5 +83,13 @@ public class GroupsWebService {
                 @Path("userID") long userID
         );
 
+    }
+
+    public interface Groups {
+        @GET("groups/{serverID}")
+        CompletableFuture<GroupNotification> get (
+                @Path("serverID") CurseGUID serverID,
+                @Query("showDeletedChannels") boolean showDeletedChannels
+        );
     }
 }

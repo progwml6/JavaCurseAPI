@@ -33,7 +33,7 @@ public class GroupNotification {
     public GroupStatus status;
     public boolean isDefaultChannel;
     public List<GroupRoleNotification> roles;
-    public Map<Integer,Integer> rolePermissions;
+    public Map<Integer,Integer> rolePermissions; // TODO: actually Map<Integer, Bitmap>
     public GroupMembershipNotification membership;
     public int memberCount;
     public List<GroupEmoticonNotification> emotes;

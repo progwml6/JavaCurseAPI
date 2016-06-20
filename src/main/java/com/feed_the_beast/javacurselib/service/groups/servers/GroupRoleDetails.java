@@ -1,5 +1,6 @@
 package com.feed_the_beast.javacurselib.service.groups.servers;
 
+import com.feed_the_beast.javacurselib.common.enums.GroupPermissions;
 import com.feed_the_beast.javacurselib.service.contacts.contacts.GroupRoleNotification;
 import com.feed_the_beast.javacurselib.utils.CurseGUID;
 

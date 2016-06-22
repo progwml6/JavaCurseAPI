@@ -89,4 +89,23 @@ public class GroupPermissionsTest {
         set.add(GroupPermissions.ACCESS);
 
     }
+
+    @Test
+    public void testEquals() throws Exception {
+        EnumSet<GroupPermissions> all = EnumSet.allOf(GroupPermissions.class);
+        assertFalse(all == GroupPermissions.ALL);
+        assertTrue(all.equals(GroupPermissions.ALL));
+        assertTrue(GroupPermissions.ALL.equals(all));
+
+        all.remove(GroupPermissions.ACCESS);
+        all.add(GroupPermissions.ACCESS);
+        assertTrue(all.equals(GroupPermissions.ALL));
+        assertTrue(GroupPermissions.ALL.equals(all));
+
+        all = EnumSet.copyOf(GroupPermissions.ALL);
+        all.remove(GroupPermissions.ACCESS);
+        all.add(GroupPermissions.ACCESS);
+        assertTrue(all.equals(GroupPermissions.ALL));
+        assertTrue(GroupPermissions.ALL.equals(all));
+    }
 }

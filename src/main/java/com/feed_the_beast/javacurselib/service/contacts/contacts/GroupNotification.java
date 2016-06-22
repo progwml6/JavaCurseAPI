@@ -48,4 +48,22 @@ public class GroupNotification {
     public boolean isStreaming;
     public List<ExternalCommunityPublicContract> linkedCommunities;
     public int afkTimerMins;
+
+    public int getRoleIdbyName(String s) {
+        for (GroupRoleNotification role: roles) {
+            if (role.name.equals(s)) {
+                return role.roleID;
+            }
+        }
+        throw new IllegalStateException("No role found: " + s);
+    }
+
+    public String getRoleNamebyId(int id) {
+        for (GroupRoleNotification role: roles) {
+            if (role.roleID == id) {
+                return role.name;
+            }
+        }
+        throw new IllegalStateException("No role found: " + id);
+    }
 }

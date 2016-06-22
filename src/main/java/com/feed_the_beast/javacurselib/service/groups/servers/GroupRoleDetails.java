@@ -5,9 +5,10 @@ import com.feed_the_beast.javacurselib.service.contacts.contacts.GroupRoleNotifi
 import com.feed_the_beast.javacurselib.utils.CurseGUID;
 
 import java.util.Map;
+import java.util.Set;
 
 public class GroupRoleDetails {
     public GroupRoleNotification role;
     public Map<CurseGUID, Integer> effectivePermissions;
-    public Map<CurseGUID, Map<GroupPermissions, GroupPermissionsState>> permissions;
+    public Map<CurseGUID, Map<Set<GroupPermissions>, GroupPermissionsState>> permissions;
 }

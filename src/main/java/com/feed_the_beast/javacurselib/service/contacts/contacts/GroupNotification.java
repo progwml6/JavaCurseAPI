@@ -3,15 +3,13 @@ package com.feed_the_beast.javacurselib.service.contacts.contacts;
 
 import com.feed_the_beast.javacurselib.common.classes.ExternalCommunityPublicContract;
 import com.feed_the_beast.javacurselib.common.classes.GroupMemberContract;
-import com.feed_the_beast.javacurselib.common.enums.GroupMode;
-import com.feed_the_beast.javacurselib.common.enums.GroupStatus;
-import com.feed_the_beast.javacurselib.common.enums.GroupSubType;
-import com.feed_the_beast.javacurselib.common.enums.GroupType;
+import com.feed_the_beast.javacurselib.common.enums.*;
 import com.feed_the_beast.javacurselib.utils.CurseGUID;
 import lombok.ToString;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * representation of curse contacts api GroupNotification
@@ -33,7 +31,7 @@ public class GroupNotification {
     public GroupStatus status;
     public boolean isDefaultChannel;
     public List<GroupRoleNotification> roles;
-    public Map<Integer,Integer> rolePermissions; // TODO: actually Map<Integer, Bitmap>
+    public Map<Integer,Set<GroupPermissions>> rolePermissions;
     public GroupMembershipNotification membership;
     public int memberCount;
     public List<GroupEmoticonNotification> emotes;

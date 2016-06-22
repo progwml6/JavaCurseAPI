@@ -1,12 +1,16 @@
 package com.feed_the_beast.javacurselib.websocket.messages.notifications;
 
+import com.feed_the_beast.javacurselib.common.enums.GroupPermissions;
 import com.feed_the_beast.javacurselib.utils.CurseGUID;
 import com.feed_the_beast.javacurselib.common.classes.AttachmentNotification;
 import com.feed_the_beast.javacurselib.common.enums.ConversationNotificationType;
 import com.feed_the_beast.javacurselib.common.enums.ConversationType;
+import lombok.ToString;
 
 import java.util.List;
+import java.util.Set;
 
+@ToString
 public class ConversationMessageNotification extends BaseResponse implements Response {
     public String clientID;
     public CurseGUID serverID;
@@ -17,7 +21,7 @@ public class ConversationMessageNotification extends BaseResponse implements Res
     public long timestamp;
     public long senderID;
     public String senderName;
-    public int senderPermissions;
+    public Set<GroupPermissions> senderPermissions;
     public int[] senderRoles;
     public int senderVanityRole;
     public int[] mentions;
@@ -36,13 +40,4 @@ public class ConversationMessageNotification extends BaseResponse implements Res
     public int[] contentTags;
     public List<AttachmentNotification> attachments;
     public ConversationNotificationType notificationType;
-
-    @Override
-    public String toString() {
-        return "ConversationMessageNotification{" +
-                "body='" + body + '\'' +
-                ", senderName='" + senderName + '\'' +
-                ", conversationType=" + conversationType +
-                '}';
-    }
 }

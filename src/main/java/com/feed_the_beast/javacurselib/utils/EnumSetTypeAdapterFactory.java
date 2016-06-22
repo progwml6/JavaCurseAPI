@@ -8,6 +8,7 @@ import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 import com.google.gson.stream.JsonToken;
 import com.google.gson.stream.JsonWriter;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
 import java.lang.reflect.InvocationTargetException;
@@ -16,6 +17,7 @@ import java.lang.reflect.Type;
 import java.util.Arrays;
 import java.util.Set;
 
+@Slf4j
 public class EnumSetTypeAdapterFactory implements TypeAdapterFactory {
 
     // TODO: add constructor and save allowed Enums
@@ -27,10 +29,12 @@ public class EnumSetTypeAdapterFactory implements TypeAdapterFactory {
             return null;
         }
 
+        /*
         System.out.println(rawType.getTypeName());
         System.out.println(Arrays.toString(rawType.getTypeParameters()));
         System.out.println(rawType.getName());
         System.out.println(type);
+        */
         Type type2 = type.getType();
         Method m = null;
         try {

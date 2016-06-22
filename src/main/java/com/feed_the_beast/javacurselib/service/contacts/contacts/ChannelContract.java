@@ -26,7 +26,7 @@ public class ChannelContract {
     public boolean allowTemporaryChildGroups;
     public boolean forcePushToTalk;
     public boolean isDefaultChannel;
-    public Map<Integer,Integer> rolePermissions;
+    public Map<Integer,Integer> rolePermissions; // TODO: GroupPermissions?
     public boolean isPublic;
     public ChannelMembershipContract membership;
     public String urlPath;

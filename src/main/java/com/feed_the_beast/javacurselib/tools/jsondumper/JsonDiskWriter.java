@@ -20,13 +20,9 @@ public class JsonDiskWriter implements RawTask {
         this(new File(file));
     }
 
-    public void write (String json) {
-        jsonSaver.add(json);
-    }
-
     @Override
     public void execute(@Nonnull String message) {
-        write(message);
+        jsonSaver.add(message);
     }
 
     private static class JsonSaver extends Thread {
@@ -37,7 +33,7 @@ public class JsonDiskWriter implements RawTask {
             try {
                 this.toWrite = new LinkedBlockingQueue<>();
                 this.writer = new BufferedWriter(new OutputStreamWriter(new FileOutputStream(file)));
-                this.setName("Json Entry saver thread");
+                this.setName("Json Entry Disk Writer");
                 this.setDaemon(true);
             } catch (Exception e) {
                 // just fail. User explicitly requested this
@@ -53,8 +49,16 @@ public class JsonDiskWriter implements RawTask {
         public void run() {
             String s;
             try {
+                long i = 0;
+                System.out.println("");
                 while ((s = toWrite.take()) != null){
+                    i++;
                     writer.write(s);
+                    if (i % 10 == 0) {
+                        System.out.print(".");
+                    } else if (i % 1000 == 0) {
+                        System.out.println(i + " messages written");
+                    }
                 }
             } catch (InterruptedException|IOException e) {
                 // better to fail than fill memory

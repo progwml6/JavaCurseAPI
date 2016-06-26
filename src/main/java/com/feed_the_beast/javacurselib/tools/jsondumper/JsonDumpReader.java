@@ -10,7 +10,7 @@ import java.io.FileReader;
 // TODO: configure this parser as pedantic as possible
 public class JsonDumpReader {
     public static void main(String[] args) {
-        String file = System.getenv("JAVACURSEAPI_JSONDUMPS");
+        String file = args[0];
         if (file != null && !file.isEmpty()) {
             read(file);
         }

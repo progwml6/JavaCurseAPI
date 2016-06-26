@@ -44,6 +44,7 @@ public class RestEndpointCreator {
         return createEndpoint(endpoint, clazz);
     }
 
+    // creates client per endpoint. Good or not? Closing okio daemons is hard...
     public <T> T createEndpoint(String endpoint, Class<T> clazz) {
         Retrofit.Builder builder;
         OkHttpClient client = createClient();

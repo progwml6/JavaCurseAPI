@@ -17,20 +17,28 @@ public class AuthTokenGenerator {
         File file = new File(args[0]);
         Console console = System.console();
 
+        // read username and password
         String user = console.readLine("Username: ");
         char[] passwd = console.readPassword("Password: ");
 
+        // experiment with UserEndpoints.CredentialProvider
         MyCredentials credentials = new MyCredentials(user, passwd);
         RestUserEndpoints endpoints = new RestUserEndpoints();
+        // add HttpLoggingInterceptor, log as much ask possible
         endpoints.addInterceptor(new HttpLoggingInterceptor(new MyLogger()).setLevel(HttpLoggingInterceptor.Level.BODY));
         endpoints.setupEndpoints();
         LoginResponse loginResponse = endpoints.doLogin(credentials);
+        // this should be done to minimize password leakage but other parts of library must be changed to support char arrays
         Arrays.fill(passwd, '0');
-        String login = JsonFactory.GSON.toJson(loginResponse);
 
+        // finally save LoginResponse to disk
+        String login = JsonFactory.GSON.toJson(loginResponse);
         PrintWriter writer = new PrintWriter(file);
         writer.print(login);
         writer.close();
+
+        // just close JVM. Otherwise it will wait okio daemon timeouts
+        System.exit(0);
     }
 
     private static class MyCredentials implements RestUserEndpoints.CredentialProvider {
@@ -57,6 +65,7 @@ public class AuthTokenGenerator {
     private static class MyLogger implements HttpLoggingInterceptor.Logger {
         @Override
         public void log(String message) {
+            // sinmple. Log everything through Slf4j
             log.debug(message);
         }
     }

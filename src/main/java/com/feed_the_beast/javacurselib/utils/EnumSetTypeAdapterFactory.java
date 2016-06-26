@@ -1,6 +1,7 @@
 package com.feed_the_beast.javacurselib.utils;
 
 import com.feed_the_beast.javacurselib.common.enums.GroupPermissions;
+import com.google.common.collect.Lists;
 import com.google.gson.Gson;
 import com.google.gson.TypeAdapter;
 import com.google.gson.TypeAdapterFactory;
@@ -11,59 +12,34 @@ import com.google.gson.stream.JsonWriter;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.IOException;
-import java.lang.reflect.InvocationTargetException;
-import java.lang.reflect.Method;
+import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
-import java.util.Arrays;
+import java.util.List;
 import java.util.Set;
 
 @Slf4j
 public class EnumSetTypeAdapterFactory implements TypeAdapterFactory {
+    private final List<Class> allowedEnums = Lists.newArrayList();
 
-    // TODO: add constructor and save allowed Enums
+    public EnumSetTypeAdapterFactory(List<Class> allowedEnums) {
+        this.allowedEnums.addAll(allowedEnums);
+    }
 
     @Override
     public <T> TypeAdapter<T> create(Gson gson, TypeToken<T> type) {
         Class<T> rawType = (Class<T>) type.getRawType();
-        if (!rawType.getName().equals("java.util.Set")) {
+        Type type2 = type.getType();
+        if (rawType != Set.class || !(type2 instanceof ParameterizedType)) {
             return null;
         }
 
-        /*
-        System.out.println(rawType.getTypeName());
-        System.out.println(Arrays.toString(rawType.getTypeParameters()));
-        System.out.println(rawType.getName());
-        System.out.println(type);
-        */
-        Type type2 = type.getType();
-        Method m = null;
-        try {
-            m = type2.getClass().getDeclaredMethod("getActualTypeArguments", null);
-        } catch (NoSuchMethodException e) {
-            e.printStackTrace();
-        }
+        Type ret = ((ParameterizedType) type2).getActualTypeArguments()[0];
 
-
-        m.setAccessible(true);
-
-        Type[] ret = null;
-        try {
-            ret = (Type[]) m.invoke(type2);
-        } catch (IllegalAccessException e) {
-            e.printStackTrace();
-        } catch (InvocationTargetException e) {
-            e.printStackTrace();
-        }
-
-        System.out.println(Arrays.toString(ret));
-
-        if (ret[0] != GroupPermissions.class) {
-            // todo: check if this particular enum is in allowed list
+        if (!allowedEnums.contains(ret)) {
             return null;
         }
 
         return (TypeAdapter<T>) new EnumSetTypeAdapter(type);
-        //return new EnumSetTypeAdapter();
     }
 
     private static final class EnumSetTypeAdapter extends TypeAdapter<Set> {
@@ -73,6 +49,7 @@ public class EnumSetTypeAdapterFactory implements TypeAdapterFactory {
             this.type = type;
         }
 
+        // TODO: modularize static (de)serialize calls
         @Override
         public void write(JsonWriter out, Set value) throws IOException {
             out.value(GroupPermissions.serialize(value));

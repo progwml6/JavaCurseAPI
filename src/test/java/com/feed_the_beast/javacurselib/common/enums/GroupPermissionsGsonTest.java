@@ -1,12 +1,11 @@
 package com.feed_the_beast.javacurselib.common.enums;
 
 import com.feed_the_beast.javacurselib.utils.EnumSetTypeAdapterFactory;
-import com.google.common.collect.Sets;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.google.gson.reflect.TypeToken;
 import org.junit.Test;
 
+import java.util.Arrays;
 import java.util.EnumSet;
 import java.util.Set;
 
@@ -23,7 +22,7 @@ public class GroupPermissionsGsonTest {
 
     static {
         GsonBuilder builder = new GsonBuilder();
-        builder.registerTypeAdapterFactory(new EnumSetTypeAdapterFactory());
+        builder.registerTypeAdapterFactory(new EnumSetTypeAdapterFactory(Arrays.asList(GroupPermissions.class)));
         GSON = builder.create();
     }
 

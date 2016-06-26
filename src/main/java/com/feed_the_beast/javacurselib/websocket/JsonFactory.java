@@ -1,5 +1,6 @@
 package com.feed_the_beast.javacurselib.websocket;
 
+import com.feed_the_beast.javacurselib.common.enums.GroupPermissions;
 import com.feed_the_beast.javacurselib.utils.*;
 import com.feed_the_beast.javacurselib.websocket.messages.notifications.NotificationsServiceContractType;
 import com.feed_the_beast.javacurselib.websocket.messages.notifications.Response;
@@ -8,6 +9,7 @@ import com.feed_the_beast.javacurselib.websocket.messages.requests.Request;
 import com.google.gson.*;
 
 import java.lang.reflect.Type;
+import java.util.Arrays;
 import java.util.Date;
 
 @SuppressWarnings("Duplicates")
@@ -18,7 +20,7 @@ public class JsonFactory {
         GsonBuilder builder = new GsonBuilder();
         builder.registerTypeAdapter(Date.class, new DateAdapter());
         builder.registerTypeAdapterFactory(new BetterEnumAdapterFactory());
-        builder.registerTypeAdapterFactory(new EnumSetTypeAdapterFactory());
+        builder.registerTypeAdapterFactory(new EnumSetTypeAdapterFactory(Arrays.asList(GroupPermissions.class)));
         builder.registerTypeAdapter(Response.class, new ResponseDeserializer());
         builder.registerTypeAdapter(Response.class, new ResponseSerializer());
         builder.registerTypeAdapter(Request.class, new RequestSerializer());

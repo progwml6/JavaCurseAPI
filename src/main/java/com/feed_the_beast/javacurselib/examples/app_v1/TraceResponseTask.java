@@ -9,19 +9,18 @@ import lombok.extern.slf4j.Slf4j;
 
 import javax.annotation.Nonnull;
 
-// TODO:
-// * add filtering(do not log pings)
-
 /**
  * Logs deserialized Response object
  */
 
 @Slf4j
 public class TraceResponseTask implements Task {
-    private boolean extraForUnknown = false;
+    private boolean logPings = false;
+    private boolean logExtraInfoForUnknown = false;
 
-    public TraceResponseTask(boolean extraForUnknown) {
-        this.extraForUnknown = extraForUnknown;
+    public TraceResponseTask(boolean logPings, boolean logExtraInfoForUnknown) {
+        this.logPings = logPings;
+        this.logExtraInfoForUnknown = logExtraInfoForUnknown;
     }
 
     public TraceResponseTask() {
@@ -30,10 +29,15 @@ public class TraceResponseTask implements Task {
     @Override
     public void execute(@Nonnull WebSocket webSocket, @Nonnull Response response) {
         if (log.isTraceEnabled()) {
-            // log deserialized object
-            log.trace(response.toString());
+            if (response.getTypeID() == NotificationsServiceContractType.HANDSHAKE) {
+                if (logPings) {
+                    log.trace(response.toString());
+                }
+            } else {
+                log.trace(response.toString());
+            }
         }
-        if (extraForUnknown && response.getTypeID() == NotificationsServiceContractType.UNKNOWN) {
+        if (logExtraInfoForUnknown && response.getTypeID() == NotificationsServiceContractType.UNKNOWN) {
             log.warn("Unknown Response: " + response.getOrigMessage());
         }
     }

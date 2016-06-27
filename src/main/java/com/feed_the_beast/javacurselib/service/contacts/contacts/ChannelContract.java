@@ -5,6 +5,7 @@ import com.feed_the_beast.javacurselib.common.enums.GroupMode;
 import com.feed_the_beast.javacurselib.common.enums.GroupStatus;
 import com.feed_the_beast.javacurselib.common.enums.GroupType;
 import com.feed_the_beast.javacurselib.utils.CurseGUID;
+import lombok.ToString;
 
 import java.util.List;
 import java.util.Map;
@@ -12,6 +13,7 @@ import java.util.Map;
 /**
  * representation of curse contact api ChannelContract
  */
+ @ToString
 public class ChannelContract {
     public String groupTitle;
     public CurseGUID groupID;

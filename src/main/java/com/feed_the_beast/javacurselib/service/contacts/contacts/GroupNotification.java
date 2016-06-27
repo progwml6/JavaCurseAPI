@@ -64,4 +64,22 @@ public class GroupNotification {
         }
         throw new IllegalStateException("No role found: " + id);
     }
+
+    public String getChannelNamebyId(CurseGUID id) {
+        for (ChannelContract c : channels) {
+            if (c.groupID == id) {
+                return c.groupTitle;
+            }
+        }
+        return null;
+    }
+
+    public CurseGUID getChannelIdByName(String s) {
+        for (ChannelContract c : channels) {
+            if (c.groupTitle.equals(s)) {
+                return c.groupID;
+            }
+        }
+        return null;
+    }
 }

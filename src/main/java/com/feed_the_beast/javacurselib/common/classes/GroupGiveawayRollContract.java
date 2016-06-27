@@ -9,5 +9,5 @@ public class GroupGiveawayRollContract {
     public GroupGiveawayRollStatus rollStatus;
     public long timestamp;
     public long bestRoleID;
-    public long bestRoleName;
+    public String bestRoleName;
 }

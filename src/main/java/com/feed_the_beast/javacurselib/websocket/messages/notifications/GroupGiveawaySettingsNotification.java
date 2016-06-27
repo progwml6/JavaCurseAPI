@@ -1,8 +1,10 @@
 package com.feed_the_beast.javacurselib.websocket.messages.notifications;
 
 import com.feed_the_beast.javacurselib.common.classes.GroupMemberContract;
+import lombok.ToString;
 
 // TODO: complete
+@ToString
 public class GroupGiveawaySettingsNotification extends BaseResponse implements Response {
     public String groupID;
     public long[] requiredRoles;

@@ -4,7 +4,9 @@ import com.feed_the_beast.javacurselib.common.classes.GroupGiveawayNotification;
 import com.feed_the_beast.javacurselib.common.classes.GroupGiveawayRollContract;
 import com.feed_the_beast.javacurselib.common.enums.GroupGiveawayChangeType;
 import com.feed_the_beast.javacurselib.common.classes.GroupMemberContract;
+import lombok.ToString;
 
+@ToString
 public class GroupGiveawayChangedNotification extends BaseResponse implements Response {
     public long timeStamp;
     public GroupGiveawayChangeType changeType;

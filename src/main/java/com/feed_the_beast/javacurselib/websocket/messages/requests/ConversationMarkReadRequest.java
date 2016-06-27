@@ -1,6 +1,7 @@
 package com.feed_the_beast.javacurselib.websocket.messages.requests;
 
 import com.feed_the_beast.javacurselib.utils.CurseGUID;
+import lombok.ToString;
 
 import javax.annotation.Nonnull;
 import java.util.Date;
@@ -15,6 +16,7 @@ import java.util.Date;
  * <p>
  * TODO: check and configure null timestamp handling
  */
+@ToString
 public class ConversationMarkReadRequest extends BaseRequest implements Request {
     /**
      * Conversation(group or PM) to be marked as read

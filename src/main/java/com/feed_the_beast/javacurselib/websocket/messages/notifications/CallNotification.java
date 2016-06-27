@@ -1,9 +1,11 @@
 package com.feed_the_beast.javacurselib.websocket.messages.notifications;
 
 import com.feed_the_beast.javacurselib.common.enums.CallType;
+import lombok.ToString;
 
 import java.util.Date;
 
+@ToString
 public class CallNotification extends BaseResponse implements Response {
     public String hostName;
     public String ipAddress;

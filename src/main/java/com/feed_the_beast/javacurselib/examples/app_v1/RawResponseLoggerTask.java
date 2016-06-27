@@ -5,10 +5,14 @@ import lombok.extern.slf4j.Slf4j;
 
 import javax.annotation.Nonnull;
 
+/**
+ * Logs serialized message from websocket before serialization process.
+ */
 @Slf4j
 public class RawResponseLoggerTask implements RawTask {
     @Override
     public void execute(@Nonnull String message) {
+        // log raw serialized message
         log.trace(message);
     }
 }

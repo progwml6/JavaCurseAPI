@@ -1,6 +1,7 @@
 package com.feed_the_beast.javacurselib.websocket.messages.notifications;
 
 import com.feed_the_beast.javacurselib.websocket.messages.notifications.enums.DeliveryStatus;
+import lombok.ToString;
 
 /**
  * Response from server for sent message
@@ -9,6 +10,7 @@ import com.feed_the_beast.javacurselib.websocket.messages.notifications.enums.De
  * from original {@link com.feed_the_beast.javacurselib.websocket.messages.requests.ConversationMessageRequest} instance.
  * {@code serverID} is UUID created by server.
  */
+@ToString
 public class ConversationMessageResponse extends BaseResponse implements Response {
     public String conversationID;
     public DeliveryStatus status;

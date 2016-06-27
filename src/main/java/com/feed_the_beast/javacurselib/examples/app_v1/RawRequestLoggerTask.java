@@ -6,13 +6,11 @@ import lombok.extern.slf4j.Slf4j;
 
 import javax.annotation.Nonnull;
 
-// TODO: add filtering
-
 /**
- * Logs Request object before serialization and websocket
+ * Logs serialized message before message is handled to websocket
  */
 @Slf4j
-public class TraceRequestTask implements RequestTask {
+public class RawRequestLoggerTask implements RequestTask {
     @Override
     public void execute(@Nonnull Request request) {
         if (log.isTraceEnabled()) {

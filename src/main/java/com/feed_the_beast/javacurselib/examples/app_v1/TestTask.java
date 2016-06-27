@@ -6,10 +6,12 @@ import com.feed_the_beast.javacurselib.websocket.messages.notifications.Conversa
 
 import javax.annotation.Nonnull;
 
+// Note: do not use.
+@Deprecated
 public class TestTask implements Task<ConversationMessageNotification> {
     @Override
     public void execute(@Nonnull WebSocket webSocket, @Nonnull ConversationMessageNotification msg) {
-        // do nothing. Just be here and make sure we can have execute() with concrete Notifications
-        msg.body.isEmpty();
+        // do nothing
+        msg.body.isEmpty(); // body is field of ConversationMessageNotification instance. Making sure we can access it
     }
 }

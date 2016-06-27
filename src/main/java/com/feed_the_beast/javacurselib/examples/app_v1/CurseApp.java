@@ -126,8 +126,8 @@ public class CurseApp {
         }
 
         // new safe(sic) websocket logging system
-        ws.addRawTask(new RawResponseLoggerTask());
-        ws.addTaskForAllTypes(new TraceResponseTask());
+        //ws.addRawTask(new RawResponseLoggerTask()); // not needed anymore. TraceResponseTask is more intelligent
+        ws.addTaskForAllTypes(new TraceResponseTask(true));
         ws.addRequestTask(new TraceRequestTask());
 
         // to add your own handlers call ws.getResponseHandler() and configure it

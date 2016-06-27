@@ -1,7 +1,10 @@
 package com.feed_the_beast.javacurselib.websocket.messages.requests;
 
+import lombok.ToString;
+
 import javax.annotation.Nonnull;
 
+@ToString
 public enum RequestsServiceContractType {
     CONVERSATION_MARK_READ_REQUEST(-342895375, ConversationMarkReadRequest.class),
     CONVERSATION_MESSAGE_REQUEST(-2124552136, ConversationMessageRequest.class),

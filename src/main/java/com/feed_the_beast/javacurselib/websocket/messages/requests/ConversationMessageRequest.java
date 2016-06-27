@@ -1,12 +1,14 @@
 package com.feed_the_beast.javacurselib.websocket.messages.requests;
 
 import com.feed_the_beast.javacurselib.utils.CurseGUID;
+import lombok.ToString;
 
 import javax.annotation.Nonnull;
 
 /**
  * Represents outgoing message with optional attachment
  */
+@ToString
 public class ConversationMessageRequest extends BaseRequest implements Request {
     /**
      * Conversation for particular message. Group or private conversation

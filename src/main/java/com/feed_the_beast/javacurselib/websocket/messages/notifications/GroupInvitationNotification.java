@@ -1,7 +1,9 @@
 package com.feed_the_beast.javacurselib.websocket.messages.notifications;
 
 import com.feed_the_beast.javacurselib.service.contacts.contacts.GroupNotification;
+import lombok.ToString;
 
+@ToString
 public class GroupInvitationNotification extends BaseResponse implements Response {
     public String inviteCode;
     public long creatorID;

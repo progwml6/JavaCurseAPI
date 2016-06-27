@@ -8,13 +8,4 @@ public class JoinResponse extends BaseResponse implements Response {
     public JoinStatus status;
     public Date serverTime;
     public String encryptedSessionKey;
-
-    @Override
-    public String toString() {
-        return "JoinResponse{" +
-                "status=" + status +
-                ", serverTime=" + serverTime +
-                ", encryptedSessionKey='" + encryptedSessionKey + '\'' +
-                '}';
-    }
 }

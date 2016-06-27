@@ -4,13 +4,27 @@ import com.feed_the_beast.javacurselib.utils.CurseGUID;
 
 import javax.annotation.Nonnull;
 import java.util.Date;
-/*
- * Notes: Official client sends this request without timestamp when user selects "Mark as read"
- *            => Null field handling?
- *        current implementation will send longer timestamp than reference impl
+/**
+ * Mark conversation as read. Curse servers send similar {@code ConversationReadNotification} to all user's clients
+ * <p>
+ * <h1>Notes of RI behaviour:</h1>
+ *   <ul>
+ *     <li> Automatically sent {@code ConversationMarkReadRequest}s include {@code timestamp}s </li>
+ *     <li> Manual mark as read sends multiple {@code ConversationMarkReadRequest}s with null timespamps </li>
+ *   </ul>
+ * <p>
+ * TODO: check and configure null timestamp handling
  */
 public class ConversationMarkReadRequest extends BaseRequest implements Request {
+    /**
+     * Conversation(group or PM) to be marked as read
+     */
     public CurseGUID conversationID;
+    /**
+     * Usually current current time or null.
+     *
+     * @see ConversationMarkReadRequest
+     */
     public Date timestamp;
 
     public ConversationMarkReadRequest(@Nonnull CurseGUID conversationID) {

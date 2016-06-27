@@ -8,7 +8,6 @@ import lombok.ToString;
 
 import java.util.Date;
 
-@ToString
 public class GroupChangeNotification extends BaseResponse implements Response {
     public GroupChangeType changeType;
     public long senderID;

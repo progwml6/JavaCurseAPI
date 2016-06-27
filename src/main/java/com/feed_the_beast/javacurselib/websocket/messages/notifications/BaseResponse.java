@@ -1,9 +1,11 @@
 package com.feed_the_beast.javacurselib.websocket.messages.notifications;
 
 import com.feed_the_beast.javacurselib.websocket.JsonFactory;
+import lombok.ToString;
 
 import javax.annotation.Nonnull;
 
+@ToString
 public abstract class BaseResponse implements Response {
     transient NotificationsServiceContractType typeID;
     transient String origMessage;
@@ -32,6 +34,4 @@ public abstract class BaseResponse implements Response {
     public void setTypeID(@Nonnull NotificationsServiceContractType t) {
         typeID = t;
     }
-
-    // TODO: add generic POJO toString
 }

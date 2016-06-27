@@ -129,7 +129,7 @@ public class WebSocket {
      * </p>
      * Use other methods if Response handling is mandatory. @See WIP
      *
-     * @param conversationID Conversation to send a mssage
+     * @param conversationID Conversation to send a message
      * @param message Message to send
      */
     public void sendMessage(@Nonnull CurseGUID conversationID, @Nonnull String message) {

@@ -1,11 +1,9 @@
 package com.feed_the_beast.javacurselib.websocket.messages.requests;
 
 import com.feed_the_beast.javacurselib.websocket.JsonFactory;
+import lombok.ToString;
 
-import javax.annotation.Nonnull;
-import javax.websocket.Session;
-import java.io.IOException;
-
+@ToString
 public abstract class BaseRequest implements Request {
     @Override
     public String toJsonString() {

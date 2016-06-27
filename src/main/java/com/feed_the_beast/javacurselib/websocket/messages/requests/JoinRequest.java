@@ -42,4 +42,18 @@ public class JoinRequest extends BaseRequest implements Request {
     public RequestsServiceContractType getTypeID() {
         return RequestsServiceContractType.JOIN_REQUEST;
     }
+
+    @Override
+    public String toString() {
+        return "JoinRequest{" +
+                "userID=" + userID +
+                ", machineKey=" + machineKey +
+                ", sessionID=" + "<CENSORED>" + // not sure if this leaks information. Better safe than...
+                ", status=" + status +
+                ", clientVersion='" + clientVersion + '\'' +
+                ", publicKey=" + publicKey +
+                ", cipherAlgorithm=" + cipherAlgorithm +
+                ", cipherStrength=" + cipherStrength +
+                '}';
+    }
 }

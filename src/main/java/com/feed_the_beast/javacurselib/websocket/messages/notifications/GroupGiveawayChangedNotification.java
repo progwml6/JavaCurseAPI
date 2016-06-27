@@ -10,7 +10,7 @@ import lombok.ToString;
 public class GroupGiveawayChangedNotification extends BaseResponse implements Response {
     public long timeStamp;
     public GroupGiveawayChangeType changeType;
-    public GroupGiveawayNotification groupGiveawayNotification;
+    public GroupGiveawayNotification groupGiveawayNotification; // TODO: check this. seems to be null
     public GroupMemberContract affectedUser;
     public GroupMemberContract requestor;
     public GroupGiveawayRollContract currentRoll;

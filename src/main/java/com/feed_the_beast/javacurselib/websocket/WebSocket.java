@@ -67,10 +67,6 @@ public class WebSocket {
             } catch (IOException | DeploymentException e) {
                 log.error("failed", e);
             }
-            try {
-                Thread.sleep(10000);
-            } catch (InterruptedException e) {
-            }
         }
         return true;
     }

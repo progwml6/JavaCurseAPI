@@ -48,6 +48,7 @@ public class RestUserEndpoints {
     public ContactWebService.Users users;
     public ConversationsWebService.Conversations conversations;
     public GroupsWebService.Servers servers;
+    public GroupsWebService.Groups groups;
 
     private RestEndpointCreator creator;
     private AuthInjectorInterceptor authInterceptor;
@@ -70,9 +71,10 @@ public class RestUserEndpoints {
         // after login call, update authInterceptor
         session = creator.createEndpoint(SessionsWebService.Sessions.class);
         contacts = creator.createEndpoint(ContactWebService.Contacts.class);
-        servers = creator.createEndpoint(GroupsWebService.Servers.class);
         users = creator.createEndpoint(ContactWebService.Users.class);
         conversations = creator.createEndpoint(ConversationsWebService.Conversations.class);
+        servers = creator.createEndpoint(GroupsWebService.Servers.class);
+        groups = creator.createEndpoint(GroupsWebService.Groups.class);
     }
 
     public void setAuthToken(String s) {

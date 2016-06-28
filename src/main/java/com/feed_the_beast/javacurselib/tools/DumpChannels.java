@@ -20,7 +20,7 @@ public class DumpChannels {
 
         // start creating REST endpoints
         RestUserEndpoints endpoints = new RestUserEndpoints();
-        endpoints.addInterceptor(new HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY));
+        endpoints.addInterceptor(new HttpLoggingInterceptor(new Slf4jHttpLoggingInterceptor()).setLevel(HttpLoggingInterceptor.Level.BODY));
         endpoints.setAuthToken(lr.session.token);
         endpoints.setupEndpoints();
 

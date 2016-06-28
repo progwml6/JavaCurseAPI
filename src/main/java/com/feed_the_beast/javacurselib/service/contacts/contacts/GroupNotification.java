@@ -7,9 +7,14 @@ import com.feed_the_beast.javacurselib.common.enums.*;
 import com.feed_the_beast.javacurselib.utils.CurseGUID;
 import lombok.ToString;
 
+import javax.annotation.Nonnull;
+import javax.annotation.Nullable;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.Set;
+import java.util.function.BiFunction;
+import java.util.function.Function;
 
 /**
  * representation of curse contacts api GroupNotification
@@ -47,39 +52,48 @@ public class GroupNotification {
     public List<ExternalCommunityPublicContract> linkedCommunities; // null in ContactsResponse
     public int afkTimerMins;
 
-    public int getRoleIdbyName(String s) {
+    @Nonnull
+    public Optional<Integer> getRoleIdbyName(String s) {
         for (GroupRoleNotification role: roles) {
             if (role.name.equals(s)) {
-                return role.roleID;
+                return Optional.of(role.roleID);
             }
         }
-        throw new IllegalStateException("No role found: " + s);
+        return Optional.empty();
     }
 
-    public String getRoleNamebyId(int id) {
+    @Nonnull
+    public Optional<String> getRoleNamebyId(int id) {
         for (GroupRoleNotification role: roles) {
             if (role.roleID == id) {
-                return role.name;
+                return Optional.of(role.name);
             }
         }
-        throw new IllegalStateException("No role found: " + id);
+        return Optional.empty();
     }
 
-    public String getChannelNamebyId(CurseGUID id) {
+    @Nonnull
+    public Optional<String> getChannelNamebyId(CurseGUID id) {
         for (ChannelContract c : channels) {
             if (c.groupID == id) {
-                return c.groupTitle;
+                return Optional.of(c.groupTitle);
             }
         }
-        return null;
+        return Optional.empty();
     }
 
-    public CurseGUID getChannelIdByName(String s) {
+    @Nonnull
+    public Optional<CurseGUID> getChannelIdByName(String s) {
+        return getChannelIdByName(s, String::equals);
+    }
+
+    @Nonnull
+    public Optional<CurseGUID> getChannelIdByName(String s, BiFunction<String, String, Boolean> function) {
         for (ChannelContract c : channels) {
-            if (c.groupTitle.equals(s)) {
-                return c.groupID;
+            if ( function.apply(c.groupTitle, s)) {
+                return Optional.of(c.groupID);
             }
         }
-        return null;
+        return Optional.empty();
     }
 }

@@ -39,20 +39,20 @@ public class EnumSetTypeAdapterFactory implements TypeAdapterFactory {
             return null;
         }
 
-        return (TypeAdapter<T>) new EnumSetTypeAdapter(type);
+        return (TypeAdapter<T>) new EnumSetTypeAdapter((Class)ret);
     }
 
     private static final class EnumSetTypeAdapter extends TypeAdapter<Set> {
-        private TypeToken type;
+        private Class clazz;
 
-        private EnumSetTypeAdapter(TypeToken type) {
-            this.type = type;
+        private EnumSetTypeAdapter(Class clazz) {
+            this.clazz = clazz;
         }
 
         // TODO: modularize static (de)serialize calls
         @Override
         public void write(JsonWriter out, Set value) throws IOException {
-            out.value(GroupPermissions.serialize(value));
+            out.value(EnumSetHelpers.serialize(value, clazz));
         }
 
         @Override
@@ -63,7 +63,7 @@ public class EnumSetTypeAdapterFactory implements TypeAdapterFactory {
                 return null;
             }
 
-            result = GroupPermissions.deserialize(in.nextLong());
+            result = EnumSetHelpers.deserialize(in.nextLong(), clazz);
             return result;
         }
     }

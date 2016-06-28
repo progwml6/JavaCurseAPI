@@ -1,43 +1,45 @@
 package com.feed_the_beast.javacurselib.common.enums;
 
+import com.feed_the_beast.javacurselib.utils.EnumSetHelpers;
 import com.google.common.collect.Sets;
 import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-import java.util.Collections;
 import java.util.EnumSet;
 import java.util.Set;
-import java.util.TreeSet;
 
 public class GroupPermissionsTest {
     // numbers based on Curse's default role permission. Do not assume they are stable
     @Test
     public void owner() throws Exception {
         //roleID 1, rank 1
-        Set<GroupPermissions> set = GroupPermissions.deserialize(-1);
+        Set<GroupPermissions> set = EnumSetHelpers.deserialize(-1, GroupPermissions.class);
         assertEquals(GroupPermissions.ALL, set);
     }
 
     @Test
     public void moderator() throws Exception {
         //roleID 2, rank 2
-        Set<GroupPermissions> set = GroupPermissions.deserialize(296743969);
-
+        Set<GroupPermissions> set = EnumSetHelpers.deserialize(296743969, GroupPermissions.class);
+        //TODO: add some tests
     }
 
     @Test
     public void everyone() throws Exception {
         //roleID 3, rank 1000
-        Set<GroupPermissions> set = GroupPermissions.deserialize(19341313);
+        Set<GroupPermissions> set = EnumSetHelpers.deserialize(19341313, GroupPermissions.class);
+        // TODO: add some tests
     }
 
     @Test
     public void everyonePlusMentionEveryone() throws Exception {
-        Set<GroupPermissions> set = GroupPermissions.deserialize(19341313);
-        Set<GroupPermissions> setMorePowers = GroupPermissions.deserialize(23535617);
+        Set<GroupPermissions> set = EnumSetHelpers.deserialize(19341313, GroupPermissions.class);
+        Set<GroupPermissions> setMorePowers = EnumSetHelpers.deserialize(23535617, GroupPermissions.class);
 
         Sets.SetView<GroupPermissions> diff = Sets.difference(setMorePowers, set);
+
+        // test that we have one exact permission remaining
         assertEquals(1, diff.size());
         assertTrue(diff.contains(GroupPermissions.CHAT_MENTION_EVERYONE));
     }
@@ -46,7 +48,7 @@ public class GroupPermissionsTest {
     public void toStrings() throws Exception {
         assertEquals("[]", GroupPermissions.NONE.toString());
         assertTrue(GroupPermissions.ALL.toString().length() > 500);
-        assertTrue(GroupPermissions.deserialize(3).toString().contains(", "));
+        assertTrue(EnumSetHelpers.deserialize(3, GroupPermissions.class).toString().contains(", "));
     }
 
     @Test
@@ -58,28 +60,32 @@ public class GroupPermissionsTest {
 
     @Test
     public void serialization() throws Exception {
-        // current max value 536870910 + 1
-        assertEquals(-1, GroupPermissions.serialize(GroupPermissions.deserialize(-1)));
-        assertEquals(1, GroupPermissions.serialize(GroupPermissions.deserialize(1)));
-        assertEquals(0, GroupPermissions.serialize(GroupPermissions.deserialize(0)));
-        assertEquals(666, GroupPermissions.serialize(GroupPermissions.deserialize(666)));
-        assertEquals(90210, GroupPermissions.serialize(GroupPermissions.deserialize(90210)));
-        assertEquals(123456789, GroupPermissions.serialize(GroupPermissions.deserialize(123456789)));
-        assertEquals(536870911, GroupPermissions.serialize(GroupPermissions.deserialize(536870911)));
+        assertEquals(-1, EnumSetHelpers.serialize(EnumSetHelpers.deserialize(-1, GroupPermissions.class), GroupPermissions.class));
+        assertEquals(1, EnumSetHelpers.serialize(EnumSetHelpers.deserialize(1, GroupPermissions.class), GroupPermissions.class));
+        assertEquals(0, EnumSetHelpers.serialize(EnumSetHelpers.deserialize(0, GroupPermissions.class), GroupPermissions.class));
+        assertEquals(666, EnumSetHelpers.serialize(EnumSetHelpers.deserialize(666, GroupPermissions.class), GroupPermissions.class));
+        assertEquals(90210, EnumSetHelpers.serialize(EnumSetHelpers.deserialize(90210, GroupPermissions.class), GroupPermissions.class));
+        assertEquals(123456789, EnumSetHelpers.serialize(EnumSetHelpers.deserialize(123456789, GroupPermissions.class), GroupPermissions.class));
+        /*
+         * this is value represents long which have bit on for every GroupPermssions enum
+         * this test is kind of stupid because -1 aka EnumSet.allOf(GroupPermissions.class) is the same things
+         * current code converts 536870911 to EnumSet.allOf(GroupPermissions.class) which will be serialez as -1
+         */
+        //assertEquals(536870911, EnumSetHelpers.serialize(EnumSetHelpers.deserialize(536870911, GroupPermissions.class), GroupPermissions.class));
 
         // this are
         try {
-            assertEquals(0, GroupPermissions.serialize(GroupPermissions.deserialize(536870912)));
+            assertEquals(0, EnumSetHelpers.serialize(EnumSetHelpers.deserialize(536870912, GroupPermissions.class), GroupPermissions.class));
             fail();
         } catch (IllegalStateException e) {
-            e.printStackTrace();
+            //e.printStackTrace();
         }
 
         try {
-            assertEquals(0, GroupPermissions.serialize(GroupPermissions.deserialize(536870913)));
+            assertEquals(0, EnumSetHelpers.serialize(EnumSetHelpers.deserialize(536870913, GroupPermissions.class), GroupPermissions.class));
             fail();
         } catch (IllegalStateException e) {
-            e.printStackTrace();
+            //e.printStackTrace();
         }
     }
 

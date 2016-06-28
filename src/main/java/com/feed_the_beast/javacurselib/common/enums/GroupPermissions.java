@@ -25,55 +25,13 @@ public enum GroupPermissions implements BetterEnum<Long> {
     private long value;
 
 
-    // both immutable
-
-    // not recommended to to build new EnumSets with value. Use of() methods
+    // both immutable. Use only for comparison
+    // to create new EnumSets use EnumSet.noneOf(), EnumSet.allOf(), or EnumSet.of() methods
     public final static Set<GroupPermissions> NONE = Collections.emptySet();
     public final static Set<GroupPermissions> ALL = Collections.unmodifiableSet(EnumSet.allOf(GroupPermissions.class));
 
-
-
     GroupPermissions (long value) {
         this.value = value;
-    }
-
-    public static long serialize(Set<GroupPermissions> set) {
-        if (set == NONE) {
-            return 0;
-        }
-        if (set == ALL) {
-            return -1;
-        }
-        long result = 0;
-        for (GroupPermissions gp : set ) {
-            result += gp.getValue();
-        }
-        return result;
-    }
-
-    public static Set<GroupPermissions> deserialize(long l) {
-        if (l == 0) {
-            return NONE;
-        }
-        if (l == -1) {
-            return ALL;
-        }
-
-        // can't use EnumSet.copyOf(NONE): java.lang.IllegalArgumentException: Collection is empty
-        //Set<GroupPermissions> result = EnumSet.copyOf(NONE);
-        Set<GroupPermissions> result = EnumSet.noneOf(GroupPermissions.class);
-        for (GroupPermissions gp : GroupPermissions.values()) {
-            if ((l & gp.getValue()) == gp.getValue()) {
-                result.add(gp);
-                l = l - gp.getValue();
-            }
-        }
-
-        if (l != 0) {
-            throw new IllegalStateException("All enums not found. remainder: " + l + " collected enums: " + result);
-        }
-
-        return result;
     }
 
     @Nonnull

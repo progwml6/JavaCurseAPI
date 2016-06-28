@@ -1,5 +1,6 @@
 package com.feed_the_beast.javacurselib.common.enums;
 
+import com.feed_the_beast.javacurselib.utils.EnumSetHelpers;
 import com.feed_the_beast.javacurselib.utils.EnumSetTypeAdapterFactory;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -31,7 +32,7 @@ public class GroupPermissionsGsonTest {
         assertEquals(GroupPermissions.NONE, GSON.fromJson(NONE , Helper.class).SenderPermissions);
         assertEquals(GroupPermissions.ALL, GSON.fromJson(ALL , Helper.class).SenderPermissions);
         assertEquals(EnumSet.of(GroupPermissions.ACCESS), GSON.fromJson(ONE , Helper.class).SenderPermissions);
-        assertEquals(296743969, GroupPermissions.serialize(GSON.fromJson(MODERATOR, Helper.class).SenderPermissions));
+        assertEquals(296743969, EnumSetHelpers.serialize(GSON.fromJson(MODERATOR, Helper.class).SenderPermissions, GroupPermissions.class));
     }
 
     private static class Helper {

@@ -8,14 +8,14 @@ import lombok.ToString;
  */
 @ToString
 public class GroupMemberContract {
-    public int userID;
+    public long userID;
     public String username;
     public int bestRole;
     public int[] roles;
-    public int dateJoined;
+    public long dateJoined;
     public UserConnectionStatus connectionStatus;
-    public int dateLastSeen;
-    public int dateLastActive;
+    public long dateLastSeen;
+    public long dateLastActive;
     public boolean isActive;
     public int currentGameID;
     public boolean isVoiceMuted;

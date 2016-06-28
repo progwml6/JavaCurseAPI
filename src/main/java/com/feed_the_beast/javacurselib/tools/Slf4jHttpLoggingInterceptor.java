@@ -7,9 +7,10 @@ import okhttp3.logging.HttpLoggingInterceptor;
 public class Slf4jHttpLoggingInterceptor implements HttpLoggingInterceptor.Logger {
     @Override
     public void log(String message) {
-        // sinmple. Log everything through Slf4j
-        if (!message.startsWith("AuthenticationToken")) {
+        // KISS! Log everything through Slf4j, censor AuthToken
+        if (message.startsWith("AuthenticationToken")) {
             log.trace("AuthenticationToken<CENSORED>");
+            return;
         }
         log.trace(message);
     }

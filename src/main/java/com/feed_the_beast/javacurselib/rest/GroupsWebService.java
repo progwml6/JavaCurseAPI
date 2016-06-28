@@ -1,6 +1,7 @@
 package com.feed_the_beast.javacurselib.rest;
 
 import com.feed_the_beast.javacurselib.common.classes.ExternalCommunityPublicContract;
+import com.feed_the_beast.javacurselib.common.classes.GroupMemberContract;
 import com.feed_the_beast.javacurselib.data.Apis;
 import com.feed_the_beast.javacurselib.service.contacts.contacts.GroupNotification;
 import com.feed_the_beast.javacurselib.service.groups.bans.BanUserRequest;
@@ -67,7 +68,6 @@ public class GroupsWebService {
         @POST("servers/{serverID}/bans")
         CompletableFuture<GroupBannedUserContract> ban (
                 @Path("serverID") CurseGUID serverID,
-                // TODO: https://groups-v1.curseapp.net/Help/ResourceModel?modelName=BanUserRequest
                 @Body BanUserRequest banUserRequest
         );
 
@@ -86,10 +86,26 @@ public class GroupsWebService {
     }
 
     public interface Groups {
-        @GET("groups/{serverID}")
+        @GET("groups/{groupID}")
         CompletableFuture<GroupNotification> get (
-                @Path("serverID") CurseGUID serverID,
+                @Path("groupID") CurseGUID groupID,
                 @Query("showDeletedChannels") boolean showDeletedChannels
+        );
+
+        /**
+         *
+         * @param groupID
+         * @param actives
+         * @param page
+         * @param pageSize MAX 50. Larger makes server to return 400
+         * @return
+         */
+        @GET("groups/{groupID}/members")
+        CompletableFuture<List<GroupMemberContract>> getMembers (
+                @Path("groupID") CurseGUID groupID,
+                @Query("actives") boolean actives,
+                @Query("page") int page,
+                @Query("pageSize") int pageSize
         );
     }
 }

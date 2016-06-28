@@ -30,12 +30,12 @@ public class GroupNotification {
     public boolean forcePushToTalk;
     public GroupStatus status;
     public boolean isDefaultChannel;
-    public List<GroupRoleNotification> roles;
+    public List<GroupRoleNotification> roles;   // null in ContactsResponse
     public Map<Integer,Set<GroupPermissions>> rolePermissions;
     public GroupMembershipNotification membership;
     public int memberCount;
-    public List<GroupEmoticonNotification> emotes;
-    public List<GroupMemberContract> members;
+    public List<GroupEmoticonNotification> emotes; // null in ContactsResponse
+    public List<GroupMemberContract> members; // TODO: null in both, check. According to documention only present for small groups
     public List<ChannelContract> channels;
     public GroupMode groupMode;
     public boolean isPublic;
@@ -44,7 +44,7 @@ public class GroupNotification {
     public boolean chatThrottleEnabled;
     public int chatThrottleSeconds;
     public boolean isStreaming;
-    public List<ExternalCommunityPublicContract> linkedCommunities;
+    public List<ExternalCommunityPublicContract> linkedCommunities; // null in ContactsResponse
     public int afkTimerMins;
 
     public int getRoleIdbyName(String s) {

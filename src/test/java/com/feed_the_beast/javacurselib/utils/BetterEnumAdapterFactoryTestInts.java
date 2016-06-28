@@ -1,6 +1,5 @@
-package com.feed_the_beat.javacurselib.utils;
+package com.feed_the_beast.javacurselib.utils;
 
-import com.feed_the_beast.javacurselib.utils.BetterEnumAdapterFactory;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonParseException;

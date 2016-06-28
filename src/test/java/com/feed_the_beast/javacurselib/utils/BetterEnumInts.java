@@ -1,4 +1,4 @@
-package com.feed_the_beat.javacurselib.utils;
+package com.feed_the_beast.javacurselib.utils;
 
 import com.feed_the_beast.javacurselib.utils.BetterEnum;
 

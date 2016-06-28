@@ -1,16 +1,21 @@
 package com.feed_the_beast.javacurselib.tools;
 
+import com.feed_the_beast.javacurselib.common.classes.GroupMemberContract;
 import com.feed_the_beast.javacurselib.data.JsonFactory;
 import com.feed_the_beast.javacurselib.rest.RestUserEndpoints;
 import com.feed_the_beast.javacurselib.service.contacts.contacts.ChannelContract;
 import com.feed_the_beast.javacurselib.service.contacts.contacts.ContactsResponse;
 import com.feed_the_beast.javacurselib.service.contacts.contacts.GroupNotification;
 import com.feed_the_beast.javacurselib.service.logins.login.LoginResponse;
+import com.feed_the_beast.javacurselib.utils.CurseGUID;
+import com.google.common.collect.Lists;
 import lombok.extern.slf4j.Slf4j;
 import okhttp3.logging.HttpLoggingInterceptor;
 
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.Collections;
+import java.util.List;
 
 @Slf4j
 public class DumpChannels {
@@ -41,5 +46,24 @@ public class DumpChannels {
                 log.debug("{}", gn);
             }
         }
+
+        if (args[1] != null) {
+            int page = 1;
+            List<GroupMemberContract> members = endpoints.groups.getMembers(CurseGUID.deserialize(args[1]), true, page, 50).get();
+            List<GroupMemberContract> allMembers = Lists.newArrayList();
+            do {
+                log.debug("{}", members);
+                allMembers.addAll(members);
+                page = page +1;
+                members = endpoints.groups.getMembers(CurseGUID.deserialize(args[1]), true, page, 50).get();
+            } while (members.size() > 0);
+
+            log.info("Has total {} members", allMembers.size());
+            if (args[2] != null) {
+                log.info("User {} has userID {}", args[2], allMembers.stream().filter(member -> member.username.equals(args[2])).findAny().get().userID);
+            }
+        }
+
+        System.exit(0);
     }
 }

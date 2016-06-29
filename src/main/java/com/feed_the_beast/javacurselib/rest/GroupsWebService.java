@@ -6,6 +6,7 @@ import com.feed_the_beast.javacurselib.data.Apis;
 import com.feed_the_beast.javacurselib.service.contacts.contacts.GroupNotification;
 import com.feed_the_beast.javacurselib.service.groups.bans.BanUserRequest;
 import com.feed_the_beast.javacurselib.service.groups.bans.GroupBannedUserContract;
+import com.feed_the_beast.javacurselib.service.groups.groups.GroupMemberSearchRequest;
 import com.feed_the_beast.javacurselib.service.groups.servers.GroupRoleDetails;
 import com.feed_the_beast.javacurselib.utils.CurseGUID;
 import retrofit2.http.*;
@@ -86,6 +87,14 @@ public class GroupsWebService {
     }
 
     public interface Groups {
+        /**
+         * Returns detailed information about given group.
+         *
+         *
+         * @param groupID Group to get information for
+         * @param showDeletedChannels true  to include information about deleted channels
+         * @return Object containing detailed group information
+         */
         @GET("groups/{groupID}")
         CompletableFuture<GroupNotification> get (
                 @Path("groupID") CurseGUID groupID,
@@ -93,11 +102,12 @@ public class GroupsWebService {
         );
 
         /**
+         * Gets list of members for a group.
          *
-         * @param groupID
-         * @param actives
+         * @param groupID Group to search
+         * @param actives True to list active member, false to inactive members
          * @param page
-         * @param pageSize MAX 50. Larger makes server to return 400
+         * @param pageSize Max amoung of search results. MAX 50. Larger makes server to return status code 400
          * @return
          */
         @GET("groups/{groupID}/members")
@@ -106,6 +116,19 @@ public class GroupsWebService {
                 @Query("actives") boolean actives,
                 @Query("page") int page,
                 @Query("pageSize") int pageSize
+        );
+
+        /**
+         * Finds members of a group
+         *
+         * @param groupID group to find
+         * @param groupMemberSearchRequest Search query containing serach term, sorting, page size and pagination
+         * @return Collection of {@code GroupMemberContract}s containing all matches
+         */
+        @POST("groups/{groupID}/members/search")
+        CompletableFuture<List<GroupMemberContract>> searchMembers(
+                @Path("groupID") CurseGUID groupID,
+                @Body GroupMemberSearchRequest groupMemberSearchRequest
         );
     }
 }

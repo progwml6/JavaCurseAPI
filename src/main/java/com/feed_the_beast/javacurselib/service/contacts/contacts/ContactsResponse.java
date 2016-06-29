@@ -68,4 +68,14 @@ public class ContactsResponse {
         }
         return Optional.empty();
     }
+
+    @Nonnull
+    public Optional<String> getGroupNamebyId(CurseGUID id) {
+        for (GroupNotification group : groups) {
+            if (id.equals(group.groupID)) {
+                return Optional.of(group.groupTitle);
+            }
+        }
+        return Optional.empty();
+    }
 }

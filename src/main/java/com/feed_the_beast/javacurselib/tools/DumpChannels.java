@@ -47,23 +47,36 @@ public class DumpChannels {
             }
         }
 
-        if (args[1] != null) {
+        if (args.length > 1) {
             int page = 1;
-            List<GroupMemberContract> members = endpoints.groups.getMembers(CurseGUID.deserialize(args[1]), true, page, 50).get();
-            List<GroupMemberContract> allMembers = Lists.newArrayList();
-            do {
-                log.debug("{}", members);
-                allMembers.addAll(members);
-                page = page +1;
-                members = endpoints.groups.getMembers(CurseGUID.deserialize(args[1]), true, page, 50).get();
-            } while (members.size() > 0);
+            List<GroupMemberContract> amembers = getMembers(CurseGUID.deserialize(args[1]), true, endpoints);
+            log.info("Group {} has total {} active members", cr.getGroupNamebyId(CurseGUID.deserialize(args[1])).get(),  amembers.size());
+            log.debug("Active members: {}", amembers);
 
-            log.info("Has total {} members", allMembers.size());
-            if (args[2] != null) {
-                log.info("User {} has userID {}", args[2], allMembers.stream().filter(member -> member.username.equals(args[2])).findAny().get().userID);
+            List<GroupMemberContract> members = getMembers(CurseGUID.deserialize(args[1]), false, endpoints);
+            log.info("Group {} has total {} inactive members", cr.getGroupNamebyId(CurseGUID.deserialize(args[1])).get(),  members.size());
+            log.debug("Members: {}", members);
+
+            if (args.length > 2) {
+                log.info("User {} has userID {}", args[2], amembers.stream().filter(member -> member.username.equals(args[2])).findAny().get().userID);
+                //log.info("User {} has userID {}", args[2], members.stream().filter(member -> member.username.equals(args[2])).findAny().get().userID);
             }
         }
-
         System.exit(0);
+    }
+
+    // TODO make to use multiple threads
+    private static List<GroupMemberContract> getMembers(CurseGUID id, boolean actives, RestUserEndpoints endpoints) throws Exception {
+        int page = 1;
+        List<GroupMemberContract> members = endpoints.groups.getMembers(id, actives, page, 50).get();
+        List<GroupMemberContract> allMembers = Lists.newArrayList();
+        do {
+            log.debug("{}", members);
+            allMembers.addAll(members);
+            page = page +1;
+            members = endpoints.groups.getMembers(id, actives, page, 50).get();
+        } while (members.size() > 0);
+
+        return allMembers;
     }
 }

@@ -5,7 +5,7 @@ import com.feed_the_beast.javacurselib.utils.BetterEnum;
 import javax.annotation.Nonnull;
 
 public enum GroupMemberSearchSortType implements BetterEnum<Integer> {
-    DEFAULT(0), ROLE(1), USERNAME(2), DATEJOINED(3), DATELASTACTIVE(4);
+    DEFAULT(0), ROLE(1), USERNAME(2), DATE_JOINED(3), DATE_LAST_ACTIVE(4);
 
     private int value;
 

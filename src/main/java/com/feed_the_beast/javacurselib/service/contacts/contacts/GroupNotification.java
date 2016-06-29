@@ -35,7 +35,7 @@ public class GroupNotification {
     public boolean forcePushToTalk;
     public GroupStatus status;
     public boolean isDefaultChannel;
-    public List<GroupRoleNotification> roles;   // null in ContactsResponse
+    public List<GroupRoleNotification> roles;   // null in ContactsResponse, null in GroupChangeNotification
     public Map<Integer,Set<GroupPermissions>> rolePermissions;
     public GroupMembershipNotification membership;
     public int memberCount;

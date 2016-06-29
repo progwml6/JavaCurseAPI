@@ -7,6 +7,7 @@ import com.feed_the_beast.javacurselib.service.contacts.contacts.GroupNotificati
 import lombok.ToString;
 
 import java.util.Date;
+import java.util.Set;
 
 @ToString
 public class GroupChangeNotification extends BaseResponse implements Response {
@@ -14,9 +15,9 @@ public class GroupChangeNotification extends BaseResponse implements Response {
     public long senderID;
     public String senderName;
     public GroupNotification group;
-    public GroupMemberContract[]  members;
+    public Set<GroupMemberContract> members;
     public Date timeStamp;
-    public GroupNotification[] childGroups;
+    public Set<GroupNotification> childGroups;
     public GroupMemberRemovedReason removedReason;
     public String messageToUsers;
 }

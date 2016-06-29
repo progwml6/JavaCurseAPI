@@ -65,7 +65,8 @@ public class DumpChannels {
         System.exit(0);
     }
 
-    // TODO make to use multiple threads
+    // TODO: make to use multiple threads
+    // TODO: member count is mentioned somewhere. Use it
     private static List<GroupMemberContract> getMembers(CurseGUID id, boolean actives, RestUserEndpoints endpoints) throws Exception {
         int page = 1;
         List<GroupMemberContract> members = endpoints.groups.getMembers(id, actives, page, 50).get();

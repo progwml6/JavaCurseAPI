@@ -1,5 +1,7 @@
 package com.feed_the_beast.javacurselib.utils;
 
+import lombok.Getter;
+
 import javax.annotation.Nonnull;
 import java.util.UUID;
 
@@ -18,6 +20,7 @@ public class CurseGUID {
     private UUID uuid;
     private long intLeft;
     private long intRight;
+    @Getter
     private Type type;
 
     public UUID getUuid() {
@@ -94,6 +97,11 @@ public class CurseGUID {
         return result;
     }
 
+    public static CurseGUID newFromString(String s) {
+        CurseGUID result = deserialize(s);
+        return result;
+    }
+
     public String serialize() {
         switch (getType()) {
             case UUID:
@@ -134,7 +142,7 @@ public class CurseGUID {
             case TWO_INTS:
                 return Long.toString(intLeft) + ":" + Long.toString(intRight);
         }
-        return "ERROR?";
+        throw new IllegalStateException("Something failed");
     }
 
     @Override

@@ -3,9 +3,12 @@ package com.feed_the_beast.javacurselib.examples.app_v1;
 import com.feed_the_beast.javacurselib.websocket.messages.handler.tasks.RequestTask;
 import com.feed_the_beast.javacurselib.websocket.messages.requests.Request;
 import com.feed_the_beast.javacurselib.websocket.messages.requests.RequestsServiceContractType;
+import com.google.common.collect.Sets;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.annotation.Nonnull;
+import java.util.Arrays;
+import java.util.Set;
 
 /**
  * Logs Request object before serialization and websocket
@@ -13,9 +16,11 @@ import javax.annotation.Nonnull;
 @Slf4j
 public class TraceRequestTask implements RequestTask {
     private boolean logPings = false;
+    private Set<RequestsServiceContractType> ignoredRequests = Sets.newHashSet();
 
-    public TraceRequestTask(boolean logPings) {
+    public TraceRequestTask(boolean logPings, RequestsServiceContractType... ignoredRequest) {
         this.logPings = logPings;
+        this.ignoredRequests.addAll(Arrays.asList(ignoredRequest));
     }
 
     public TraceRequestTask() {
@@ -28,7 +33,7 @@ public class TraceRequestTask implements RequestTask {
                 if (logPings) {
                     log.trace(request.toString());
                 }
-            } else {
+            } else if (!ignoredRequests.contains(request.getTypeID())) {
                 log.trace(request.toString());
             }
         }

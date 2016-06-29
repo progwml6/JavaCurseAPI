@@ -13,6 +13,7 @@ import com.feed_the_beast.javacurselib.service.logins.login.LoginResponse;
 import com.feed_the_beast.javacurselib.service.sessions.sessions.CreateSessionRequest;
 import com.feed_the_beast.javacurselib.service.sessions.sessions.CreateSessionResponse;
 import com.feed_the_beast.javacurselib.websocket.WebSocket;
+import com.feed_the_beast.javacurselib.websocket.messages.notifications.NotificationsServiceContractType;
 import lombok.extern.slf4j.Slf4j;
 import retrofit2.adapter.java8.HttpException;
 
@@ -127,8 +128,8 @@ public class CurseApp {
 
         // new safe(sic) websocket logging system
         //ws.addRawTask(new RawResponseLoggerTask()); // not needed anymore. TraceResponseTask is more intelligent
-        ws.addTaskForAllTypes(new TraceResponseTask(false, true));
-        ws.addRequestTask(new TraceRequestTask(false));
+        ws.addTaskForAllTypes(new TraceResponseTask(false, true, NotificationsServiceContractType.FRIENDSHIP_CHANGE_NOTIFICATION, NotificationsServiceContractType.CONVERSATION_READ_NOTIFICATION));
+        ws.addRequestTask(new TraceRequestTask(true));
 
         // to add your own handlers call ws.getResponseHandler() and configure it
         CountDownLatch latch = new CountDownLatch(1);

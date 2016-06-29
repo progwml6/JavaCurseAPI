@@ -108,7 +108,8 @@ public class GroupsWebService {
          * @param actives True to list active member, false to inactive members
          * @param page
          * @param pageSize Max amoung of search results. MAX 50. Larger makes server to return status code 400
-         * @return
+         * @return Collection of {@code GroupMemberContract}s
+         * @see {@link #searchMembers(CurseGUID, GroupMemberSearchRequest)}
          */
         @GET("groups/{groupID}/members")
         CompletableFuture<List<GroupMemberContract>> getMembers (
@@ -123,7 +124,8 @@ public class GroupsWebService {
          *
          * @param groupID group to find
          * @param groupMemberSearchRequest Search query containing serach term, sorting, page size and pagination
-         * @return Collection of {@code GroupMemberContract}s containing all matches
+         * @return Collection of {@code GroupMemberContract}s containing matches
+         * @see {@link #getMembers(CurseGUID, boolean, int, int)}
          */
         @POST("groups/{groupID}/members/search")
         CompletableFuture<List<GroupMemberContract>> searchMembers(

@@ -9,6 +9,8 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 
 public class Tool {
+    static LoginResponse lr;
+
     public static RestUserEndpoints init() throws Exception {
         String path = System.getenv("LR");
         if (path != null && !path.isEmpty()) {
@@ -19,7 +21,7 @@ public class Tool {
 
     public static RestUserEndpoints init(String path) throws Exception {
         String s = new String(Files.readAllBytes(Paths.get(path)));
-        LoginResponse lr = JsonFactory.GSON.fromJson(s, LoginResponse.class);
+        lr = JsonFactory.GSON.fromJson(s, LoginResponse.class);
 
         // start creating REST endpoints
         RestUserEndpoints endpoints = new RestUserEndpoints();

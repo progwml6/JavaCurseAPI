@@ -79,7 +79,7 @@ public class GroupNotification {
     @Nonnull
     public Optional<String> getChannelNamebyId(CurseGUID id) {
         for (ChannelContract c : channels) {
-            if (c.groupID == id) {
+            if (c.groupID.equals(id)) {
                 return Optional.of(c.groupTitle);
             }
         }

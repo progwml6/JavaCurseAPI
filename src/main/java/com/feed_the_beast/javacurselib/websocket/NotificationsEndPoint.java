@@ -56,22 +56,32 @@ public class NotificationsEndPoint extends Endpoint {
 
         @Override
         public void onMessage(String msg) {
+            Response response;
+
+            // send message to low level RawTask before Gson deserilization
             try {
-                // send message to low level RawTask before Gson deserilization
                 responseHandler.executeRawTasks(msg);
+            } catch (Exception e) {
+                log.error("Failed while executing raw tasks", e);
+            }
 
-                // parse json
-                Response response = JsonFactory.stringToResponse(msg);
+            // parse json
+            try {
+                response = JsonFactory.stringToResponse(msg);
+            } catch (Exception e) {
+                log.error("Failed while parsing message : " + msg);
+                log.error("", e);
+                return; // there is nothing we can do
+            }
 
+            try {
                 // Send deserialized message to internal handlers
                 responseHandler.executeInternalTasks(response);
 
                 // continue prosessing with user-defined handlers
                 responseHandler.executeTasks(response);
             } catch (Exception e) {
-                // make sure we log offending message if deserialization fails
-                log.error("onMessage failed for message: " + msg);
-                log.error("reason", e);
+                log.error("Failed while executing tasks", e);
             }
         }
     }

@@ -1,7 +1,6 @@
 package com.feed_the_beast.javacurselib.tools;
 
 import com.feed_the_beast.javacurselib.common.enums.ConversationNotificationType;
-import com.feed_the_beast.javacurselib.common.enums.ConversationType;
 import com.feed_the_beast.javacurselib.common.enums.DevicePlatform;
 import com.feed_the_beast.javacurselib.data.Apis;
 import com.feed_the_beast.javacurselib.rest.RestUserEndpoints;
@@ -25,7 +24,7 @@ public class Chat {
     static CreateSessionResponse session;
 
     // slf4-simplelogger is really simple...
-    // try with  -Dorg.slf4j.simpleLogger.showShortLogName=true -Dorg.slf4j.simpleLogger.showThreadName=false -Dorg.slf4j.simpleLogger.dateTimeFormat="k:m"
+    // try with  -Dorg.slf4j.simpleLogger.showShortLogName=true -Dorg.slf4j.simpleLogger.showThreadName=false -Dorg.slf4j.simpleLogger.dateTimeFormat=kk:mm
     public static void main(String[] args) throws Exception {
         CountDownLatch latch = new CountDownLatch(1);
         log.info("Basic Chat");
@@ -56,16 +55,20 @@ public class Chat {
                             response.senderName,
                             response.body,
                             suffix(response));
+                    break;
                 }
                 case FRIENDSHIP: { // PM from frieds
                     log.info("<{}> {}{}", response.senderName, response.body, suffix(response));
+                    break;
                 }
                 case ADHOC:
                     log.info("TODO: report following line. Describe source of that, please tyvm\n{}", response);
+                    break;
                 case GROUP_PRIVATE_CONVERSATION: {
                     // TODO: fix UUID part
                     log.info("{}/<{}> {}{}", contacts.getGroupNamebyId(response.rootConversationID),
                             response.senderName, response.body, suffix(response));
+                    break;
                 }
                 // note: chats in audio calls uses different websocket endpoint and messages
 

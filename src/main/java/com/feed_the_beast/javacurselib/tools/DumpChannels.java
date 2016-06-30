@@ -16,12 +16,14 @@ import okhttp3.logging.HttpLoggingInterceptor;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Collections;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @Slf4j
 public class DumpChannels {
     public static void main(String[] args) throws Exception {
+        log.info("Basic information about known groups and non-deleted channels:");
         RestUserEndpoints endpoints = Tool.init();
 
         // get generic contact information
@@ -30,20 +32,13 @@ public class DumpChannels {
         // TODO: fix this to properly support channel folders
         for (GroupNotification g : cr.groups) {
             log.info("{} {}", g.groupTitle, g.groupID);
-            log.debug("{}", g);
-            for (ChannelContract c : g.channels) {
-                log.info("\t{} {}", c.groupTitle, c.groupID);
-            }
+            g.channels.stream().sorted((a, b) -> Integer.compare(a.displayOrder, b.displayOrder))
+                    .forEach(c -> {
+                        log.info("\t{} ID: {}", c.groupTitle, c.groupID);
+                        log.debug("\t\tcat: {} catID: {} catRank: {} order: {}", c.displayCategory, c.displayCategoryID, c.displayCategoryRank, c.displayOrder);
+                    });
         }
 
-        // endpoints.groups.get offers more detailed information for given server than
-        // ContactsResponse. Most important: roleID to RoleName mapping
-        for (GroupNotification g : cr.groups) {
-            if (log.isDebugEnabled()) { // fetch data only if logging level enabled
-                GroupNotification gn = endpoints.groups.get(g.groupID, false).get();
-                log.debug("{}", gn);
-            }
-        }
         System.exit(0);
     }
 }

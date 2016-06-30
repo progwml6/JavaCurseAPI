@@ -3,6 +3,7 @@ package com.feed_the_beast.javacurselib.tools;
 import com.feed_the_beast.javacurselib.common.classes.GroupMemberContract;
 import com.feed_the_beast.javacurselib.rest.RestUserEndpoints;
 import com.feed_the_beast.javacurselib.service.contacts.contacts.ContactsResponse;
+import com.feed_the_beast.javacurselib.service.contacts.contacts.GroupNotification;
 import com.feed_the_beast.javacurselib.service.groups.groups.GroupMemberSearchRequest;
 import com.feed_the_beast.javacurselib.utils.CurseGUID;
 import com.google.common.collect.Lists;
@@ -19,9 +20,15 @@ public class DumpGroupInfo {
         RestUserEndpoints endpoints = Tool.init();
 
         ContactsResponse cr = endpoints.contacts.get().get();
-        CurseGUID id = CurseGUID.newFromString(args[1]);
+        CurseGUID id = CurseGUID.newFromString(args[0]);
+        GroupNotification gn = endpoints.groups.get(id, false).get();
+        gn.channels.stream().sorted((a, b) -> Integer.compare(a.displayOrder, b.displayOrder))
+                .forEach(c -> {
+                    log.info("{} ID: {}", c.groupTitle, c.groupID);
+                    log.debug("\tcat: {} catID: {} catRank: {} order: {}", c.displayCategory, c.displayCategoryID, c.displayCategoryRank, c.displayOrder);
+                });
 
-        if (args[0].equalsIgnoreCase("getmembers")) {
+        if ( args.length > 1 && args[1].equalsIgnoreCase("getmembers")) {
             List<GroupMemberContract> amembers = getMembers(CurseGUID.deserialize(args[1]), true, endpoints);
             log.info("Group {} has total {} active members", cr.getGroupNamebyId(id).get(),  amembers.size());
             log.info("Active members: {}", sortedMembers(amembers));
@@ -32,7 +39,7 @@ public class DumpGroupInfo {
         }
 
         // parallel version?
-        if (args[0].equalsIgnoreCase("searchMembers")) {
+        if ( args.length > 1 && args[1].equalsIgnoreCase("searchMembers")) {
             int memberCount = cr.groups.stream().filter(g -> g.groupID.equals(id)).findFirst().get().memberCount;
 
             long now = System.currentTimeMillis();
@@ -43,7 +50,7 @@ public class DumpGroupInfo {
         }
 
         // normal
-        if (args[0].equalsIgnoreCase("searchMembers2")) {
+        if ( args.length > 1 && args[0].equalsIgnoreCase("searchMembers2")) {
             int memberCount = cr.groups.stream().filter(g -> g.groupID.equals(id)).findFirst().get().memberCount;
 
             long now = System.currentTimeMillis();

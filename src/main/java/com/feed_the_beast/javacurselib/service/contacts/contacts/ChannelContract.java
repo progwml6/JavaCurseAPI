@@ -25,6 +25,9 @@ public class ChannelContract {
     public GroupType groupType;
     public GroupStatus groupStatus;
     public int displayOrder;
+    public String displayCategory;         // missing in ContactsResponse?
+    public CurseGUID displayCategoryID;       // missing in ContactsResponse?
+    public int displayCategoryRank;     // missing in ContactsResponse?
     public boolean allowTemporaryChildGroups;
     public boolean forcePushToTalk;
     public boolean isDefaultChannel;
@@ -33,4 +36,5 @@ public class ChannelContract {
     public ChannelMembershipContract membership;
     public String urlPath;
     public List<GroupMemberContract> voiceMembers;
+    public boolean hideNoAccess;
 }

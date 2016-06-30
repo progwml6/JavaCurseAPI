@@ -51,6 +51,10 @@ public class GroupNotification {
     public boolean isStreaming;
     public List<ExternalCommunityPublicContract> linkedCommunities; // null in ContactsResponse
     public int afkTimerMins;
+    public long avatarTimestamp;
+    public boolean flaggedAsInappropriate;
+    public int membersOnline;
+    public boolean hideNoAccess;
 
     @Nonnull
     public Optional<Integer> getRoleIdbyName(String s) {

@@ -6,6 +6,7 @@ import com.feed_the_beast.javacurselib.rest.RestUserEndpoints;
 import com.feed_the_beast.javacurselib.service.contacts.contacts.ChannelContract;
 import com.feed_the_beast.javacurselib.service.contacts.contacts.ContactsResponse;
 import com.feed_the_beast.javacurselib.service.contacts.contacts.GroupNotification;
+import com.feed_the_beast.javacurselib.service.groups.groups.GroupMemberSearchRequest;
 import com.feed_the_beast.javacurselib.service.logins.login.LoginResponse;
 import com.feed_the_beast.javacurselib.utils.CurseGUID;
 import com.google.common.collect.Lists;
@@ -16,6 +17,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Slf4j
 public class DumpChannels {
@@ -47,8 +49,7 @@ public class DumpChannels {
             }
         }
 
-        if (args.length > 1) {
-            int page = 1;
+        if (false && args.length > 1) {
             List<GroupMemberContract> amembers = getMembers(CurseGUID.deserialize(args[1]), true, endpoints);
             log.info("Group {} has total {} active members", cr.getGroupNamebyId(CurseGUID.deserialize(args[1])).get(),  amembers.size());
             log.debug("Active members: {}", amembers);
@@ -62,20 +63,41 @@ public class DumpChannels {
                 //log.info("User {} has userID {}", args[2], members.stream().filter(member -> member.username.equals(args[2])).findAny().get().userID);
             }
         }
+
+        if (args.length > 1) {
+            List<GroupMemberContract> members = getMembers2(CurseGUID.deserialize(args[1]), endpoints);
+            log.debug("Total members: {}", members);
+            log.info("Group {} has total {} total members", cr.getGroupNamebyId(CurseGUID.deserialize(args[1])).get(),  members.size());
+            log.info("Member names: {}", members.stream().map(member -> member.username).collect(Collectors.joining(", ")));
+        }
+
         System.exit(0);
     }
 
-    // TODO: make to use multiple threads
-    // TODO: member count is mentioned somewhere. Use it
     private static List<GroupMemberContract> getMembers(CurseGUID id, boolean actives, RestUserEndpoints endpoints) throws Exception {
         int page = 1;
         List<GroupMemberContract> members = endpoints.groups.getMembers(id, actives, page, 50).get();
         List<GroupMemberContract> allMembers = Lists.newArrayList();
         do {
-            log.debug("{}", members);
             allMembers.addAll(members);
             page = page +1;
             members = endpoints.groups.getMembers(id, actives, page, 50).get();
+        } while (members.size() > 0);
+
+        return allMembers;
+    }
+
+    private static List<GroupMemberContract> getMembers2(CurseGUID id, RestUserEndpoints endpoints) throws Exception {
+        int page = 1;
+        GroupMemberSearchRequest request = new GroupMemberSearchRequest(page);
+
+        List<GroupMemberContract> members = endpoints.groups.searchMembers(id, request).get();
+        List<GroupMemberContract> allMembers = Lists.newArrayList();
+        do {
+            allMembers.addAll(members);
+            page = page +1;
+            request.page = page;
+            members = endpoints.groups.searchMembers(id, request).get();
         } while (members.size() > 0);
 
         return allMembers;

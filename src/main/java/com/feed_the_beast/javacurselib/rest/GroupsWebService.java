@@ -120,10 +120,15 @@ public class GroupsWebService {
         );
 
         /**
-         * Finds members of a group
+         * Finds members of a group.
+         * <p>
+         * Server seems to return results like String.startsWith(username) ignoring case. Null values in
+         * {@code groupMemberSearchRequest} are interpreted like missing values.
+         *
+         * Note: behaviour might be changed. Current web application does not send empty values as nulls
          *
          * @param groupID group to find
-         * @param groupMemberSearchRequest Search query containing serach term, sorting, page size and pagination
+         * @param groupMemberSearchRequest Search query containing search term, sorting, page size and pagination
          * @return Collection of {@code GroupMemberContract}s containing matches
          * @see {@link #getMembers(CurseGUID, boolean, int, int)}
          */

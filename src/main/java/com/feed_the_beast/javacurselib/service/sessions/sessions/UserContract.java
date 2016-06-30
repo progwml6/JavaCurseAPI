@@ -2,12 +2,14 @@ package com.feed_the_beast.javacurselib.service.sessions.sessions;
 
 import com.feed_the_beast.javacurselib.common.enums.PushNotificationPreference;
 import com.feed_the_beast.javacurselib.common.enums.UserConnectionStatus;
+import lombok.ToString;
 
 import java.util.Date;
 
 /**
  * representation of curse sessions api UserContract
  */
+@ToString
 public class UserContract {
     public int userID;
     public String username;

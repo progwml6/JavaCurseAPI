@@ -20,7 +20,6 @@ public class CurseGUID {
     private UUID uuid;
     private long intLeft;
     private long intRight;
-    @Getter
     private Type type;
 
     public UUID getUuid() {

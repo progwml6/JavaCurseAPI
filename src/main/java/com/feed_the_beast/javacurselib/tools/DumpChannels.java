@@ -22,17 +22,12 @@ import java.util.stream.Collectors;
 @Slf4j
 public class DumpChannels {
     public static void main(String[] args) throws Exception {
-        String s = new String(Files.readAllBytes(Paths.get(args[0])));
-        LoginResponse lr = JsonFactory.GSON.fromJson(s, LoginResponse.class);
+        RestUserEndpoints endpoints = Tool.init();
 
-        // start creating REST endpoints
-        RestUserEndpoints endpoints = new RestUserEndpoints();
-        endpoints.addInterceptor(new HttpLoggingInterceptor(new Slf4jHttpLoggingInterceptor()).setLevel(HttpLoggingInterceptor.Level.BODY));
-        endpoints.setAuthToken(lr.session.token);
-        endpoints.setupEndpoints();
-
+        // get generic contact information
         ContactsResponse cr = endpoints.contacts.get().get();
 
+        // TODO: fix this to properly support channel folders
         for (GroupNotification g : cr.groups) {
             log.info("{} {}", g.groupTitle, g.groupID);
             log.debug("{}", g);
@@ -41,65 +36,14 @@ public class DumpChannels {
             }
         }
 
-        // compare data with server...
+        // endpoints.groups.get offers more detailed information for given server than
+        // ContactsResponse. Most important: roleID to RoleName mapping
         for (GroupNotification g : cr.groups) {
             if (log.isDebugEnabled()) { // fetch data only if logging level enabled
                 GroupNotification gn = endpoints.groups.get(g.groupID, false).get();
                 log.debug("{}", gn);
             }
         }
-
-        if (false && args.length > 1) {
-            List<GroupMemberContract> amembers = getMembers(CurseGUID.deserialize(args[1]), true, endpoints);
-            log.info("Group {} has total {} active members", cr.getGroupNamebyId(CurseGUID.deserialize(args[1])).get(),  amembers.size());
-            log.debug("Active members: {}", amembers);
-
-            List<GroupMemberContract> members = getMembers(CurseGUID.deserialize(args[1]), false, endpoints);
-            log.info("Group {} has total {} inactive members", cr.getGroupNamebyId(CurseGUID.deserialize(args[1])).get(),  members.size());
-            log.debug("Members: {}", members);
-
-            if (args.length > 2) {
-                log.info("User {} has userID {}", args[2], amembers.stream().filter(member -> member.username.equals(args[2])).findAny().get().userID);
-                //log.info("User {} has userID {}", args[2], members.stream().filter(member -> member.username.equals(args[2])).findAny().get().userID);
-            }
-        }
-
-        if (args.length > 1) {
-            List<GroupMemberContract> members = getMembers2(CurseGUID.deserialize(args[1]), endpoints);
-            log.debug("Total members: {}", members);
-            log.info("Group {} has total {} total members", cr.getGroupNamebyId(CurseGUID.deserialize(args[1])).get(),  members.size());
-            log.info("Member names: {}", members.stream().map(member -> member.username).collect(Collectors.joining(", ")));
-        }
-
         System.exit(0);
-    }
-
-    private static List<GroupMemberContract> getMembers(CurseGUID id, boolean actives, RestUserEndpoints endpoints) throws Exception {
-        int page = 1;
-        List<GroupMemberContract> members = endpoints.groups.getMembers(id, actives, page, 50).get();
-        List<GroupMemberContract> allMembers = Lists.newArrayList();
-        do {
-            allMembers.addAll(members);
-            page = page +1;
-            members = endpoints.groups.getMembers(id, actives, page, 50).get();
-        } while (members.size() > 0);
-
-        return allMembers;
-    }
-
-    private static List<GroupMemberContract> getMembers2(CurseGUID id, RestUserEndpoints endpoints) throws Exception {
-        int page = 1;
-        GroupMemberSearchRequest request = new GroupMemberSearchRequest(page);
-
-        List<GroupMemberContract> members = endpoints.groups.searchMembers(id, request).get();
-        List<GroupMemberContract> allMembers = Lists.newArrayList();
-        do {
-            allMembers.addAll(members);
-            page = page +1;
-            request.page = page;
-            members = endpoints.groups.searchMembers(id, request).get();
-        } while (members.size() > 0);
-
-        return allMembers;
     }
 }

@@ -43,14 +43,37 @@ public class Chat {
     private static class ChatTask implements Task<ConversationMessageNotification> {
         @Override
         public void execute(@Nonnull WebSocket webSocket, @Nonnull ConversationMessageNotification response) {
-            if (response.conversationType.equals(ConversationType.GROUP)) {
-                log.info("{}/{} <{}> {}{}",
-                        contacts.getGroupNamebyId(response.rootConversationID).orElse("unknown"),
-                        contacts.getChannelNamebyId(response.conversationID).orElse("unknown"),
-                        response.senderName,
-                        response.body,
-                        response.notificationType != ConversationNotificationType.NORMAL ? " (" + response.notificationType.name() + ")": "");
+            switch (response.conversationType) {
+                case GROUP: {
+                    // normal discussion in the channel
+                    // groups created with start a group button in friends tab seems to use this type
+                    //   * name mapping not working for this
+                    //   * only group title can be used || conversationID and rootConversationID are identical
+                    //   * other data to separate this type of message from regular chat in channels?
+                    log.info("{}/{} <{}> {}{}",
+                            contacts.getGroupNamebyId(response.rootConversationID).orElse("unknown"),
+                            contacts.getChannelNamebyId(response.conversationID).orElse("unknown"),
+                            response.senderName,
+                            response.body,
+                            suffix(response));
+                }
+                case FRIENDSHIP: { // PM from frieds
+                    log.info("<{}> {}{}", response.senderName, response.body, suffix(response));
+                }
+                case ADHOC:
+                    log.info("TODO: report following line. Describe source of that, please tyvm\n{}", response);
+                case GROUP_PRIVATE_CONVERSATION: {
+                    // TODO: fix UUID part
+                    log.info("{}/<{}> {}{}", contacts.getGroupNamebyId(response.rootConversationID),
+                            response.senderName, response.body, suffix(response));
+                }
+                // note: chats in audio calls uses different websocket endpoint and messages
+
             }
+        }
+
+        private String suffix (ConversationMessageNotification response) {
+            return response.notificationType != ConversationNotificationType.NORMAL ? " (" + response.notificationType.name() + ")" : "";
         }
     }
 }

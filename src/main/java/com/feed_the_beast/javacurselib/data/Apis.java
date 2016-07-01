@@ -8,6 +8,7 @@ public class Apis {
     public static final String CURSEAPPBASE = "curseapp.net/";
     public static final String ACCOUNTS = "https://accounts-v1.curseapp.net/";
     public static final String AVATARS = "https://avatars.curseapp.net/";
+    public static final String BUGS = "https://bugs-v1.curseapp.net";
     public static final String CALLS = "https://calls-v1.curseapp.net/";
     public static final String CONTACTS = "https://contacts-v1.curseapp.net/";
     public static final String CONVERSATIONS = "https://conversations-v1.curseapp.net/";

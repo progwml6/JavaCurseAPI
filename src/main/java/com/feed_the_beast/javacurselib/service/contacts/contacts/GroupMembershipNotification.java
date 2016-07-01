@@ -11,6 +11,8 @@ import java.util.List;
  */
 @ToString
 public class GroupMembershipNotification {
+    public String nickname;
+    public boolean canChangeNickname;
     public int bestRole;
     public int[] roles;
     public Date dateJoined;

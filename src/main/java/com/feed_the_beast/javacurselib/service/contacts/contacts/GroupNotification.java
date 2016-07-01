@@ -23,6 +23,8 @@ import java.util.function.Function;
 public class GroupNotification {
     public String groupTitle;
     public CurseGUID groupID;
+    public long HomeRegionID;
+    public String homeRegionKey;
     public CurseGUID parentGroupID;
     public CurseGUID rootGroupID;
     public String voiceSessionCode;

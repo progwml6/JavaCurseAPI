@@ -18,4 +18,5 @@ public class AttachmentNotification {
     public int authorID;
     public String authorName;
     public long timestamp;
+    public int regionID;
 }

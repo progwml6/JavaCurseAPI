@@ -29,11 +29,11 @@ public class DumpGroupInfo {
                 });
 
         if ( args.length > 1 && args[1].equalsIgnoreCase("getmembers")) {
-            List<GroupMemberContract> amembers = getMembers(CurseGUID.deserialize(args[1]), true, endpoints);
+            List<GroupMemberContract> amembers = getMembers(id, true, endpoints);
             log.info("Group {} has total {} active members", cr.getGroupNamebyId(id).get(),  amembers.size());
             log.info("Active members: {}", sortedMembers(amembers));
 
-            List<GroupMemberContract> members = getMembers(CurseGUID.deserialize(args[1]), false, endpoints);
+            List<GroupMemberContract> members = getMembers(id, false, endpoints);
             log.info("Group {} has total {} inactive members", cr.getGroupNamebyId(id).get(),  members.size());
             log.info("Members: {}", sortedMembers(members));
         }
@@ -43,7 +43,7 @@ public class DumpGroupInfo {
             int memberCount = cr.groups.stream().filter(g -> g.groupID.equals(id)).findFirst().get().memberCount;
 
             long now = System.currentTimeMillis();
-            List<GroupMemberContract> members = searchMembers(CurseGUID.deserialize(args[1]), endpoints, memberCount);
+            List<GroupMemberContract> members = searchMembers(id, endpoints, memberCount);
             log.info("{} ms", System.currentTimeMillis() - now);
             log.info("Group {} has total {} total members", cr.getGroupNamebyId(id).get(),  members.size());
             log.info("Member names: {}", sortedMembers(members));
@@ -54,7 +54,7 @@ public class DumpGroupInfo {
             int memberCount = cr.groups.stream().filter(g -> g.groupID.equals(id)).findFirst().get().memberCount;
 
             long now = System.currentTimeMillis();
-            List<GroupMemberContract> members = searchMembers2(CurseGUID.deserialize(args[1]), endpoints);
+            List<GroupMemberContract> members = searchMembers2(id, endpoints);
             log.info("{} ms", System.currentTimeMillis() - now);
             log.info("Group {} has total {} total members", cr.getGroupNamebyId(id).get(),  members.size());
             log.info("Member names: {}", sortedMembers(members));

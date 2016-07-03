@@ -2,6 +2,7 @@ package com.feed_the_beast.javacurselib.service.contacts.contacts;
 
 import com.feed_the_beast.javacurselib.common.classes.GroupMemberContract;
 import com.feed_the_beast.javacurselib.common.enums.GroupMode;
+import com.feed_the_beast.javacurselib.common.enums.GroupPermissions;
 import com.feed_the_beast.javacurselib.common.enums.GroupStatus;
 import com.feed_the_beast.javacurselib.common.enums.GroupType;
 import com.feed_the_beast.javacurselib.utils.CurseGUID;
@@ -9,6 +10,7 @@ import lombok.ToString;
 
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 /**
  * representation of curse contact api ChannelContract
@@ -25,13 +27,28 @@ public class ChannelContract {
     public GroupType groupType;
     public GroupStatus groupStatus;
     public int displayOrder;
-    public String displayCategory;         // missing in ContactsResponse?
-    public CurseGUID displayCategoryID;       // missing in ContactsResponse?
-    public int displayCategoryRank;     // missing in ContactsResponse?
+    /**
+     * Not present when instance is returned from {@code ContactsWebService}
+     */
+    public String displayCategory;          // missing in ContactsResponse
+    /**
+     * Not present when instance is returned from {@code ContactsWebService}
+     */
+    public CurseGUID displayCategoryID;     // missing in ContactsResponse
+    /**
+     * Not present when instance is returned from {@code ContactsWebService}
+     */
+    public int displayCategoryRank;         // missing in ContactsResponse
     public boolean allowTemporaryChildGroups;
     public boolean forcePushToTalk;
     public boolean isDefaultChannel;
-    public Map<Integer,Integer> rolePermissions; // TODO: GroupPermissions?
+
+    /**
+     *  Takes preference over groupwide role configuration
+     *
+     *  @see com.feed_the_beast.javacurselib.service.contacts.contacts.GroupNotification#rolePermissions
+     */
+    public Map<Integer,Set<GroupPermissions>> rolePermissions;
     public boolean isPublic;
     public ChannelMembershipContract membership;
     public String urlPath;

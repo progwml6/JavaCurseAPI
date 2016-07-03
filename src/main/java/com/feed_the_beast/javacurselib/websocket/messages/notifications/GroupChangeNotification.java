@@ -13,13 +13,13 @@ import java.util.Set;
 
 @ToString
 public class GroupChangeNotification extends BaseResponse implements Response {
-    public GroupChangeType changeType;
-    public long senderID;
-    public String senderName;
-    public GroupNotification group;
-    public List<GroupMemberContract> members;
+    public GroupChangeType changeType;          // this probably tells which data to update
+    public long senderID;                       // user who triggered this even
+    public String senderName;                   // -- "" --
+    public GroupNotification group;             // affected group
+    public List<GroupMemberContract> members;   // list of aacedted members?
     public Date timeStamp;
-    public Set<ChannelContract> childGroups;
+    public Set<ChannelContract> childGroups;    // TODO: ?
     public GroupMemberRemovedReason removedReason;
-    public String messageToUsers;
+    public String messageToUsers;               // TODO: ?
 }

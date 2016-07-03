@@ -19,7 +19,7 @@ public class JoinRequest extends BaseRequest implements Request {
     public UserConnectionStatus status = UserConnectionStatus.ONLINE ;
 
     // TODO: make configurable
-    public String clientVersion = "7.0.19";
+    public String clientVersion = "7.0.61";
 
     // Weirdos. Fix after getting API docs
     public Object publicKey = null;

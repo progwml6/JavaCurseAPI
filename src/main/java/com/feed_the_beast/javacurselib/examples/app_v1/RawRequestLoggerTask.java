@@ -14,7 +14,7 @@ public class RawRequestLoggerTask implements RequestTask {
     @Override
     public void execute(@Nonnull Request request) {
         if (log.isTraceEnabled()) {
-            log.trace(request.toString());
+            log.trace(request.toJsonString());
         }
     }
 }

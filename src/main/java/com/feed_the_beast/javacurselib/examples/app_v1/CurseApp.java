@@ -128,7 +128,7 @@ public class CurseApp {
 
         // new safe(sic) websocket logging system
         //ws.addRawTask(new RawResponseLoggerTask()); // not needed anymore. TraceResponseTask is more intelligent
-        ws.addTaskForAllTypes(new TraceResponseTask(false, true, NotificationsServiceContractType.FRIENDSHIP_CHANGE_NOTIFICATION, NotificationsServiceContractType.CONVERSATION_READ_NOTIFICATION));
+        ws.addTaskForAllTypes(new TraceResponseTask(false, true, NotificationsServiceContractType.FRIENDSHIP_CHANGE_NOTIFICATION, NotificationsServiceContractType.CONVERSATION_READ_NOTIFICATION, NotificationsServiceContractType.GROUP_PRESENCE_NOTIFICATION));
         ws.addRequestTask(new TraceRequestTask(false));
 
         // to add your own handlers call ws.getResponseHandler() and configure it

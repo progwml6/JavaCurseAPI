@@ -1,14 +1,11 @@
 package com.feed_the_beast.javacurselib.utils;
 
-import lombok.Getter;
-
 import javax.annotation.Nonnull;
 import java.util.UUID;
 
-
 public class CurseGUID {
     public enum Type {
-        UUID(0), INT(1), TWO_INTS(1);
+        UUID(0), INT(1), TWO_INTS(1), UUID_TWO_INTS(2);
 
         private long value;
 
@@ -17,72 +14,64 @@ public class CurseGUID {
         }
     }
 
-    private UUID uuid;
-    private long intLeft;
-    private long intRight;
-    private Type type;
-
-    public UUID getUuid() {
-        if (type != Type.UUID) {
-            throw new IllegalStateException("An object instance does not contain UUID object");
-        }
-        return uuid;
-    }
-
-    public long getIntLeft() {
-        if (type == Type.UUID) {
-            throw new IllegalStateException("An object instance does not contain int");
-        }
-        return intLeft;
-    }
-
-    public long getIntRight() {
-        if (type != Type.TWO_INTS) {
-            throw new IllegalStateException("An object instance does not contain int");
-        }
-        return intRight;
-    }
+    private final UUID uuid;
+    private final long intLeft;
+    private final long intRight;
+    private final Type type;
 
     public Type getType() {
         return type;
     }
 
-    private CurseGUID() {
-    }
-
     private CurseGUID(@Nonnull UUID uuid) {
         this.type = Type.UUID;
         this.uuid = uuid;
+        this.intLeft = this.intRight = 0;
     }
 
     private CurseGUID(long intLeft) {
         this.type = Type.INT;
         this.intLeft = intLeft;
+        this.uuid = null;
+        this.intRight = 0;
     }
 
     private CurseGUID(long intLeft, long intRight) {
         this.type = Type.TWO_INTS;
         this.intLeft = intLeft;
         this.intRight = intRight;
+        this.uuid = null;
     }
 
-    public static CurseGUID newFromUUIDString(String s) {
-        CurseGUID result = new CurseGUID(UUID.fromString(s));
+    private CurseGUID(@Nonnull UUID uuid, long intLeft, long intRight) {
+        this.type = Type.UUID_TWO_INTS;
+        this.uuid = uuid;
+        this.intLeft = intLeft;
+        this.intRight = intRight;
+    }
+
+    public static  CurseGUID newInstance(String s) {
+        CurseGUID result = deserialize(s);
         return result;
     }
 
-    public static CurseGUID newFromUUID(UUID u) {
+    public static CurseGUID newInstance(UUID u) {
         CurseGUID result = new CurseGUID(u);
         return result;
     }
 
-    public static CurseGUID newFromLong(long l) {
+    public static CurseGUID newInstance(long l) {
         CurseGUID result = new CurseGUID(l);
         return result;
     }
 
-    public static CurseGUID newFromLong(long l, long r) {
+    public static CurseGUID newInstance(long l, long r) {
         CurseGUID result = new CurseGUID(l, r);
+        return result;
+    }
+
+    public static CurseGUID newInstance(UUID uuid, long l, long r) {
+        CurseGUID result = new CurseGUID(uuid, l, r);
         return result;
     }
 
@@ -91,57 +80,54 @@ public class CurseGUID {
         return result;
     }
 
-    public static CurseGUID newFromZeroUUID() {
+    public static CurseGUID newInstance() {
         CurseGUID result = new CurseGUID(new UUID(0,0));
-        return result;
-    }
-
-    public static CurseGUID newFromString(String s) {
-        CurseGUID result = deserialize(s);
         return result;
     }
 
     public String serialize() {
         switch (getType()) {
             case UUID:
-                return getUuid().toString();
+                //noinspection ConstantConditions
+                return uuid.toString();
             case INT:
-                return Long.toString(getIntLeft());
+                return Long.toString(intLeft);
             case TWO_INTS:
-                return Long.toString(getIntLeft()) + ":" + Long.toString(getIntRight());
+                return Long.toString(intLeft) + ":" + Long.toString(intRight);
+            case UUID_TWO_INTS:
+                //noinspection ConstantConditions
+                return uuid.toString() + ":" + Long.toString(intLeft) + ":" + Long.toString(intRight);
         }
-        return null;
+        throw new IllegalStateException();
     }
 
     public static CurseGUID deserialize(String s) {
         CurseGUID result;
         if (s.matches("[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}")) {
-            result = CurseGUID.newFromUUIDString(s);
+            result = CurseGUID.newInstance(UUID.fromString(s));
         } else if (s.matches("[0-9]*")) {
             long l = Long.parseLong(s);
-            result = CurseGUID.newFromLong(l);
+            result = CurseGUID.newInstance(l);
         } else if (s.matches("[0-9]*:[0-9]*")) {
             String[] splitted = s.split(":");
             long l = Long.parseLong(splitted[0]);
             long r = Long.parseLong(splitted[1]);
-            result = CurseGUID.newFromLong(l, r);
+            result = CurseGUID.newInstance(l, r);
+        } else if(s.matches("[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}:[0-9]*:[0-9]*")) {
+            String[] splitted = s.split(":");
+            UUID uuid = UUID.fromString(splitted[0]);
+            long l = Long.parseLong(splitted[1]);
+            long r = Long.parseLong(splitted[2]);
+            result = CurseGUID.newInstance(uuid, l, r);
         } else {
-            throw new IllegalStateException();
+            throw new IllegalStateException("No matched desrializer for " + s);
         }
         return result;
     }
 
     @Override
     public String toString() {
-        switch (type) {
-            case UUID:
-                return uuid.toString();
-            case INT:
-                return Long.toString(intLeft);
-            case TWO_INTS:
-                return Long.toString(intLeft) + ":" + Long.toString(intRight);
-        }
-        throw new IllegalStateException("Something failed");
+        return serialize();
     }
 
     @Override
@@ -154,22 +140,35 @@ public class CurseGUID {
         if (type != curseGUID.type) return false;
         switch (type) {
             case UUID:
+                //noinspection ConstantConditions
                 return uuid.equals(curseGUID.uuid);
             case INT:
                 return intLeft == curseGUID.intLeft;
             case TWO_INTS:
                 return intLeft == curseGUID.intLeft
                         && intRight == curseGUID.intRight;
+            case UUID_TWO_INTS:
+                //noinspection ConstantConditions
+                return intLeft == curseGUID.intLeft
+                        && intRight == curseGUID.intRight
+                        && uuid.equals(curseGUID.uuid);
         }
         return false;
     }
 
     @Override
     public int hashCode() {
-        int result = uuid.hashCode();
+        int result = uuid == null ? 0 :uuid.hashCode();
         result = 31 * result + (int) (intLeft ^ (intLeft >>> 32));
         result = 31 * result + (int) (intRight ^ (intRight >>> 32));
         result = 31 * result + type.hashCode();
         return result;
+    }
+
+    public static boolean isCurseGUID(String s) {
+        return s.matches("[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}")
+                || s.matches("[0-9]*")
+                || s.matches("[0-9]*:[0-9]*")
+                || s.matches("[a-f0-9]{8}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{4}-[a-f0-9]{12}:[0-9]*:[0-9]*");
     }
 }

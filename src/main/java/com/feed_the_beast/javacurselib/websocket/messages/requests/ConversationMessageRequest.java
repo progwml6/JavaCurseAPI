@@ -17,7 +17,7 @@ public class ConversationMessageRequest extends BaseRequest implements Request {
     /**
      * Optional attachment. UUID(0, 0) by default
      */
-    public CurseGUID attachmentID = CurseGUID.newFromZeroUUID();
+    public CurseGUID attachmentID = CurseGUID.newInstance();
     /**
      * TODO: document
      */

@@ -13,7 +13,7 @@ public class RequestTest {
 
     @Test
     public void joinRequest() {
-        JoinRequest r = new JoinRequest(1234, CurseGUID.newFromUUID(new UUID(1, 0)), CurseGUID.newFromUUID(new UUID(0,1)));
+        JoinRequest r = new JoinRequest(1234, CurseGUID.newInstance(new UUID(1, 0)), CurseGUID.newInstance(new UUID(0,1)));
     }
 
     @Test
@@ -34,7 +34,7 @@ public class RequestTest {
 
     @Test
     public void messageMarkReadRequest0() {
-        ConversationMarkReadRequest r = new ConversationMarkReadRequest(CurseGUID.newFromUUID(new UUID(0,0)));
+        ConversationMarkReadRequest r = new ConversationMarkReadRequest(CurseGUID.newInstance(new UUID(0,0)));
         assertEquals(ConversationMarkReadRequest.class, r.getClass());
         assertEquals(-342895375, r.getTypeID().getValue());
     }

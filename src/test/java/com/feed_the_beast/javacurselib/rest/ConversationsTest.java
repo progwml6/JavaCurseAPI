@@ -35,7 +35,7 @@ public class ConversationsTest {
         HttpUrl httpUrl = mockWebServer.url("");
 
         ConversationsWebService.Conversations conversations = creator.createEndpoint(httpUrl.toString(), ConversationsWebService.Conversations.class);
-        CompletableFuture<Void> future = conversations.deleteMessage(CurseGUID.newFromLong(1, 2), CurseGUID.newFromLong(3, 4), 1234);
+        CompletableFuture<Void> future = conversations.deleteMessage(CurseGUID.newInstance(1, 2), CurseGUID.newInstance(3, 4), 1234);
         future.join();
 
         RecordedRequest request = mockWebServer.takeRequest();
@@ -53,7 +53,7 @@ public class ConversationsTest {
         HttpUrl httpUrl = mockWebServer.url("");
 
         ConversationsWebService.Conversations conversations = creator.createEndpoint(httpUrl.toString(), ConversationsWebService.Conversations.class);
-        CompletableFuture<Void> future = conversations.deleteMessage(CurseGUID.newFromLong(1, 2), CurseGUID.newFromLong(3, 4), 1234);
+        CompletableFuture<Void> future = conversations.deleteMessage(CurseGUID.newInstance(1, 2), CurseGUID.newInstance(3, 4), 1234);
 
         try {
             future.join();
@@ -74,7 +74,7 @@ public class ConversationsTest {
     @Test
     public void delete_ok_interceptor() throws Exception {
         ConversationsWebService.Conversations conversations = creator.addInterceptor(new MockInterceptor()).createEndpoint(Apis.CONVERSATIONS, ConversationsWebService.Conversations.class);
-        CompletableFuture<Void> future = conversations.deleteMessage(CurseGUID.newFromLong(1, 2), CurseGUID.newFromLong(3, 4), 1234);
+        CompletableFuture<Void> future = conversations.deleteMessage(CurseGUID.newInstance(1, 2), CurseGUID.newInstance(3, 4), 1234);
         Object o = future.join();
     }
 

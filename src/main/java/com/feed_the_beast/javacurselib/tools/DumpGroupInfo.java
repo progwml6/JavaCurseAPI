@@ -20,7 +20,7 @@ public class DumpGroupInfo {
         RestUserEndpoints endpoints = Tool.init();
 
         ContactsResponse cr = endpoints.contacts.get().get();
-        CurseGUID id = CurseGUID.newFromString(args[0]);
+        CurseGUID id = CurseGUID.newInstance(args[0]);
         GroupNotification gn = endpoints.groups.get(id, false).get();
         gn.channels.stream().sorted((a, b) -> Integer.compare(a.displayOrder, b.displayOrder))
                 .forEach(c -> {

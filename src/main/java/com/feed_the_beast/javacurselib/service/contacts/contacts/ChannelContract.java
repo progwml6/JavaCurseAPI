@@ -6,6 +6,7 @@ import com.feed_the_beast.javacurselib.common.enums.GroupPermissions;
 import com.feed_the_beast.javacurselib.common.enums.GroupStatus;
 import com.feed_the_beast.javacurselib.common.enums.GroupType;
 import com.feed_the_beast.javacurselib.utils.CurseGUID;
+import com.feed_the_beast.javacurselib.websocket.messages.notifications.GroupChangeNotification;
 import lombok.ToString;
 
 import java.util.List;
@@ -54,4 +55,29 @@ public class ChannelContract {
     public String urlPath;
     public List<GroupMemberContract> voiceMembers;
     public boolean hideNoAccess;
+
+    public ChannelContract() {
+    }
+
+    public ChannelContract(GroupNotification groupNotification) {
+        groupID = groupNotification.groupID;
+        displayOrder = groupNotification.displayOrder;
+        forcePushToTalk = groupNotification.forcePushToTalk;
+        groupMode = groupNotification.groupMode;
+        groupStatus = groupNotification.status;
+        groupTitle = groupNotification.groupTitle;
+        groupType = groupNotification.groupType;
+        allowTemporaryChildGroups = groupNotification.allowTemporaryChildGroups;
+        isDefaultChannel = groupNotification.isDefaultChannel;
+        isPublic = groupNotification.isPublic;
+        //nopenopenope membership = groupNotification.membership;
+        messageOfTheDay = groupNotification.messageOfTheDay;
+        parentGroupID = groupNotification.parentGroupID;
+        rolePermissions = groupNotification.rolePermissions;
+        rootGroupID = groupNotification.rootGroupID;
+        urlPath = groupNotification.urlPath;
+        voiceMembers = null;
+        voiceSessionCode = groupNotification.voiceSessionCode;
+        hideNoAccess = groupNotification.hideNoAccess;
+    }
 }

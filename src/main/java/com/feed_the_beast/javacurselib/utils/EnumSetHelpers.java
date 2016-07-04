@@ -8,10 +8,10 @@ public class EnumSetHelpers {
     }
 
     public static <T extends Enum<T> & BetterEnum<Long>> long serialize(Set<T> set, Class<T> classOfT) {
-        if (set.equals(EnumSet.noneOf(classOfT))) {
+        if (EnumSet.noneOf(classOfT).equals(set)) {
             return 0;
         }
-        if (set.equals(EnumSet.allOf(classOfT))) {
+        if (EnumSet.allOf(classOfT).equals(set)) {
             return -1;
         }
 
@@ -22,7 +22,7 @@ public class EnumSetHelpers {
         return result;
     }
 
-    public static <T extends Enum<T> & BetterEnum<Long>> Set<T> deserialize(long l, Class<T> classOfT) {
+    public static <T extends Enum<T> & BetterEnum<Long>> EnumSet<T> deserialize(long l, Class<T> classOfT) {
         // handle special cases
         if (l == 0) {
             return EnumSet.noneOf(classOfT);
@@ -32,7 +32,7 @@ public class EnumSetHelpers {
         }
 
         // deserialize
-        Set<T> result = EnumSet.noneOf(classOfT);
+        EnumSet<T> result = EnumSet.noneOf(classOfT);
         for (T gp : classOfT.getEnumConstants()) {
             if ((l & gp.getValue()) == gp.getValue()) {
                 result.add(gp);

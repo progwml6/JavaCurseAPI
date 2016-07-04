@@ -12,20 +12,26 @@ public class Tool {
     static LoginResponse lr;
 
     public static RestUserEndpoints init() throws Exception {
+        return init(true);
+    }
+
+    public static RestUserEndpoints init(boolean debugREST) throws Exception {
         String path = System.getenv("LR");
         if (path != null && !path.isEmpty()) {
-            return init(path);
+            return init(path, debugREST);
         }
         throw new RuntimeException("Bad value in environment variable");
     }
 
-    public static RestUserEndpoints init(String path) throws Exception {
+    public static RestUserEndpoints init(String path, boolean debugRest) throws Exception {
         String s = new String(Files.readAllBytes(Paths.get(path)));
         lr = JsonFactory.GSON.fromJson(s, LoginResponse.class);
 
         // start creating REST endpoints
         RestUserEndpoints endpoints = new RestUserEndpoints();
-        endpoints.addInterceptor(new HttpLoggingInterceptor(new Slf4jHttpLoggingInterceptor()).setLevel(HttpLoggingInterceptor.Level.BODY));
+        if (debugRest) {
+            endpoints.addInterceptor(new HttpLoggingInterceptor(new Slf4jHttpLoggingInterceptor()).setLevel(HttpLoggingInterceptor.Level.BODY));
+        }
         endpoints.setAuthToken(lr.session.token);
         endpoints.setupEndpoints();
 

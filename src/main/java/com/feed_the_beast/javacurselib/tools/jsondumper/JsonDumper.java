@@ -3,8 +3,8 @@ package com.feed_the_beast.javacurselib.tools.jsondumper;
 import com.feed_the_beast.javacurselib.common.enums.DevicePlatform;
 import com.feed_the_beast.javacurselib.data.Apis;
 import com.feed_the_beast.javacurselib.data.JsonFactory;
+import com.feed_the_beast.javacurselib.examples.app_v1.RawRequestLoggerTask;
 import com.feed_the_beast.javacurselib.examples.app_v1.RawResponseLoggerTask;
-import com.feed_the_beast.javacurselib.examples.app_v1.TraceRequestTask;
 import com.feed_the_beast.javacurselib.rest.RestUserEndpoints;
 import com.feed_the_beast.javacurselib.service.logins.login.LoginResponse;
 import com.feed_the_beast.javacurselib.service.sessions.sessions.CreateSessionRequest;
@@ -17,7 +17,6 @@ import java.net.URI;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.CountDownLatch;
 
 @Slf4j
 public class JsonDumper {
@@ -60,7 +59,7 @@ public class JsonDumper {
 
         // Log everything. Built-in logger tasks
         // use trace logging level
-        ws.addRequestTask(new TraceRequestTask());
+        ws.addRequestTask(new RawRequestLoggerTask());
         ws.addRawTask(new RawResponseLoggerTask());
 
         ws.start();

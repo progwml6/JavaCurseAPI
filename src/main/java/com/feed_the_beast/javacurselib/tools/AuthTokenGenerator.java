@@ -14,7 +14,13 @@ import java.util.Arrays;
 @Slf4j
 public class AuthTokenGenerator {
     public static void main(String[] args) throws Exception {
-        File file = new File(args[0]);
+        String path = System.getenv("LR");
+        if (path == null || path.isEmpty()) {
+            throw new RuntimeException("Bad value in environment variable");
+        }
+
+        File file = new File(path);
+        file.getParentFile().mkdirs();
         Console console = System.console();
 
         // read username and password

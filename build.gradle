@@ -97,9 +97,29 @@ task shadowJarMC(type: com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJa
 
 }
 
+task shadowJarMCnoslf4j(type: com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJar) {// for mc projects that already have slf4j
+    classifier = 'mcnoslf4j'
+    from(project.convention.getPlugin(JavaPluginConvention).sourceSets.main.output)
+    configurations = [project.configurations.compile]
+    dependencies {
+        exclude 'META-INF/*.DSA'
+        exclude 'META-INF/*.RSA'
+        exclude dependency('commons-io:commons-io')
+        exclude dependency('org.projectlombok:lombok')
+        exclude dependency('org.apache.commons:commons-lang3')
+        exclude dependency('com.google.guava:guava')
+        exclude dependency('com.google.code.gson:gson')
+        exclude dependency('com.google.code.findbugs:jsr305')
+        exclude dependency('org.slf4j:slf4j-simple')
+        exclude dependency('org.slf4j:slf4j-api')
+
+    }
+
+}
+
 build.dependsOn(shadowJar)
 build.dependsOn(shadowJarMC)
-
+build.dependsOn(shadowJarMCnoslf4j)
 
 jar {
     manifest {
@@ -126,6 +146,7 @@ task javadocJar(type: Jar, dependsOn:javadoc) {
 artifacts {
     archives shadowJar
     archives shadowJarMC
+    archives shadowJarMCnoslf4j
     archives jar
     archives sourceJar
     archives javadocJar

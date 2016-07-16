@@ -90,7 +90,9 @@ task shadowJarMC(type: com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJa
         exclude dependency('org.projectlombok:lombok')
         exclude dependency('org.apache.commons:commons-lang3')
         exclude dependency('com.google.guava:guava')
+        exclude dependency('com.google.code.gson:gson')
         exclude dependency('com.google.code.findbugs:jsr305')
+        exclude dependency('org.slf4j:slf4j-simple')
     }
 
 }

@@ -100,15 +100,13 @@ public class CurseApp {
          ***************************/
 
         contactsResponse = REST.contacts.get().join(); // wil throw RuntimeException if fails
-        for (GroupNotification g : contactsResponse.groups) {
-            if (g.groupTitle.equals("CurseForge")) {
-                for (ChannelContract c : g.channels) {
-                    if (c.groupTitle.equals("app-api-chat")) {
-                        log.info("you probably have access to this magical API Channel if you are seeing this code");
-                    }
+        contactsResponse.groups.stream().filter(g -> g.groupTitle.equals("CurseForge")).forEach(g -> {
+            for (ChannelContract c : g.channels) {
+                if (c.groupTitle.equals("app-api-chat")) {
+                    log.info("you probably have access to this magical API Channel if you are seeing this code");
                 }
             }
-        }
+        });
 
         log.info("ContactResponse: {}", contactsResponse);
 

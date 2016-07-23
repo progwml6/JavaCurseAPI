@@ -1,6 +1,5 @@
 package com.feed_the_beast.javacurselib.utils;
 
-import com.feed_the_beast.javacurselib.common.enums.GroupPermissions;
 import com.google.common.collect.Lists;
 import com.google.gson.Gson;
 import com.google.gson.TypeAdapter;

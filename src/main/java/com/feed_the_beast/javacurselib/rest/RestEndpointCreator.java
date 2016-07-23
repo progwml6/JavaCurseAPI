@@ -24,9 +24,7 @@ public class RestEndpointCreator {
         OkHttpClient okClient;
 
         OkHttpClient.Builder clientBuilder = new OkHttpClient.Builder();
-        for (Interceptor interceptor: interceptors) {
-            clientBuilder.addInterceptor(interceptor);
-        }
+        interceptors.forEach(clientBuilder::addInterceptor);
 
         okClient = clientBuilder.build();
         return okClient;

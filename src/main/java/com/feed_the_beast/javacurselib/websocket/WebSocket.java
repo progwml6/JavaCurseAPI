@@ -15,8 +15,6 @@ import com.feed_the_beast.javacurselib.websocket.messages.requests.HandshakeRequ
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
-import org.glassfish.tyrus.client.ClientManager;
-import org.glassfish.tyrus.client.ClientProperties;
 
 import javax.annotation.Nonnull;
 import javax.websocket.*;

@@ -10,6 +10,7 @@ import com.google.gson.*;
 
 import java.lang.reflect.Type;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
 
 @SuppressWarnings("Duplicates")
@@ -20,7 +21,7 @@ public class JsonFactory {
         GsonBuilder builder = new GsonBuilder();
         builder.registerTypeAdapter(Date.class, new DateAdapter());
         builder.registerTypeAdapterFactory(new BetterEnumAdapterFactory());
-        builder.registerTypeAdapterFactory(new EnumSetTypeAdapterFactory(Arrays.asList(GroupPermissions.class)));
+        builder.registerTypeAdapterFactory(new EnumSetTypeAdapterFactory(Collections.singletonList(GroupPermissions.class)));
         builder.registerTypeAdapter(Response.class, new ResponseDeserializer());
         builder.registerTypeAdapter(Response.class, new ResponseSerializer());
         builder.registerTypeAdapter(Request.class, new RequestSerializer());

@@ -7,6 +7,7 @@ import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Date;
 
 public class JsonFactory {
@@ -15,7 +16,7 @@ public class JsonFactory {
     static {
         GsonBuilder builder = new GsonBuilder();
         builder.registerTypeAdapterFactory(new BetterEnumAdapterFactory());
-        builder.registerTypeAdapterFactory(new EnumSetTypeAdapterFactory(Arrays.asList(GroupPermissions.class)));
+        builder.registerTypeAdapterFactory(new EnumSetTypeAdapterFactory(Collections.singletonList(GroupPermissions.class)));
         builder.registerTypeAdapter(Date.class, new DateAdapter());
         builder.registerTypeAdapter(CurseGUID.class, new CurseGUIDAdapter());
         builder.setFieldNamingPolicy(FieldNamingPolicy.UPPER_CAMEL_CASE);

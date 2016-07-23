@@ -6,7 +6,6 @@ import com.feed_the_beast.javacurselib.common.enums.GroupPermissions;
 import com.feed_the_beast.javacurselib.common.enums.GroupStatus;
 import com.feed_the_beast.javacurselib.common.enums.GroupType;
 import com.feed_the_beast.javacurselib.utils.CurseGUID;
-import com.feed_the_beast.javacurselib.websocket.messages.notifications.GroupChangeNotification;
 import lombok.ToString;
 
 import java.util.List;

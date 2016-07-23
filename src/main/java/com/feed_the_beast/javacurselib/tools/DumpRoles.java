@@ -41,9 +41,7 @@ public class DumpRoles {
 
         log.info("================================================================");
 
-        groupNotificationMOARINFO.roles.forEach(role -> {
-            log.info("Role name: {}\nRole permissions: {}", role.name, groupNotificationMOARINFO.rolePermissions.get(role.roleID));
-        });
+        groupNotificationMOARINFO.roles.forEach(role -> log.info("Role name: {}\nRole permissions: {}", role.name, groupNotificationMOARINFO.rolePermissions.get(role.roleID)));
 
         System.exit(0);
     }

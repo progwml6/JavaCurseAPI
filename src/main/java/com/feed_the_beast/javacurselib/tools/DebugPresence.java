@@ -9,15 +9,12 @@ import com.feed_the_beast.javacurselib.service.sessions.sessions.CreateSessionRe
 import com.feed_the_beast.javacurselib.utils.CurseGUID;
 import com.feed_the_beast.javacurselib.websocket.WebSocket;
 import com.feed_the_beast.javacurselib.websocket.messages.handler.tasks.Task;
-import com.feed_the_beast.javacurselib.websocket.messages.notifications.GroupPresenceContract;
 import com.feed_the_beast.javacurselib.websocket.messages.notifications.GroupPresenceNotification;
 import com.feed_the_beast.javacurselib.websocket.messages.notifications.NotificationsServiceContractType;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.annotation.Nonnull;
 import java.net.URI;
-import java.util.Optional;
-import java.util.concurrent.CountDownLatch;
 
 /**
  * Shows {@code GroupPresenceNotification}s if running user's usedID is mentioned

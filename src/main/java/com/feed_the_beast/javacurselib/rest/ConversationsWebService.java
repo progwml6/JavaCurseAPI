@@ -2,7 +2,6 @@ package com.feed_the_beast.javacurselib.rest;
 
 import com.feed_the_beast.javacurselib.data.Apis;
 import com.feed_the_beast.javacurselib.utils.CurseGUID;
-import okhttp3.Interceptor;
 import retrofit2.http.DELETE;
 import retrofit2.http.Path;
 

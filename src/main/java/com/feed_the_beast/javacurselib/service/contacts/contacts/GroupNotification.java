@@ -9,13 +9,12 @@ import com.feed_the_beast.javacurselib.utils.CurseGUID;
 import lombok.ToString;
 
 import javax.annotation.Nonnull;
-import javax.annotation.Nullable;
+
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.Set;
 import java.util.function.BiFunction;
-import java.util.function.Function;
 
 /**
  * Representation of curse contacts api GroupNotification
@@ -24,7 +23,7 @@ import java.util.function.Function;
 public class GroupNotification {
     public String groupTitle;
     public CurseGUID groupID;
-    public long HomeRegionID;
+    public long homeRegionID;
     public String homeRegionKey;
     public CurseGUID parentGroupID;
     public CurseGUID rootGroupID;

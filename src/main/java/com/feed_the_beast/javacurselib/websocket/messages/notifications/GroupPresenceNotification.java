@@ -1,6 +1,5 @@
 package com.feed_the_beast.javacurselib.websocket.messages.notifications;
 
-import com.feed_the_beast.javacurselib.common.enums.UserConnectionStatus;
 import com.feed_the_beast.javacurselib.utils.CurseGUID;
 import lombok.ToString;
 

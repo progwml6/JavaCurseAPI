@@ -9,7 +9,7 @@ public class AttachmentNotification {
     public String name;
     public String title;
     public int size;
-    public String FileType;
+    public String fileType;
     public String url;
     public int width;
     public int height;

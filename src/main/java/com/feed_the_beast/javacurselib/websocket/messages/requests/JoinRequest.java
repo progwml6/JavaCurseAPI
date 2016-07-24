@@ -26,7 +26,7 @@ public class JoinRequest extends BaseRequest implements Request {
     public int cipherAlgorithm = 0;     // TODO: check: random object or int?
     public int cipherStrength = 0;
 
-    public JoinRequest(@Nonnull LoginResponse loginResponse, @Nonnull CreateSessionResponse sessionResponse) {
+    public JoinRequest(@Nonnull CreateSessionResponse sessionResponse) {
         this.machineKey = sessionResponse.machineKey;
         this.userID = sessionResponse.user.userID;
         this.sessionID = sessionResponse.sessionID;

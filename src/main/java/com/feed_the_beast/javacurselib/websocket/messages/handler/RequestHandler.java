@@ -32,11 +32,11 @@ public class RequestHandler {
             }
             session.getBasicRemote().sendText(request.toJsonString());
         } catch (IOException|IllegalStateException e) {
-            //TODO: still fails. Because we don't see a ping reply, we don't send a ping which means problem is not detected
-            // Tyrus will notice problem and do onclose but slower then request fail detection
             log.warn("Error while sending message, reconnecting...", e);
-            webSocket.stopPingThread();
-            webSocket.start();
+            if (webSocket.isReconnect() && !webSocket.getConnecting().getAndSet(true)) {
+                log.info("send failed: Reconnecting... ");
+                webSocket.start();
+            }
         }
     }
 

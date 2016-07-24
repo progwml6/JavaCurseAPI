@@ -24,6 +24,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 // TODO: split public functions into separated class. Hint: hide implementation behind facade
 //
@@ -31,22 +32,23 @@ import java.util.concurrent.TimeUnit;
 public class WebSocket {
     private final ResponseHandler responseHandler;
     private final RequestHandler requestHandler;
-    private LoginResponse loginResponse;
+
     private CreateSessionResponse sessionResponse;
     private URI endpoint;
+
     private Session session;
     private WebSocketContainer client = ContainerProvider.getWebSocketContainer();
     private NotificationsEndPoint notificationsEndPoint;    //TODO: make configurable?
-    private ScheduledFuture<?> pingThread;
-    private ScheduledExecutorService scheduledExecutorService = Executors.newScheduledThreadPool(1);
-
-    @Setter
-    @Getter
-    private boolean logMessages = false;
+    @Getter private boolean reconnect = true;
+    @Getter private AtomicBoolean connecting = new AtomicBoolean(false);
 
     // API public
+    @Deprecated //use WebSocket(@Nonnull CreateSessionResponse sessionResponse, @Nonnull URI endpoint)
     public WebSocket(@Nonnull LoginResponse loginResponse, @Nonnull CreateSessionResponse sessionResponse, @Nonnull URI endpoint) {
-        this.loginResponse = loginResponse;
+        this(sessionResponse, endpoint);
+    }
+
+    public WebSocket(@Nonnull CreateSessionResponse sessionResponse, @Nonnull URI endpoint) {
         this.sessionResponse = sessionResponse;
         this.endpoint = endpoint;
 
@@ -55,31 +57,41 @@ public class WebSocket {
     }
 
     // API public
-    public boolean start() {
+    public void start() {
+        connecting.set(true);
         boolean connected = false;
         while (!connected) {
             try {
-                notificationsEndPoint = new NotificationsEndPoint(loginResponse, sessionResponse, this);
+                notificationsEndPoint = new NotificationsEndPoint(sessionResponse, this);
+                // blocks, rest of connection initialization is done in NotificationsEndPoint#onOpen()
                 session = client.connectToServer(notificationsEndPoint, null, endpoint);
                 connected = true;
+                connecting.set(false);
             } catch (IOException | DeploymentException e) {
                 log.error("failed", e);
             }
+            if (!connected) {
+                log.info("Reconnecting... (5 seconds)");
+                try {
+                    Thread.sleep(5000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
         }
-        return true;
     }
 
-    // API private
-    public void startPingThread() {
-        stopPingThread();
-        pingThread = scheduledExecutorService.scheduleAtFixedRate(new PingThread(requestHandler),0, 5, TimeUnit.SECONDS);
-    }
+    public void stop() {
+        reconnect = false;
 
-    // API private
-    public void stopPingThread() {
-        if (pingThread != null) {
-            pingThread.cancel(true);
+        try {
+            if (session.isOpen())
+                session.close();
+        } catch (IOException e) {
+            log.warn("failed", e);
         }
+        // free memory
+        session = null;
     }
 
     // API private
@@ -96,24 +108,7 @@ public class WebSocket {
     private Session getSession() {
         return session;
     }
-
-    private static class PingThread implements Runnable {
-        private RequestHandler requestHandler;
-
-        public PingThread(RequestHandler requestHandler) {
-            this.requestHandler = requestHandler;
-        }
-
-        @Override
-        public void run() {
-            try {
-                requestHandler.execute(HandshakeRequest.PING);
-            } catch (Exception e) {
-                log.error("failed", e);
-            }
-        }
-    }
-
+    
     /////////////////////////////////////
     // API public requests methods
     /////////////////////////////////////

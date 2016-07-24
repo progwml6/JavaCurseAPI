@@ -5,6 +5,7 @@ import com.feed_the_beast.javacurselib.websocket.messages.handler.tasks.RawTask;
 import com.feed_the_beast.javacurselib.websocket.messages.notifications.NotificationsServiceContractType;
 import com.feed_the_beast.javacurselib.websocket.messages.notifications.Response;
 import com.feed_the_beast.javacurselib.websocket.messages.handler.tasks.Task;
+import com.feed_the_beast.javacurselib.websocket.messages.requests.HandshakeRequest;
 import com.google.common.collect.ArrayListMultimap;
 import com.google.common.collect.Lists;
 import com.google.common.collect.Multimap;
@@ -37,16 +38,16 @@ public class ResponseHandler {
         handlersForAllTypes.add(task);
     }
 
-    public boolean executeInternalTasks(@Nonnull Response response) {
+    public void executeInternalTasks(@Nonnull Response response) {
         if (response.getTypeID() == NotificationsServiceContractType.JOIN_RESPONSE) {
-            //joinResponseTask.execute(webSocket.getRequestHandler(), response);
-            webSocket.startPingThread();
-            return false;
+            // nothing todo
         } else if (response.getTypeID() == NotificationsServiceContractType.HANDSHAKE) {
-            //handshakeResponseTask.execute(webSocket.getRequestHandler(), response);
-            return false;
+            try {
+                Thread.sleep(5000);
+            } catch (InterruptedException e) { }
         }
-        return true;
+        webSocket.getRequestHandler().execute(HandshakeRequest.PING);
+        // async this thread ends now
     }
 
     public void executeRawTasks(@Nonnull String message) {

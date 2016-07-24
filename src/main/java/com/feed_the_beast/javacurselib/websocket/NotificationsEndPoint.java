@@ -18,8 +18,8 @@ public class NotificationsEndPoint extends Endpoint {
     private RequestHandler requestHandler;
     private WebSocket webSocket;
 
-    public NotificationsEndPoint(@Nonnull LoginResponse loginResponse, @Nonnull CreateSessionResponse sessionResponse, @Nonnull WebSocket webSocket) {
-        this.initRequest = new JoinRequest(loginResponse, sessionResponse);
+    public NotificationsEndPoint(@Nonnull CreateSessionResponse sessionResponse, @Nonnull WebSocket webSocket) {
+        this.initRequest = new JoinRequest(sessionResponse);
         this.responsehandler = webSocket.getResponseHandler();
         this.requestHandler = webSocket.getRequestHandler();
         this.webSocket = webSocket;
@@ -37,14 +37,22 @@ public class NotificationsEndPoint extends Endpoint {
     @Override
     public void onClose(Session session, CloseReason closeReason) {
         log.warn("Session {} close because of {}", session.getId(), closeReason);
+        log.trace("stack: {}", new Exception());
         // TODO: should this reconnect?
+        if (webSocket.isReconnect() && !webSocket.getConnecting().getAndSet(true)) {
+            log.info("Session closed: Reconnecting... ");
+            webSocket.start();
+        }
 
     }
 
     @Override
     public void onError(Session session, Throwable t) {
         log.error("Session {} errored: {}", session.getId(), t.toString(), t);
-        //TODO: reconnect?!
+        if (webSocket.isReconnect() && !webSocket.getConnecting().getAndSet(true)) {
+            log.info("Session errored: Reconnecting... ");
+            webSocket.start();
+        }
     }
 
     private class NotificationsMessageHandler implements MessageHandler.Whole<String> {

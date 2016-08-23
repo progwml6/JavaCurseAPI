@@ -3,7 +3,6 @@ package com.feed_the_beast.javacurselib.examples.app_v1;
 import com.feed_the_beast.javacurselib.common.enums.DevicePlatform;
 import com.feed_the_beast.javacurselib.data.Apis;
 import com.feed_the_beast.javacurselib.rest.RestUserEndpoints;
-import com.feed_the_beast.javacurselib.service.contacts.contacts.ChannelContract;
 import com.feed_the_beast.javacurselib.service.contacts.contacts.ContactsResponse;
 import com.feed_the_beast.javacurselib.service.contacts.users.UserProfileNotification;
 import com.feed_the_beast.javacurselib.service.logins.login.LoginRequest;
@@ -20,9 +19,6 @@ import java.net.URI;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.CountDownLatch;
 
-/**
- * Created by progwml6 on 4/28/16.
- */
 @Slf4j
 public class CurseApp {
     private static LoginResponse lr = null;
@@ -84,11 +80,9 @@ public class CurseApp {
          ***************************/
 
         contactsResponse = rest.contacts.get().join(); // wil throw RuntimeException if fails
-        contactsResponse.groups.stream().filter(g -> g.groupTitle.equals("CurseForge")).forEach(g -> {
-            g.channels.stream().filter(c -> c.groupTitle.equals("app-api-chat")).forEachOrdered(c -> {
-                log.info("you probably have access to this magical API Channel if you are seeing this code");
-            });
-        });
+        contactsResponse.groups.stream().filter(g -> g.groupTitle.equals("CurseForge")).forEach(g -> g.channels.stream().filter(c -> c.groupTitle.equals("app-api-chat")).forEachOrdered(c -> {
+            log.info("you probably have access to this magical API Channel if you are seeing this code");
+        }));
 
         log.info("ContactResponse: {}", contactsResponse);
 

@@ -82,8 +82,7 @@ public class RestUserEndpoints {
     }
 
     public LoginResponse doLogin(CredentialProvider c) {
-        LoginResponse loginResponse = doLogin(new LoginRequest(c.getUsername(), c.getPassword()));
-        return loginResponse;
+        return doLogin(new LoginRequest(c.getUsername(), c.getPassword()));
     }
 
     public LoginResponse doLogin(LoginRequest loginRequest) {

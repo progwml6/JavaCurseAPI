@@ -14,9 +14,6 @@ import retrofit2.http.*;
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
 
-/**
- * Created by progwml6 on 5/22/16.
- */
 public class GroupsWebService {
     final static String ENDPOINT = Apis.GROUPS;
 

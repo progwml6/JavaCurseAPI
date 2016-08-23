@@ -1,8 +1,8 @@
 package com.feed_the_beast.javacurselib.websocket;
 
-import com.feed_the_beast.javacurselib.utils.CurseGUID;
 import com.feed_the_beast.javacurselib.service.logins.login.LoginResponse;
 import com.feed_the_beast.javacurselib.service.sessions.sessions.CreateSessionResponse;
+import com.feed_the_beast.javacurselib.utils.CurseGUID;
 import com.feed_the_beast.javacurselib.websocket.messages.handler.RequestHandler;
 import com.feed_the_beast.javacurselib.websocket.messages.handler.ResponseHandler;
 import com.feed_the_beast.javacurselib.websocket.messages.handler.tasks.RawTask;
@@ -11,20 +11,18 @@ import com.feed_the_beast.javacurselib.websocket.messages.handler.tasks.Task;
 import com.feed_the_beast.javacurselib.websocket.messages.notifications.NotificationsServiceContractType;
 import com.feed_the_beast.javacurselib.websocket.messages.requests.ConversationMarkReadRequest;
 import com.feed_the_beast.javacurselib.websocket.messages.requests.ConversationMessageRequest;
-import com.feed_the_beast.javacurselib.websocket.messages.requests.HandshakeRequest;
 import lombok.Getter;
-import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
 
-import javax.annotation.Nonnull;
-import javax.websocket.*;
 import java.io.IOException;
 import java.net.URI;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.ScheduledFuture;
-import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
+
+import javax.annotation.Nonnull;
+import javax.websocket.ContainerProvider;
+import javax.websocket.DeploymentException;
+import javax.websocket.Session;
+import javax.websocket.WebSocketContainer;
 
 // TODO: split public functions into separated class. Hint: hide implementation behind facade
 //
@@ -44,11 +42,11 @@ public class WebSocket {
 
     // API public
     @Deprecated //use WebSocket(@Nonnull CreateSessionResponse sessionResponse, @Nonnull URI endpoint)
-    public WebSocket(@Nonnull LoginResponse loginResponse, @Nonnull CreateSessionResponse sessionResponse, @Nonnull URI endpoint) {
+    public WebSocket (@Nonnull LoginResponse loginResponse, @Nonnull CreateSessionResponse sessionResponse, @Nonnull URI endpoint) {
         this(sessionResponse, endpoint);
     }
 
-    public WebSocket(@Nonnull CreateSessionResponse sessionResponse, @Nonnull URI endpoint) {
+    public WebSocket (@Nonnull CreateSessionResponse sessionResponse, @Nonnull URI endpoint) {
         this.sessionResponse = sessionResponse;
         this.endpoint = endpoint;
 
@@ -57,7 +55,7 @@ public class WebSocket {
     }
 
     // API public
-    public void start() {
+    public void start () {
         connecting.set(true);
         boolean connected = false;
         while (!connected) {
@@ -81,12 +79,13 @@ public class WebSocket {
         }
     }
 
-    public void stop() {
+    public void stop () {
         reconnect = false;
 
         try {
-            if (session.isOpen())
+            if (session.isOpen()) {
                 session.close();
+            }
         } catch (IOException e) {
             log.warn("failed", e);
         }
@@ -95,20 +94,19 @@ public class WebSocket {
     }
 
     // API private
-    public ResponseHandler getResponseHandler() {
+    public ResponseHandler getResponseHandler () {
         return responseHandler;
     }
 
     // API private
-    public RequestHandler getRequestHandler() {
+    public RequestHandler getRequestHandler () {
         return requestHandler;
     }
 
-
-    private Session getSession() {
+    private Session getSession () {
         return session;
     }
-    
+
     /////////////////////////////////////
     // API public requests methods
     /////////////////////////////////////
@@ -121,7 +119,7 @@ public class WebSocket {
      * @param conversationID Conversation to send a message
      * @param message Message to send
      */
-    public void sendMessage(@Nonnull CurseGUID conversationID, @Nonnull String message) {
+    public void sendMessage (@Nonnull CurseGUID conversationID, @Nonnull String message) {
         ConversationMessageRequest request = new ConversationMessageRequest(conversationID, message);
         requestHandler.execute(request);
     }
@@ -133,7 +131,7 @@ public class WebSocket {
      *
      * @param request User-supplied message
      */
-    public void sendMessage(ConversationMessageRequest request) {
+    public void sendMessage (ConversationMessageRequest request) {
         requestHandler.execute(request);
     }
 
@@ -143,7 +141,7 @@ public class WebSocket {
      * Sends ConversationMarkReadRequest to server. Best effort: server does not send Response for this
      * @param conversationID Conversation to mark read
      */
-    public void sendMarkRead(@Nonnull CurseGUID conversationID) {
+    public void sendMarkRead (@Nonnull CurseGUID conversationID) {
         ConversationMarkReadRequest request = new ConversationMarkReadRequest(conversationID);
         requestHandler.execute(request);
     }
@@ -151,12 +149,13 @@ public class WebSocket {
     ///////////////////////////
     // API public response/notification handler methods
     ///////////////////////////
+
     /**
      * Adds task handler. Used to execute actions for server Respoinses/Notifications
      * @param task Task to add
      * @param type Type for added task
      */
-    public void addTask(@Nonnull Task task, @Nonnull NotificationsServiceContractType type) {
+    public void addTask (@Nonnull Task task, @Nonnull NotificationsServiceContractType type) {
         responseHandler.addTask(task, type);
     }
 
@@ -165,8 +164,8 @@ public class WebSocket {
      * @param task Task to add
      * @param types Types for added task
      */
-    public void addTask(@Nonnull Task task, @Nonnull NotificationsServiceContractType... types ) {
-        for (NotificationsServiceContractType type: types) {
+    public void addTask (@Nonnull Task task, @Nonnull NotificationsServiceContractType... types) {
+        for (NotificationsServiceContractType type : types) {
             responseHandler.addTask(task, type);
         }
     }
@@ -175,15 +174,15 @@ public class WebSocket {
      * Adds task handler for all types. Used to execute actions for server Respoinses/Notifications
      * @param task Task to add
      */
-    public void addTaskForAllTypes(@Nonnull Task task) {
+    public void addTaskForAllTypes (@Nonnull Task task) {
         responseHandler.addTaskForAllTypes(task);
     }
 
-    public void addRawTask(@Nonnull RawTask task) {
+    public void addRawTask (@Nonnull RawTask task) {
         responseHandler.addRawTask(task);
     }
 
-    public void addRequestTask(@Nonnull RequestTask task) {
+    public void addRequestTask (@Nonnull RequestTask task) {
         requestHandler.addTask(task);
     }
 }

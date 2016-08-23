@@ -51,38 +51,31 @@ public class CurseGUID {
     }
 
     public static  CurseGUID newInstance(String s) {
-        CurseGUID result = deserialize(s);
-        return result;
+        return deserialize(s);
     }
 
     public static CurseGUID newInstance(UUID u) {
-        CurseGUID result = new CurseGUID(u);
-        return result;
+        return new CurseGUID(u);
     }
 
     public static CurseGUID newInstance(long l) {
-        CurseGUID result = new CurseGUID(l);
-        return result;
+        return new CurseGUID(l);
     }
 
     public static CurseGUID newInstance(long l, long r) {
-        CurseGUID result = new CurseGUID(l, r);
-        return result;
+        return new CurseGUID(l, r);
     }
 
     public static CurseGUID newInstance(UUID uuid, long l, long r) {
-        CurseGUID result = new CurseGUID(uuid, l, r);
-        return result;
+        return new CurseGUID(uuid, l, r);
     }
 
     public static CurseGUID newRandomUUID() {
-        CurseGUID result = new CurseGUID(UUID.randomUUID());
-        return result;
+        return new CurseGUID(UUID.randomUUID());
     }
 
     public static CurseGUID newInstance() {
-        CurseGUID result = new CurseGUID(new UUID(0,0));
-        return result;
+        return new CurseGUID(new UUID(0,0));
     }
 
     public String serialize() {

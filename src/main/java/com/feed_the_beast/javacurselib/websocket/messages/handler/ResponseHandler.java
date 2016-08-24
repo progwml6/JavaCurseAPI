@@ -40,14 +40,13 @@ public class ResponseHandler {
 
     public void executeInternalTasks(@Nonnull Response response) {
         if (response.getTypeID() == NotificationsServiceContractType.JOIN_RESPONSE) {
-            // nothing todo
+            webSocket.getRequestHandler().execute(HandshakeRequest.PING);
         } else if (response.getTypeID() == NotificationsServiceContractType.HANDSHAKE) {
             try {
                 Thread.sleep(5000);
             } catch (InterruptedException e) { }
+            webSocket.getRequestHandler().execute(HandshakeRequest.PING);
         }
-        webSocket.getRequestHandler().execute(HandshakeRequest.PING);
-        // async this thread ends now
     }
 
     public void executeRawTasks(@Nonnull String message) {

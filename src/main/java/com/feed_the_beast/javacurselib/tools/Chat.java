@@ -24,7 +24,8 @@ public class Chat {
     static CreateSessionResponse session;
 
     // slf4-simplelogger is really simple...
-    // try with  -Dorg.slf4j.simpleLogger.showShortLogName=true -Dorg.slf4j.simpleLogger.showThreadName=false -Dorg.slf4j.simpleLogger.dateTimeFormat=kk:mm
+    // try with  -Dorg.slf4j.simpleLogger.showShortLogName=true -Dorg.slf4j.simpleLogger.showThreadName=false
+    // -Dorg.slf4j.simpleLogger.showDateTime=true -Dorg.slf4j.simpleLogger.dateTimeFormat=kk:mm
     public static void main(String[] args) throws Exception {
         CountDownLatch latch = new CountDownLatch(1);
         log.info("Basic Chat");

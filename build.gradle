@@ -150,7 +150,7 @@ artifacts {
     archives shadowJarMCnoslf4j
     archives jar
     //archives sourceJar //TODO re-enable this when we go open source
-    archives javadocJar
+    //archives javadocJar //TODO re-enable this when we go open source
 }
 def gitSha() {
     return 'git rev-parse HEAD'.execute().text.trim()

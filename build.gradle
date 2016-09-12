@@ -66,7 +66,7 @@ if (System.getenv().BUILD_NUMBER != null) {
 }
 
 group = 'com.feed_the_beast'
-version = "0.0.1-${project.buildNum}"
+version = "0.1.0.${project.buildNum}"
 description = "Java CurseAPI library"
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
@@ -148,7 +148,7 @@ artifacts {
     archives shadowJarMC
     archives shadowJarMCnoslf4j
     archives jar
-    archives sourceJar
+    //archives sourceJar //TODO re-enable this when we go open source
     archives javadocJar
 }
 def gitSha() {

@@ -7,12 +7,13 @@
     * Examples include but are not limited to Curse API URLS, and API documentation 
 * If you have questions as to usages that are acceptable or not, feel free to ask in the API Chat on Curse
 * Curse api's are not released to the general public, when they are this library will be made fully public under the Apache 2 License 
+* Projects containing this library may be released to curseforge
 
 ## Contributions
 * We take contributions for improving the library
     * Please create feature branches and issue pull requests for the FTB Dev team to review before merging
 * API Compatibility breaks MUST have version bumps to prevent breaking end users
-* 
+
 ## Building
 * this library uses the gradle build system
 * to build run `./gradlew build`

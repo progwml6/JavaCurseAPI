@@ -8,8 +8,15 @@ import com.feed_the_beast.javacurselib.service.groups.bans.BanUserRequest;
 import com.feed_the_beast.javacurselib.service.groups.bans.GroupBannedUserContract;
 import com.feed_the_beast.javacurselib.service.groups.groups.GroupMemberSearchRequest;
 import com.feed_the_beast.javacurselib.service.groups.servers.GroupRoleDetails;
+import com.feed_the_beast.javacurselib.service.groups.servers.GroupSearchModelContract;
+import com.feed_the_beast.javacurselib.service.groups.servers.ValidateUrlStatus;
 import com.feed_the_beast.javacurselib.utils.CurseGUID;
-import retrofit2.http.*;
+import retrofit2.http.Body;
+import retrofit2.http.DELETE;
+import retrofit2.http.GET;
+import retrofit2.http.POST;
+import retrofit2.http.Path;
+import retrofit2.http.Query;
 
 import java.util.List;
 import java.util.concurrent.CompletableFuture;
@@ -18,23 +25,9 @@ public class GroupsWebService {
     final static String ENDPOINT = Apis.GROUPS;
 
     public interface Servers {
-        @POST("groups/{groupID}/favorite")
-        CompletableFuture<Void> favorite (
-                @Path("groupID") CurseGUID groupID
-        );
-
-        @POST("groups/{groupID}/unfavorite")
-        CompletableFuture<Void> unfavorite (
-                @Path("groupID") CurseGUID groupID
-        );
 
         @POST("servers/{groupID}/join")
         CompletableFuture<GroupNotification> joinGroup (
-                @Path("groupID") CurseGUID groupID
-        );
-
-        @POST("groups/{groupID}/leave")
-        CompletableFuture<Void> leaveGroup (
                 @Path("groupID") CurseGUID groupID
         );
 
@@ -81,9 +74,43 @@ public class GroupsWebService {
                 @Path("userID") long userID
         );
 
+        @GET("servers/url/{url}")
+        CompletableFuture<String> serversUrl (
+                @Path("url") String url
+        );
+
+        @GET("servers/url/{url}/validate")
+        CompletableFuture<ValidateUrlStatus> validateServerUrl (
+                @Path("url") String url
+        );
+        @GET("servers?query={query}&pageSize={pageSize}&pageNumber={pageNumber}")
+        CompletableFuture<GroupSearchModelContract> getServers (
+                @Path("query") String query,
+                @Path("pageSize") int pageSize,
+                @Path("pageNumer") int pageNumber
+        );
     }
 
     public interface Groups {
+        @POST("groups/{groupID}/favorite")
+        CompletableFuture<Void> favorite (
+                @Path("groupID") CurseGUID groupID
+        );
+
+        @POST("groups/{groupID}/unfavorite")
+        CompletableFuture<Void> unfavorite (
+                @Path("groupID") CurseGUID groupID
+        );
+
+
+
+        @POST("groups/{groupID}/leave")
+        CompletableFuture<Void> leaveGroup (
+                @Path("groupID") CurseGUID groupID
+        );
+
+
+
         /**
          * Returns detailed information about given group.
          *
@@ -130,7 +157,7 @@ public class GroupsWebService {
          * @see {@link #getMembers(CurseGUID, boolean, int, int)}
          */
         @POST("groups/{groupID}/members/search")
-        CompletableFuture<List<GroupMemberContract>> searchMembers(
+        CompletableFuture<List<GroupMemberContract>> searchMembers (
                 @Path("groupID") CurseGUID groupID,
                 @Body GroupMemberSearchRequest groupMemberSearchRequest
         );

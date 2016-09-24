@@ -1,7 +1,10 @@
 package com.feed_the_beast.javacurselib.addondumps;
 
+import lombok.EqualsAndHashCode;
+
 import java.util.List;
 
+@EqualsAndHashCode
 public class LatestFile {
     public int id;
     public String fileName;
@@ -12,10 +15,10 @@ public class LatestFile {
     public String downloadURL;
     public boolean isAlternate;
     public int alternateFileId;
-    //TODO List<object> Dependencies;
+    public List<Dependency> Dependencies;
     public boolean isAvailable;
     public List<Module> modules;
-    //TODO object PackageFingerprint;
+    public long packageFingerprint;
     public List<String> gameVersion;
 
 }

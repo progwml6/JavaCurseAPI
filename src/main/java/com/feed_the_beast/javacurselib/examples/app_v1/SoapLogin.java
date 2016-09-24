@@ -1,9 +1,10 @@
 package com.feed_the_beast.javacurselib.examples.app_v1;
 
-import addons.curse.AddOnFile;
 import com.curse.addonservice.AddOnService;
 import com.curse.addonservice.IAddOnService;
 import com.curse.clientservice.ObjectFactory;
+import com.feed_the_beast.javacurselib.addondumps.Bz2Data;
+import com.feed_the_beast.javacurselib.addondumps.DatabaseType;
 import org.datacontract.schemas._2004._07.curse_clientservice.ServiceResponseOfArrayOfSavedGameeheogrl4;
 import org.datacontract.schemas._2004._07.curse_serviceauthentication.LoginRequest;
 
@@ -32,5 +33,11 @@ public class SoapLogin {
         ServiceResponseOfArrayOfSavedGameeheogrl4 svcgames = svc.getSavedGames();
         System.out.println(svc.getSavedGames());
         System.out.println(svc.getAllFilesForAddOn(0000));
+
+
+        /*System.out.println(Bz2Data.getDatabaseAsString(Bz2Data.MC_GAME_ID, DatabaseType.HOURLY));
+        System.out.println("\n\n\n\n\n\n\n");
+        System.out.println(Bz2Data.getDatabaseAsString(Bz2Data.MC_GAME_ID, DatabaseType.COMPLETE));
+**/
     }
 }

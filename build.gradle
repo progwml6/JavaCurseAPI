@@ -35,7 +35,7 @@ dependencies {
     compile 'org.apache.commons:commons-lang3:3.3.2'
     compile 'com.google.guava:guava:17.0'//general utility classes
     compile 'com.google.code.findbugs:jsr305:1.3.9'//nonnull stuff
-
+    compile 'org.apache.commons:commons-compress:1.8.1'//bz2 decompression
     compile 'org.projectlombok:lombok:1.16.8'
 
     compile 'org.slf4j:slf4j-api:1.7.21'
@@ -87,6 +87,7 @@ task shadowJarMC(type: com.github.jengelman.gradle.plugins.shadow.tasks.ShadowJa
         exclude 'META-INF/*.DSA'
         exclude 'META-INF/*.RSA'
         exclude dependency('commons-io:commons-io')
+        exclude dependency('org.apache.commons:commons-compress')
         exclude dependency('org.projectlombok:lombok')
         exclude dependency('org.apache.commons:commons-lang3')
         exclude dependency('com.google.guava:guava')
@@ -105,6 +106,7 @@ task shadowJarMCnoslf4j(type: com.github.jengelman.gradle.plugins.shadow.tasks.S
         exclude 'META-INF/*.DSA'
         exclude 'META-INF/*.RSA'
         exclude dependency('commons-io:commons-io')
+        exclude dependency('org.apache.commons:commons-compress')
         exclude dependency('org.projectlombok:lombok')
         exclude dependency('org.apache.commons:commons-lang3')
         exclude dependency('com.google.guava:guava')

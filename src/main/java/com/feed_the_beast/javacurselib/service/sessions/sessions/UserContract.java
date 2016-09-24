@@ -20,7 +20,7 @@ public class UserContract {
     public String avatarUrl;
     public int currentGameID;
     public int currentGameState;
-    public String currentGameStatusMEssage;
+    public String currentGameStatusMessage;
     public Date currentGameTimestamp;
     public PushNotificationPreference groupMessagePushPreference;
     public PushNotificationPreference friendMessagePushPreference;

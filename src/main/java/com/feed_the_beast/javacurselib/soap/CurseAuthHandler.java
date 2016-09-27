@@ -35,11 +35,13 @@ public class CurseAuthHandler implements SOAPHandler<SOAPMessageContext> {
             try {
                 SOAPEnvelope envelope = context.getMessage()
                         .getSOAPPart().getEnvelope();
+                envelope.addNamespaceDeclaration("wsa", "http://www.w3.org/2005/2008/addressing");
                 SOAPHeader header = envelope.getHeader();
                 String prefix = "";
                 String uri = "urn:Curse.FriendsService:v1";
                 String headerText = "AuthenticationToken";
                 SOAPElement elem = header.addChildElement(headerText, prefix, uri);
+                elem = elem.addNamespaceDeclaration("i", "http://www.w3.org/2001/XMLSchema-instance");
                 SOAPElement uid = elem.addChildElement("UserID");
                 uid.addTextNode(String.valueOf(token.UserID));
                 SOAPElement ctoken = elem.addChildElement("Token");
@@ -47,6 +49,9 @@ public class CurseAuthHandler implements SOAPHandler<SOAPMessageContext> {
                 SOAPElement apikey = elem.addChildElement("ApiKey");
                 if (token.ApiKey != null) {
                     apikey.addTextNode(String.valueOf(token.ApiKey));
+                } else {
+                    //apikey.setTextContent("true");
+                    apikey.addAttribute(new QName("http://www.w3.org/2001/XMLSchema-instance", "nil", "i"), "true");
                 }
                 System.out.println("added header");
             } catch (Exception e) {
@@ -54,15 +59,24 @@ public class CurseAuthHandler implements SOAPHandler<SOAPMessageContext> {
             }
         } else {
             // inbound
+            try {
+                SOAPEnvelope envelope = context.getMessage()
+                    .getSOAPPart().getEnvelope();
+                log.info("inbound header {} \n body {}", envelope.getHeader().getTextContent(), envelope.getBody().getTextContent());
+            } catch (Exception e) {
+                log.error("Exception in inbound handler: ", e);
+            }
+
         }
         return true;
     }
 
-    public boolean handleFault (SOAPMessageContext context) {
-        throw new UnsupportedOperationException("Not supported yet.");
+    public boolean handleFault(SOAPMessageContext context) {
+return true;
+//        throw new UnsupportedOperationException("Not supported yet.");
     }
 
-    public void close (MessageContext context) {
+    public void close(MessageContext context) {
         //
     }
 }

@@ -79,12 +79,7 @@ public class SoapLogin {
 
         AddOnService addonService = new AddOnService();
         //addonService.setHandlerResolver();
-        AddressingFeature af = new AddressingFeature();
-        /*addonService.setHandlerResolver((HandlerResolver) portInfo -> {
-            List<Handler> handlerList = new ArrayList<>();
-            handlerList.add(new CurseAuthHandler(new SoapAuthenticationToken(lr.session.userID, lr.session.token)));
-            return handlerList;
-        });*/
+        AddressingFeature af = new AddressingFeature(true, true, AddressingFeature.Responses.ANONYMOUS);
         IAddOnService svc = addonService.getWsHttpAddOnServiceEndpoint(af);
         BindingProvider bindingProvider = (BindingProvider) svc;
         final Binding binding = bindingProvider.getBinding();
@@ -99,14 +94,15 @@ public class SoapLogin {
 
         //svc.getSecureDownloadToken();
 
-        System.out.println("health -- " + svc.healthCheck());
+        //System.out.println("health -- " + svc.healthCheck());
         try {//no token!!
-            ServiceResponseOfArrayOfSavedGameeheogrl4 svcgames = svc.getSavedGames();
+            svc.getAddOn(220606);
+            // ServiceResponseOfArrayOfSavedGameeheogrl4 svcgames = svc.getSavedGames();
         } catch (WebServiceException wse) {
-            System.out.println("exc>>>" + wse.getMessage());
+            log.error("wse exc", wse);
         }
-        System.out.println(svc.getSavedGames());
-        System.out.println(svc.getAllFilesForAddOn(0000));
+        // System.out.println(svc.getSavedGames());
+        //  System.out.println(svc.getAllFilesForAddOn(0000));
 
 
         /*System.out.println(Bz2Data.getDatabaseAsString(Bz2Data.MC_GAME_ID, DatabaseType.HOURLY));

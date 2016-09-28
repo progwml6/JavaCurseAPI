@@ -40,43 +40,6 @@ public class SoapLogin {
         String user = args.length >= 2 ? args[0] : System.getenv("JAVACURSEAPI_USER");
         String pass = args.length >= 2 ? args[1] : System.getenv("JAVACURSEAPI_PASS");
 
-        RestUserEndpoints rest = new RestUserEndpoints();
-
-        rest.setupEndpoints();
-        LoginResponse lr = rest.doLogin(new com.feed_the_beast.javacurselib.service.logins.login.LoginRequest(user, pass));
-        log.info("Synchronous login done: {} session id: {} session token: {}", lr, lr.session.sessionID, lr.session.token);
-        // create latch, extra synchronization to create sane example
-        CountDownLatch sessionLatch = new CountDownLatch(1);
-
-        CompletableFuture<CreateSessionResponse> createSessionResponseCompletableFuture = rest.session.create(new CreateSessionRequest(CurseGUID.newRandomUUID(), DevicePlatform.UNKNOWN));
-
-        createSessionResponseCompletableFuture.whenComplete((r, e) -> {
-            if (e != null) {
-                if (e.getCause() instanceof HttpException) {
-                    log.error("Request failed: HTTP code: {}", ((HttpException) e.getCause()).code());
-                    // TODO: see comment in login response
-                } else {
-                    log.error("failed", e);
-                }
-                System.exit(1);
-            }
-
-            // all is ok. Set value
-            sessionResponse = r;
-            // and make man thread to continue again
-            sessionLatch.countDown();
-        });
-
-        // ugly code/synchronization just to implement example
-        try {
-            sessionLatch.await();
-            // as soon as lock opened we know that sessionResponse is usable and it is safe to start websocket
-        } catch (InterruptedException e) {
-            System.exit(1);
-            // should not happen, just ignore
-        }
-        log.info("Async session done: {} {}", sessionResponse, sessionResponse.sessionID);
-
         AddOnService addonService = new AddOnService();
         //addonService.setHandlerResolver();
         AddressingFeature af = new AddressingFeature(true, true, AddressingFeature.Responses.ANONYMOUS);
@@ -88,6 +51,7 @@ public class SoapLogin {
             handlerList = new ArrayList<Handler>();
             System.out.println("Handlers null");
         }
+        String cstoken = "";
 
         handlerList.add(new CurseAuthHandler(new SoapAuthenticationToken(lr.session.userID, lr.session.token)));
         binding.setHandlerChain(handlerList);

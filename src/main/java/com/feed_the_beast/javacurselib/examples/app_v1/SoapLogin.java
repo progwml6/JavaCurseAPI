@@ -51,9 +51,11 @@ public class SoapLogin {
             handlerList = new ArrayList<Handler>();
             System.out.println("Handlers null");
         }
+        //cs token needs to be grabbed from that rest adapter api lasts ~ an hour
+        long userId = 27864185;
         String cstoken = "";
+        handlerList.add(new CurseAuthHandler(new SoapAuthenticationToken(userId, cstoken)));//lr.session.token
 
-        handlerList.add(new CurseAuthHandler(new SoapAuthenticationToken(lr.session.userID, lr.session.token)));
         binding.setHandlerChain(handlerList);
 
         //svc.getSecureDownloadToken();

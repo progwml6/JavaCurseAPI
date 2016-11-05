@@ -6,6 +6,7 @@ import com.feed_the_beast.javacurselib.data.Apis;
 import com.feed_the_beast.javacurselib.service.contacts.contacts.GroupNotification;
 import com.feed_the_beast.javacurselib.service.groups.bans.BanUserRequest;
 import com.feed_the_beast.javacurselib.service.groups.bans.GroupBannedUserContract;
+import com.feed_the_beast.javacurselib.service.groups.groups.GroupInvitationRedeemResponse;
 import com.feed_the_beast.javacurselib.service.groups.groups.GroupMemberSearchRequest;
 import com.feed_the_beast.javacurselib.service.groups.servers.GroupRoleDetails;
 import com.feed_the_beast.javacurselib.service.groups.servers.GroupSearchModelContract;
@@ -25,6 +26,11 @@ public class GroupsWebService {
     final static String ENDPOINT = Apis.GROUPS;
 
     public interface Servers {
+
+        @POST("invitations/{inviteCode}")
+        CompletableFuture<GroupInvitationRedeemResponse> redeeminvite (
+                @Path("inviteCode") String inviteCode
+        );
 
         @POST("servers/{groupID}/join")
         CompletableFuture<GroupNotification> joinGroup (
@@ -83,6 +89,7 @@ public class GroupsWebService {
         CompletableFuture<ValidateUrlStatus> validateServerUrl (
                 @Path("url") String url
         );
+
         @GET("servers?query={query}&pageSize={pageSize}&pageNumber={pageNumber}")
         CompletableFuture<GroupSearchModelContract> getServers (
                 @Path("query") String query,
@@ -102,14 +109,10 @@ public class GroupsWebService {
                 @Path("groupID") CurseGUID groupID
         );
 
-
-
         @POST("groups/{groupID}/leave")
         CompletableFuture<Void> leaveGroup (
                 @Path("groupID") CurseGUID groupID
         );
-
-
 
         /**
          * Returns detailed information about given group.

@@ -10,7 +10,7 @@ public class LatestFile {
     public String fileName;
     public String fileNameOnDisk;
     public String fileDate;
-    public int releaseType;
+    public ReleaseType releaseType;
     public int fileStatus;
     public String downloadURL;
     public boolean isAlternate;

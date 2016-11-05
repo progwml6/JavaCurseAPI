@@ -11,6 +11,5 @@ public class Bz2DataTest {
         System.out.println(Bz2Data.getDatabaseAsString(Bz2Data.MC_GAME_ID, DatabaseType.HOURLY));
         System.out.println("\n\n\n\n\n\n\n");
         System.out.println(Bz2Data.getDatabaseAsString(Bz2Data.MC_GAME_ID, DatabaseType.COMPLETE));
-
     }
 }

@@ -2,6 +2,8 @@ package com.feed_the_beast.javacurselib.addondumps;
 
 import lombok.EqualsAndHashCode;
 
+import java.util.List;
+
 @EqualsAndHashCode
 public class MergedDatabase {
     public MergedDatabase () {
@@ -16,6 +18,6 @@ public class MergedDatabase {
     //This isn't set in in all cases
     public AddonDatabase changes = null;
     //This isn't set in in all cases
-    public DatabaseType newDBType = null;
+    public List<DatabaseType> newDBTypes = null;
     public long oldTimestamp;
 }

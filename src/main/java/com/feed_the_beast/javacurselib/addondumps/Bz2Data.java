@@ -20,6 +20,7 @@ import javax.annotation.Nonnull;
 public class Bz2Data {
     public static final String BASE_URL = "http://clientupdate-v6.cursecdn.com/feed/addons/{}/v10/";
     public static final String MC_GAME_ID = "432";
+    private static final OkHttpClient client = new OkHttpClient();
 
     public static long getTimestamp (String game, DatabaseType type) {
         return Long.parseLong(getNetworkData(type.getTimestampUrl(game)));
@@ -53,11 +54,12 @@ public class Bz2Data {
         return getObjectFromData(getAndDecompressBz2(type.getDownloadUrl(game, getTimestamp(game, type))));
     }
 
-    public static AddonDatabase getInitialDatabase(@Nonnull String game) {
+    public static AddonDatabase getInitialDatabase (@Nonnull String game) {
         AddonDatabase db = getDatabase(game, DatabaseType.COMPLETE);
         MergedDatabase mdb = updateCompleteDatabaseIfNeeded(db, game);
         return mdb.currentDatabase;
     }
+
     public static AddonDatabase getObjectFromData (String data) {
         return JsonFactory.GSON.fromJson(data, AddonDatabase.class);
     }
@@ -78,15 +80,43 @@ public class Bz2Data {
         return null;
     }
 
+    public static MergedDatabase mergeDumps (@Nonnull MergedDatabase main, @Nonnull AddonDatabase newDump, boolean forceMerge) {
+        MergedDatabase db = mergeDumps(main.currentDatabase, newDump, forceMerge);
+        if (main.changes != null && !main.changes.data.isEmpty() && !main.changes.data.isEmpty()) {
+            if (db.changes == null || db.changes.data == null || db.changes.data.isEmpty()) {
+                db.changes = main.changes;
+                return db;
+            }
+            Map<Integer, Addon> newData = Maps.newHashMap();
+            List<Integer> toRemove = Lists.newArrayList();
+            List<Addon> toUse = Lists.newArrayList();
+            for (Addon a : db.changes.data) {
+                newData.put(a.id, a);
+            }
+            for (Addon eChange : main.changes.data) {
+                if (newData.containsKey(eChange.id)) {
+                    toUse.add(newData.get(eChange.id));
+                    newData.remove(eChange.id);
+                } else {
+                    toUse.add(eChange);
+                }
+            }
+            for (Addon a : newData.values()) {
+                toUse.add(a);
+            }
+            db.changes.data = toUse;
+        }
+        return db;
+    }
+
     public static MergedDatabase mergeDumps (@Nonnull AddonDatabase main, @Nonnull AddonDatabase newDump, boolean forceMerge) {
-        if (newDump.timestamp <= main.timestamp || !forceMerge) {
+        if (newDump.timestamp <= main.timestamp || (newDump.timestamp > main.timestamp && forceMerge)) {
             return new MergedDatabase(main);//don't merge into newer dump files by default
         }
         MergedDatabase merged = new MergedDatabase();
         merged.changes = new AddonDatabase();
         merged.changes.data = Lists.newArrayList();
         List<Addon> mainList = Lists.newArrayList(main.data);
-
         for (Addon newAddon : newDump.data) {
             boolean needsAdding = true;
 
@@ -119,16 +149,30 @@ public class Bz2Data {
 
     public static MergedDatabase updateCompleteDatabaseIfNeeded (@Nonnull AddonDatabase db, @Nonnull String game) {
         Map<DatabaseType, Long> timestamps = getTimestamps(game);
+        MergedDatabase merged = null;
+        long timestamp = db.timestamp;
         for (DatabaseType dbType : DatabaseType.values()) {
             long ts = timestamps.get(dbType);
-            if (ts > db.timestamp && ts > db.timestamp + dbType.getMinValue() && ts < db.timestamp + dbType.getMaxValue()) {
+            if (ts > timestamp) {
                 AddonDatabase newDb = getDatabase(game, dbType);
-                MergedDatabase merged = mergeDumps(db, newDb, false);
-                merged.newDBType = dbType;
-                return merged;
+                if (merged == null) {
+                    merged = mergeDumps(db, newDb, false);
+                    merged.newDBTypes = Lists.newArrayList();
+                    merged.newDBTypes.add(dbType);
+                    timestamp = merged.currentDatabase.timestamp;
+                } else {
+                    List<DatabaseType> types = merged.newDBTypes;
+                    merged = mergeDumps(merged, newDb, false);
+                    merged.newDBTypes = types;
+                    merged.newDBTypes.add(dbType);
+                }
             }
         }
-        return new MergedDatabase(db);
+        if (merged == null) {
+            return new MergedDatabase(db);
+        } else {
+            return merged;
+        }
     }
 
     public static Map<DatabaseType, Long> getTimestamps (String game) {
@@ -138,7 +182,5 @@ public class Bz2Data {
         }
         return ret;
     }
-
-    private static final OkHttpClient client = new OkHttpClient();
 
 }

@@ -2,16 +2,12 @@ package com.feed_the_beast.javacurselib.addondumps;
 
 public enum DatabaseType {
 
-    COMPLETE(604801, Long.MAX_VALUE),
-    WEEKLY(86401, 604800),
-    DAILY(3601, 86400),
-    HOURLY(0, 3600);
+    COMPLETE,
+    WEEKLY,
+    DAILY,
+    HOURLY;
 
-    private long minValue, maxValue;
-
-    DatabaseType (long minValue, long maxValue) {
-        this.minValue = minValue;
-        this.maxValue = maxValue;
+    DatabaseType () {
     }
 
     public String getStringForUrl () {
@@ -30,22 +26,6 @@ public enum DatabaseType {
      */
     public String getDownloadUrl (String game, long timestamp) {
         return Bz2Data.BASE_URL.replace("{}", game) + this.getStringForUrl() + ".json.bz2?t=" + timestamp;
-    }
-
-    /**
-     *
-     * @return the minimum difference needed to use this file
-     */
-    public Long getMinValue () {
-        return minValue;
-    }
-
-    /**
-     *
-     * @return the minimum difference needed to use this file
-     */
-    public Long getMaxValue () {
-        return maxValue;
     }
 }
 

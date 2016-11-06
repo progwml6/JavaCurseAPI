@@ -76,6 +76,24 @@ public class Filtering {
 
     }
 
+    /**
+     *
+     * @param section section to filter by(Mods, Texture Packs, Modpacks, etc.)
+     * @param db AddonDatabase to filter
+     * @return a list of filtered addons, or an empty list if none found
+     */
+    public static List<Addon> byCategorySection (@Nonnull String section, @Nonnull AddonDatabase db) {
+        List<Addon> ret = Lists.newArrayList();
+        section = section.toLowerCase(Locale.ENGLISH);
+        for (Addon a : db.data) {
+            if (a.categorySection.name.toLowerCase(Locale.ENGLISH).equals(section)) {
+                ret.add(a);
+            }
+        }
+        return ret;
+
+    }
+
     private static List<Addon> filterAuthor (@Nonnull List<Addon> ret, @Nonnull Addon a, @Nonnull String author) {
         if (a.primaryAuthorName.toLowerCase(Locale.ENGLISH).equals(author)) {
             ret.add(a);

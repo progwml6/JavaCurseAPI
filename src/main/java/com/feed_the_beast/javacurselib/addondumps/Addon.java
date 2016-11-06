@@ -39,4 +39,18 @@ public class Addon {
     public int isFeatured;
     public double popularityScore;
 
+    //cleans out URL part -- we want the last chunk minus any trailing slashes
+    public String getSlug () {
+        String ret = "";
+        while (websiteURL.charAt(websiteURL.length() - 1) == '/') {
+            ret = websiteURL.substring(0, websiteURL.length() - 1);
+        }
+        int pos = ret.lastIndexOf('/');
+        if (pos >= 0) {
+            ret = ret.substring(pos + 1, ret.length());
+        }
+        return ret;
+
+    }
+
 }

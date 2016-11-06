@@ -53,6 +53,11 @@ public class Bz2Data {
         return getObjectFromData(getAndDecompressBz2(type.getDownloadUrl(game, getTimestamp(game, type))));
     }
 
+    public static AddonDatabase getInitialDatabase(@Nonnull String game) {
+        AddonDatabase db = getDatabase(game, DatabaseType.COMPLETE);
+        MergedDatabase mdb = updateCompleteDatabaseIfNeeded(db, game);
+        return mdb.currentDatabase;
+    }
     public static AddonDatabase getObjectFromData (String data) {
         return JsonFactory.GSON.fromJson(data, AddonDatabase.class);
     }

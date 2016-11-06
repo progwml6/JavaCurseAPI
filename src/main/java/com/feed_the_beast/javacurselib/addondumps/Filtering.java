@@ -4,12 +4,42 @@ import com.google.common.collect.Lists;
 
 import java.util.List;
 import java.util.Locale;
+import java.util.Optional;
 
 import javax.annotation.Nonnull;
 
 public class Filtering {
 
     //TODO setup caches of filtered data by categorySection, game version, categories
+
+    public Optional<Addon> getAddonById (int id, @Nonnull AddonDatabase db) {
+        if (id == -1) {
+            return Optional.empty();
+        }
+
+        for (Addon a : db.data) {
+            if (a.id == id) {
+                return Optional.of(a);
+            }
+        }
+
+        return Optional.empty();
+    }
+
+    /**
+     *
+     * @param projectID intgeger project id #
+     * @param db Addon database
+     * @return the slug used in most curseforge urls
+     */
+    public Optional<String> getAddonSlug (int projectID, @Nonnull AddonDatabase db) {
+        Optional<Addon> a = getAddonById(projectID, db);
+        if (a.isPresent()) {
+            return Optional.of(a.get().getSlug());
+        } else {
+            return Optional.empty();
+        }
+    }
 
     /**
      * Filters list of addons for a single author
@@ -57,5 +87,6 @@ public class Filtering {
                 }
             }
         }
+        return ret;
     }
 }

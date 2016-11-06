@@ -12,7 +12,7 @@ public class Filtering {
 
     //TODO setup caches of filtered data by categorySection, game version, categories
 
-    public Optional<Addon> getAddonById (int id, @Nonnull AddonDatabase db) {
+    public static Optional<Addon> getAddonById (int id, @Nonnull AddonDatabase db) {
         if (id == -1) {
             return Optional.empty();
         }
@@ -32,7 +32,7 @@ public class Filtering {
      * @param db Addon database
      * @return the slug used in most curseforge urls
      */
-    public Optional<String> getAddonSlug (int projectID, @Nonnull AddonDatabase db) {
+    public static Optional<String> getAddonSlug (int projectID, @Nonnull AddonDatabase db) {
         Optional<Addon> a = getAddonById(projectID, db);
         if (a.isPresent()) {
             return Optional.of(a.get().getSlug());
@@ -47,7 +47,7 @@ public class Filtering {
      * @param db AddonDatabase to filter
      * @return a list of filtered addons, or an empty list if none found
      */
-    public List<Addon> byAuthor (@Nonnull String author, @Nonnull AddonDatabase db) {
+    public static List<Addon> byAuthor (@Nonnull String author, @Nonnull AddonDatabase db) {
         List<Addon> ret = Lists.newArrayList();
         author = author.toLowerCase(Locale.ENGLISH);
         for (Addon a : db.data) {
@@ -63,7 +63,7 @@ public class Filtering {
      * @param db AddonDatabase to filter
      * @return a list of filtered addons, or an empty list if none found
      */
-    public List<Addon> byAuthorAndCategorySection (@Nonnull String author, @Nonnull String section, @Nonnull AddonDatabase db) {
+    public static List<Addon> byAuthorAndCategorySection (@Nonnull String author, @Nonnull String section, @Nonnull AddonDatabase db) {
         List<Addon> ret = Lists.newArrayList();
         author = author.toLowerCase(Locale.ENGLISH);
         section = section.toLowerCase(Locale.ENGLISH);
@@ -76,7 +76,7 @@ public class Filtering {
 
     }
 
-    private List<Addon> filterAuthor (@Nonnull List<Addon> ret, @Nonnull Addon a, @Nonnull String author) {
+    private static List<Addon> filterAuthor (@Nonnull List<Addon> ret, @Nonnull Addon a, @Nonnull String author) {
         if (a.primaryAuthorName.toLowerCase(Locale.ENGLISH).equals(author)) {
             ret.add(a);
         } else {

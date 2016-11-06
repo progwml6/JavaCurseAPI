@@ -9,7 +9,7 @@ import java.util.Date;
 
 public class Bz2DataTest {
     public static void main (String args[]) {
-        //System.out.println(Bz2Data.getDatabaseAsString(Bz2Data.MC_GAME_ID, DatabaseType.HOURLY));
+        System.out.println(Bz2Data.getDatabaseAsString(Bz2Data.MC_GAME_ID, DatabaseType.HOURLY));
         System.out.println("\n\n\n\n\n\n\n");
         String stringdb = Bz2Data.getDatabaseAsString(Bz2Data.MC_GAME_ID, DatabaseType.COMPLETE);
         System.out.println("sdblen >> " + stringdb.length());

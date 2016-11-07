@@ -21,6 +21,7 @@ public class Bz2Data {
     public static final String BASE_URL = "http://clientupdate-v6.cursecdn.com/feed/addons/{}/v10/";
     public static final String MC_GAME_ID = "432";
     private static final OkHttpClient client = new OkHttpClient();
+    public static boolean debug = false;
 
     public static long getTimestamp (String game, DatabaseType type) {
         return Long.parseLong(getNetworkData(type.getTimestampUrl(game)));
@@ -123,6 +124,11 @@ public class Bz2Data {
                 Addon item = mainList.get(n);
                 if (item.id == newAddon.id) {
                     if (!item.equals(newAddon)) {
+                        if (debug) {
+                            String old = JsonFactory.GSON.toJson(item);
+                            String nw = JsonFactory.GSON.toJson(newAddon);
+                            log.debug("Old {}\n\n\nNew {}", old, nw);
+                        }
                         mainList.set(n, newAddon);
                         merged.changes.data.add(newAddon);
                     }

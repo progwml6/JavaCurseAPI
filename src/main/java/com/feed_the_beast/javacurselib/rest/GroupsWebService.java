@@ -28,7 +28,7 @@ public class GroupsWebService {
     public interface Servers {
 
         @POST("invitations/{inviteCode}")
-        CompletableFuture<GroupInvitationRedeemResponse> redeeminvite (
+        CompletableFuture<GroupInvitationRedeemResponse> redeemInvite (
                 @Path("inviteCode") String inviteCode
         );
 

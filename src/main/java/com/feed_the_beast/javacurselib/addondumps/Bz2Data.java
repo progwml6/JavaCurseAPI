@@ -88,7 +88,6 @@ public class Bz2Data {
                 return db;
             }
             Map<Integer, Addon> newData = Maps.newHashMap();
-            List<Integer> toRemove = Lists.newArrayList();
             List<Addon> toUse = Lists.newArrayList();
             for (Addon a : db.changes.data) {
                 newData.put(a.id, a);

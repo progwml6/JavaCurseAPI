@@ -12,6 +12,7 @@ public class Bz2DataTest {
         System.out.println(Bz2Data.getDatabaseAsString(Bz2Data.MC_GAME_ID, DatabaseType.HOURLY));
         System.out.println("\n\n\n\n\n\n\n");
         String stringdb = Bz2Data.getDatabaseAsString(Bz2Data.MC_GAME_ID, DatabaseType.COMPLETE);
+        //System.out.println(stringdb);
         System.out.println("sdblen >> " + stringdb.length());
         AddonDatabase db = Bz2Data.getDatabase(Bz2Data.MC_GAME_ID, DatabaseType.COMPLETE);
         System.out.println("NOW >> " + new Date().getTime());

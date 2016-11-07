@@ -5,7 +5,11 @@ import lombok.EqualsAndHashCode;
 
 import java.util.List;
 
-@EqualsAndHashCode
+@EqualsAndHashCode(exclude = "downloadCount,installCount,popularityScore")
+/**
+ * curse addons class
+ * downloadCount, installCount and popularityScore are not checked in equals/hashcode
+ */
 public class Addon {
     public int id;
     public String name;

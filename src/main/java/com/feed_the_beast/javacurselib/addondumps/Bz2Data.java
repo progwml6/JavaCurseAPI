@@ -123,7 +123,7 @@ public class Bz2Data {
             for (int n = 0; n < mainList.size(); n++) {
                 Addon item = mainList.get(n);
                 if (item.id == newAddon.id) {
-                    if (!item.equals(newAddon)) {
+                    if (!item.equals(newAddon) || forceMerge) {
                         if (debug) {
                             String old = JsonFactory.GSON.toJson(item);
                             String nw = JsonFactory.GSON.toJson(newAddon);

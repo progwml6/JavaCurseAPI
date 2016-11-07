@@ -54,7 +54,5 @@ public class Addon {
             ret = ret.substring(pos + 1, ret.length());
         }
         return ret;
-
     }
-
 }

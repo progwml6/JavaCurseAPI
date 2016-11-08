@@ -14,18 +14,6 @@ public class ChatFormatter {
         return "~" + in + "~";
     }
 
-    public static String underscore (String in) {
-        return "_" + in + "_";
-    }
-
-    public static String strikethrough (String in) {
-        return "-" + in + "-";
-    }
-
-    public static String monospace (String in) {
-        return "`" + in + "`";
-    }
-
     /**
      * Adds multiline monospacing -- newlines added automatically
      * @param in String to format
@@ -33,6 +21,26 @@ public class ChatFormatter {
      */
     public static String mulitlineMonospace (String in) {
         return "```\n" + in + "\n```";
+    }
+
+    public static String monospace (String in) {
+        return "`" + in + "`";
+    }
+
+    public static String strikethrough (String in) {
+        return "-" + in + "-";
+    }
+
+    public static String tagEveryone () {
+        return "@0:everyone";
+    }
+
+    public static String tagUser (int id, String username) {
+        return "@" + id + ":" + username;
+    }
+
+    public static String underscore (String in) {
+        return "_" + in + "_";
     }
 
 }

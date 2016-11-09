@@ -39,6 +39,8 @@ dependencies {
     compile 'org.projectlombok:lombok:1.16.8'
 
     compile 'org.slf4j:slf4j-api:1.7.21'
+
+    compile 'org.isomorphism:token-bucket:1.6' //rate limiting
     runtime 'org.slf4j:slf4j-simple:1.7.21'
 
 

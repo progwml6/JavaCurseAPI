@@ -5,10 +5,12 @@ import lombok.EqualsAndHashCode;
 
 import java.util.List;
 
-@EqualsAndHashCode(exclude = {"downloadCount", "installCount" , "popularityScore"})
+@EqualsAndHashCode(exclude = {"downloadCount", "installCount" , "popularityScore", "rating", "likes"})
 /**
  * curse addons class
- * downloadCount, installCount and popularityScore are not checked in equals/hashcode
+ * downloadCount, installCount and popularityScore, rating, likes are not checked in equals/hashcode currently
+ * a secondary equals method needs to be made that ignores these at some point for not triggering update events
+ * when analytics change
  */
 public class Addon {
     public int id;

@@ -28,10 +28,10 @@ public class ConversationMessageNotification extends BaseResponse implements Res
     public int recipientID;
     public String body;
     public boolean isDeleted;
-    public int deletedTimestamp;
+    public long deletedTimestamp;
     public int deletedUserID;
     public String deletedUsername;
-    public int editedTimestamp;
+    public long editedTimestamp;
     public int editedUserID;
     public String editedUsername;
     public int likeCount;

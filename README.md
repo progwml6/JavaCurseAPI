@@ -1,13 +1,5 @@
 #Java library for CurseApp
  
-# Please read the ENTIRE README Before using this in a project!
-## Rules for releasing projects using this library
-* Open sourcing projects are allowed with the following restrictions:
-    * nothing that exposes the API should be public
-    * Examples include but are not limited to Curse API URLS, and API documentation 
-* If you have questions as to usages that are acceptable or not, feel free to ask in the API Chat on Curse
-* Curse api's are not released to the general public, when they are this library will be made fully public under the Apache 2 License 
-* Projects containing this library may be released to curseforge
 
 ## Contributions
 * We take contributions for improving the library
@@ -33,8 +25,7 @@
     
     
 ## Maven Information
-* please see above information on restrictions for using the library
-* javadoc & source jars will not be provided until the library can be made open source
+* javadoc & source jars are uploaded as well
 * The library is deployed to progwml6's maven repo 
 ```
 maven {

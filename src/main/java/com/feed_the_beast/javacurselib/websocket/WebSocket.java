@@ -2,15 +2,12 @@ package com.feed_the_beast.javacurselib.websocket;
 
 import com.feed_the_beast.javacurselib.service.logins.login.LoginResponse;
 import com.feed_the_beast.javacurselib.service.sessions.sessions.CreateSessionResponse;
-import com.feed_the_beast.javacurselib.utils.CurseGUID;
 import com.feed_the_beast.javacurselib.websocket.messages.handler.RequestHandler;
 import com.feed_the_beast.javacurselib.websocket.messages.handler.ResponseHandler;
 import com.feed_the_beast.javacurselib.websocket.messages.handler.tasks.RawTask;
 import com.feed_the_beast.javacurselib.websocket.messages.handler.tasks.RequestTask;
 import com.feed_the_beast.javacurselib.websocket.messages.handler.tasks.Task;
 import com.feed_the_beast.javacurselib.websocket.messages.notifications.NotificationsServiceContractType;
-import com.feed_the_beast.javacurselib.websocket.messages.requests.ConversationMarkReadRequest;
-import com.feed_the_beast.javacurselib.websocket.messages.requests.ConversationMessageRequest;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
@@ -105,24 +102,6 @@ public class WebSocket {
 
     private Session getSession () {
         return session;
-    }
-
-    /////////////////////////////////////
-    // API public requests methods
-    /////////////////////////////////////
-
-    /**
-     * Send a message. Best effort: sends a message, does not check if successful.
-     * </p>
-     * Use other methods if Response handling is mandatory. @See WIP
-     *
-     * @param conversationID Conversation to send a message
-     * @param message Message to send
-     */
-    @Deprecated
-    public void sendMessage (@Nonnull CurseGUID conversationID, @Nonnull String message) {
-        ConversationMessageRequest request = new ConversationMessageRequest(conversationID, message);
-        requestHandler.execute(request);
     }
 
     ///////////////////////////

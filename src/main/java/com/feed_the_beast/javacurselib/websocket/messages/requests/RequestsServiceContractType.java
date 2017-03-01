@@ -6,8 +6,6 @@ import javax.annotation.Nonnull;
 
 @ToString
 public enum RequestsServiceContractType {
-    CONVERSATION_MARK_READ_REQUEST(-342895375, ConversationMarkReadRequest.class),
-    CONVERSATION_MESSAGE_REQUEST(-2124552136, ConversationMessageRequest.class),
     HEALTH_CHECK_REQUEST(-1422086075, HealthCheckRequest.class),
     JOIN_REQUEST(-2101997347, JoinRequest.class),
     HANDSHAKE(-476754606, HandshakeRequest.class);

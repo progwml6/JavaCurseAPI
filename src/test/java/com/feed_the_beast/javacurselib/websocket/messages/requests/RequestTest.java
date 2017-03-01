@@ -24,18 +24,4 @@ public class RequestTest {
         assertThat(r.toJsonString(), SameJSONAs.sameJSONAs(handshakeString));
     }
 
-    @Test
-    public void messageRequest() {
-        Request r = new ConversationMessageRequest(CurseGUID.newRandomUUID(), "Test messsage");
-        String json = r.toJsonString();
-        assertTrue(json.contains("AttachmentID"));
-        assertTrue(json.contains("00000000-0000-0000-0000-000000000000"));
-    }
-
-    @Test
-    public void messageMarkReadRequest0() {
-        ConversationMarkReadRequest r = new ConversationMarkReadRequest(CurseGUID.newInstance(new UUID(0,0)));
-        assertEquals(ConversationMarkReadRequest.class, r.getClass());
-        assertEquals(-342895375, r.getTypeID().getValue());
-    }
 }

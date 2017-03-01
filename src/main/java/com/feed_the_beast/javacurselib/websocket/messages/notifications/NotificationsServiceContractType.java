@@ -7,7 +7,6 @@ public enum NotificationsServiceContractType {
     CALL_NOTIFICATION(-1669214322, CallNotification.class),
     CALL_RESPONDED_NOTIFICATION(-1145188782, CallRespondedNotification.class),
     CONVERSATION_MESSAGE_NOTIFICATION(-635182161, ConversationMessageNotification.class),
-    CONVERSATION_MESSAGE_RESPONSE(705131365, ConversationMessageResponse.class),
     CONVERSATION_READ_NOTIFICATION(-695526586, ConversationReadNotification.class),
     EXTERNAL_ACCOUNT_CHANGED_NOTIFICATION(285733175, ExternalAccountChangedNotification.class),
     EXTERNAL_COMMUNITY_LINK_CHANGED_NOTIFICATION(738704822, ExternalCommunityLinkChangedNotification.class),

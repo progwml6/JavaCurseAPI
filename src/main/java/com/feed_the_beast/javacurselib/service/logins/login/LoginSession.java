@@ -6,6 +6,7 @@ package com.feed_the_beast.javacurselib.service.logins.login;
 public class LoginSession {
     public int userID;
     public String username;
+    public String displayName;
     /**
      * this session ID is not usable for the websocket apis
      */
@@ -18,11 +19,13 @@ public class LoginSession {
     public long expires;
     public long renewAfter;
     public boolean isTemporaryAccount;
-
+    public boolean isMerged;
+    public int bans;
     @Override
     public String toString() {
         return "LoginSession{" +
                 "userID=" + userID +
+                ", displayName=" + displayName +
                 ", username='" + username + '\'' +
                 ", sessionID='<HIDDEN>'" +
                 ", token=<HIDDEN>" +
@@ -33,6 +36,8 @@ public class LoginSession {
                 ", expires=" + expires +
                 ", renewAfter=" + renewAfter +
                 ", isTemporaryAccount=" + isTemporaryAccount +
+                ", isMerged=" + isMerged +
+                ", bans=" + bans +
                 '}';
     }
 }

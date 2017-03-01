@@ -119,6 +119,7 @@ public class WebSocket {
      * @param conversationID Conversation to send a message
      * @param message Message to send
      */
+    @Deprecated
     public void sendMessage (@Nonnull CurseGUID conversationID, @Nonnull String message) {
         ConversationMessageRequest request = new ConversationMessageRequest(conversationID, message);
         requestHandler.execute(request);
@@ -131,6 +132,7 @@ public class WebSocket {
      *
      * @param request User-supplied message
      */
+    @Deprecated
     public void sendMessage (ConversationMessageRequest request) {
         requestHandler.execute(request);
     }
@@ -141,6 +143,7 @@ public class WebSocket {
      * Sends ConversationMarkReadRequest to server. Best effort: server does not send Response for this
      * @param conversationID Conversation to mark read
      */
+    @Deprecated
     public void sendMarkRead (@Nonnull CurseGUID conversationID) {
         ConversationMarkReadRequest request = new ConversationMarkReadRequest(conversationID);
         requestHandler.execute(request);

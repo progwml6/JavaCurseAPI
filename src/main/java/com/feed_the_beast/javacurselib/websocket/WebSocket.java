@@ -125,30 +125,6 @@ public class WebSocket {
         requestHandler.execute(request);
     }
 
-    /**
-     * Send a message. Best effort: sends a message, does not check if successful.
-     * </p>
-     * Use other methods if Response handling is mandatory. @See WIP
-     *
-     * @param request User-supplied message
-     */
-    @Deprecated
-    public void sendMessage (ConversationMessageRequest request) {
-        requestHandler.execute(request);
-    }
-
-    // Just send MarkRead. Best-effort Server does not repond for  request
-
-    /**
-     * Sends ConversationMarkReadRequest to server. Best effort: server does not send Response for this
-     * @param conversationID Conversation to mark read
-     */
-    @Deprecated
-    public void sendMarkRead (@Nonnull CurseGUID conversationID) {
-        ConversationMarkReadRequest request = new ConversationMarkReadRequest(conversationID);
-        requestHandler.execute(request);
-    }
-
     ///////////////////////////
     // API public response/notification handler methods
     ///////////////////////////

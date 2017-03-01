@@ -1,19 +1,14 @@
 package com.feed_the_beast.javacurselib.service.logins.login;
 
+import lombok.ToString;
+
 /**
  * representation of curse login api LoginResponse
  */
+@ToString
 public class LoginResponse {
     public LoginStatus status;
     public String statusMessage;
     public LoginSession session;
-
-    @Override
-    public String toString() {
-        return "LoginResponse{" +
-                "status=" + status +
-                ", statusMessage='" + statusMessage + '\'' +
-                ", session=" + session +
-                '}';
-    }
+    public String twitchUsernameReservationToken;
 }

@@ -9,6 +9,7 @@ import com.feed_the_beast.javacurselib.utils.CurseGUID;
 import com.google.common.collect.Lists;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.Comparator;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -22,7 +23,7 @@ public class DumpGroupInfo {
         ContactsResponse cr = endpoints.contacts.get().get();
         CurseGUID id = CurseGUID.newInstance(args[0]);
         GroupNotification gn = endpoints.groups.get(id, false).get();
-        gn.channels.stream().sorted((a, b) -> Integer.compare(a.displayOrder, b.displayOrder))
+        gn.channels.stream().sorted(Comparator.comparingInt(a -> a.displayOrder))
                 .forEach(c -> {
                     log.info("{} ID: {}", c.groupTitle, c.groupID);
                     log.debug("\tcat: {} catID: {} catRank: {} order: {}", c.displayCategory, c.displayCategoryID, c.displayCategoryRank, c.displayOrder);

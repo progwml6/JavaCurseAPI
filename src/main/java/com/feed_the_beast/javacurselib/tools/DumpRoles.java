@@ -9,6 +9,7 @@ import com.feed_the_beast.javacurselib.utils.CurseGUID;
 import com.google.common.collect.Lists;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.Comparator;
 import java.util.List;
 
 @Slf4j
@@ -24,7 +25,7 @@ public class DumpRoles {
 
         // TODO: order by rank, make threaded
         // TODO: GroupMemberContract includes roles. One big fetch is enough, which one is faster?
-        groupNotificationMOARINFO.roles.sort((a, b) -> Integer.compare(a.rank, b.rank) ); // well it's sorted now. Mutable, not good
+        groupNotificationMOARINFO.roles.sort(Comparator.comparingInt(a -> a.rank)); // well it's sorted now. Mutable, not good
         groupNotificationMOARINFO.roles.forEach(role -> {
             if (role.name.equals("Guest")) {
                 return;

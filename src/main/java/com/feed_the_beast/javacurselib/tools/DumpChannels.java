@@ -5,6 +5,8 @@ import com.feed_the_beast.javacurselib.service.contacts.contacts.ContactsRespons
 import com.feed_the_beast.javacurselib.service.contacts.contacts.GroupNotification;
 import lombok.extern.slf4j.Slf4j;
 
+import java.util.Comparator;
+
 @Slf4j
 public class DumpChannels {
     public static void main(String[] args) throws Exception {
@@ -25,7 +27,7 @@ public class DumpChannels {
         // TODO: fix this to properly support channel folders
         for (GroupNotification g : cr.groups) {
             log.info("{} {}", g.groupTitle, g.groupID);
-            g.channels.stream().sorted((a, b) -> Integer.compare(a.displayOrder, b.displayOrder))
+            g.channels.stream().sorted(Comparator.comparingInt(a -> a.displayOrder))
                     .forEach(c -> {
                         log.info("\t{} ID: {}", c.groupTitle, c.groupID);
                         log.debug("\t\tcat: {} catID: {} catRank: {} order: {}", c.displayCategory, c.displayCategoryID, c.displayCategoryRank, c.displayOrder);

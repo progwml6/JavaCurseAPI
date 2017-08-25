@@ -1,4 +1,4 @@
-#Java library for CurseApp
+# Java library for CurseApp
  
 
 ## Contributions
@@ -39,4 +39,10 @@ dependencies {
     compile 'com.feed_the_beast:javacurseapi:0.1.0.+'
 }
 ```
+
+## Project Lombok
+* This project uses Lombok, for some IDE's plugins are required for lombok to work properly
+ * For Eclipse: https://projectlombok.org/setup/eclipse
+ * For Intellij: https://projectlombok.org/setup/intellij
+ * General Information: https://projectlombok.org/
 
